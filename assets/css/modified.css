@@ -1,0 +1,31 @@
+#page-wrapper.main-display {
+  height: 100%;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+  padding: 0;
+  /* margin-left: -15px; */
+}
+@media(min-width: 769px) {
+  #page-wrapper.main-display {
+    padding-right: 220px;
+  }
+}
+
+.main-display .navbar {
+  padding: 0 15px;
+}
+
+.footer {
+  position: static;
+  display: table-footer-group;
+  width: 100%;
+  height: 1%;
+}
+
+.footer-group {
+  padding: 6px 15px;
+}
+.display-area {
+  padding: 15px;
+}

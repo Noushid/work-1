@@ -1,0 +1,1 @@
+[10-Oct-2017 15:11:48 UTC] PHP Fatal error:  Call to a member function get_user() on a non-object in /home/devboot/public_html/boot2/application/modules/home/controllers/Home.php on line 39
