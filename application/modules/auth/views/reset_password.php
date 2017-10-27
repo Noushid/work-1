@@ -1,22 +1,61 @@
-<h1><?php echo lang('reset_password_heading');?></h1>
+<!DOCTYPE html>
+<html>
 
-<div id="infoMessage"><?php echo $message;?></div>
+<head>
 
-<?php echo form_open('auth/reset_password/' . $code);?>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<p>
-		<label for="new_password"><?php echo sprintf(lang('reset_password_new_password_label'), $min_password_length);?></label> <br />
-		<?php echo form_input($new_password);?>
-	</p>
+    <title>Reset password</title>
 
-	<p>
-		<?php echo lang('reset_password_new_password_confirm_label', 'new_password_confirm');?> <br />
-		<?php echo form_input($new_password_confirm);?>
-	</p>
+    <link href="<?php echo asset('css/bootstrap.min.css'); ?>" rel="stylesheet">
+    <link href="<?php echo asset('font-awesome/css/font-awesome.css'); ?>" rel="stylesheet">
 
-	<?php echo form_input($user_id);?>
-	<?php echo form_hidden($csrf); ?>
+    <link href="<?php echo asset('css/animate.css'); ?>" rel="stylesheet">
+    <link href="<?php echo asset('css/style.css'); ?>" rel="stylesheet">
 
-	<p><?php echo form_submit('submit', lang('reset_password_submit_btn'));?></p>
+</head>
 
-<?php echo form_close();?>
+<body class="gray-bg">
+
+<div class="passwordBox animated fadeInDown">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="ibox-content">
+
+                <h2 class="font-bold">Reset password</h2>
+
+                <p>
+                    Enter your New Password below..
+                </p>
+                <?php echo $message; ?>
+
+                <div class="row">
+
+                    <div class="col-lg-12">
+                        <form class="m-t" role="form" method="POST" action="<?php echo site_url('reset-password/' . $code); ?>">
+                            <div class="form-group">
+                                <?php echo form_input($new_password);?>
+                                <small class="text-danger">
+                                    Must be <?php echo $min_length . '-' . $max_length;?> characters long.
+                                </small>
+                            </div>
+                            <div class="form-group">
+                                <?php echo form_input($new_password_confirm);?>
+                            </div>
+                            <?php echo form_input($user_id);?>
+                            <?php echo form_hidden($csrf); ?>
+
+                            <button type="submit" class="btn btn-primary block full-width m-b">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

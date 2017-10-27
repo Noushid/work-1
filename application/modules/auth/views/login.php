@@ -27,14 +27,7 @@
         </div>
         <h3>Login Area</h3>
         <p>Login to access administrator section</p>
-        <?php
-        $flash = $this->session->flashdata('flash');
-        if($flash != ""):
-            ?>
-            <p class="alert alert-<?php echo $flash['type']; ?>">
-                <?php echo $flash['message']; ?>
-            </p>
-        <?php endif; ?>
+        <?php echo $message; ?>
         <form class="m-t" role="form" method="POST" action="<?php echo site_url('login'); ?>">
             <div class="form-group">
 <!--                --><?php //echo lang('login_identity_label', 'identity');?>
