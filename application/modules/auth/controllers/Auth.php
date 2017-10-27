@@ -40,7 +40,10 @@ class Auth extends CI_Controller {
 				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
 			}
 
-			$this->_render_page('auth/index', $this->data);
+            $this->data['current'] = "users";
+            $this->data['title'] = "users";
+            $this->data['page'] = "users";
+			$this->_render_page('home/template', $this->data);
 		}
 	}
 
@@ -692,6 +695,72 @@ class Auth extends CI_Controller {
         $this->data['title'] = "Dashboard";
         $this->data['page'] = "edit_user";
 //        $this->load->view('template', $data);
+        $this->_render_page('home/template', $this->data);
+    }
+
+    public function group($param1="",$param2="")
+    {
+        if ($param1 == 'edit') {
+            $this->data['current_group'] = $this->ion_auth->group($param2)->row();
+        }
+        if ($param1=='delete') {
+            if ($param2 != "") {
+                if ($this->ion_auth->delete_group($param2)) {
+                    $this->session->set_flashdata('message', 'Deleted');
+                    redirect(site_url('/group'), 'refresh');
+                    exit;
+                }else{
+                    $this->session->set_flashdata('message', 'Delete error');
+                    redirect(site_url('/group'), 'refresh');
+                    exit;
+                }
+            }else{
+                show_error('Something Went wrong');
+            }
+        }
+
+        if ($this->input->post()) {
+            if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
+            {
+                redirect('/', 'refresh');
+            }
+
+            // validate form input
+            $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash');
+
+            if ($this->form_validation->run() == TRUE)
+            {
+                if ($param1 == 'edit' and $param2 != "") {
+                    if ( $this->ion_auth->update_group($param2, $this->input->post('name'), $this->input->post('description'))) {
+                        $this->session->set_flashdata('message', 'Updated');
+                        redirect(site_url('/group'), 'refresh');
+                        exit;
+                    } else {
+                        $this->session->set_flashdata('error', 'Update error');
+                        redirect(site_url('/group'), 'refresh');
+                        exit;
+                    }
+                }
+
+                $new_group_id = $this->ion_auth->create_group($this->input->post('name'), $this->input->post('description'));
+                if($new_group_id)
+                {
+                    // check to see if we are creating the group
+                    // redirect them back to the admin page
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect("group", 'refresh');
+                }
+            }else{
+                // display the create group form
+                // set the flash data error message if there is one
+                $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+            }
+        }
+        $this->data['groups'] = $this->ion_auth->groups()->result();
+        $this->data['current'] = "groups";
+        $this->data['title'] = "Group";
+        $this->data['page'] = "group";
+        $this->data['groups'] = $groups = $this->ion_auth->groups()->result();
         $this->_render_page('home/template', $this->data);
     }
 

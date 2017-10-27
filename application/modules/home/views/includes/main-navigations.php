@@ -19,5 +19,29 @@
     IN+
 </div>
 </li>
-<li class="active">
-<a href="<?php echo site_url(); ?>"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span></a></li>
+
+
+<?php
+echo render_menu($current);
+/*if (isset($menu) and $menu != FALSE) {
+    $i = 1;
+    foreach ($menu as $main) {
+        if ($main->subMenu == null) {
+            */?><!--
+            <li>
+                <a href="<?php /*echo site_url($main->link); */?>"><i class="fa <?php /*echo $main->title;*/?>"></i> <span class="nav-label"><?php /*echo $main->title;*/?></span></a>
+            </li>
+        <?php
+/*        }else{
+            echo '<li>
+                    <a href="#" id="btn-1" data-toggle="collapse" data-target="#submenu' . $i . '" aria-expanded="false"><i class="fa ' . $main->icon . '"></i> <span class="nav-label">' . $main->title . '</span></a>
+                    <ul class="nav collapse" id="submenu' . $i . '" role="menu" aria-labelledby="btn-1">';
+            foreach ($main->subMenu as $sub_menu) { */?>
+                <li><a href="<?php /*echo $sub_menu->link;*/?>"><?php /*echo $sub_menu->title;*/?></a></li>
+        --><?php /*}
+            echo '</ul>
+                </li>';
+        }
+
+    }
+}*/ ?>

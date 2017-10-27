@@ -17,26 +17,34 @@ class Migration_Create_menu_tables extends CI_Migration {
         // Table structure for table 'groups'
         $this->dbforge->add_field(array(
             'id' => array(
-                'type'           => 'MEDIUMINT',
-                'constraint'     => '8',
-                'unsigned'       => TRUE,
+                'type' => 'MEDIUMINT',
+                'constraint' => '8',
+                'unsigned' => TRUE,
                 'auto_increment' => TRUE
             ),
             'title' => array(
-                'type'       => 'VARCHAR',
+                'type' => 'VARCHAR',
                 'constraint' => '250',
             ),
             'link' => array(
-                'type'       => 'VARCHAR',
+                'type' => 'VARCHAR',
                 'constraint' => '250',
             ),
             'icon' => array(
-                'type'       => 'VARCHAR',
+                'type' => 'VARCHAR',
                 'constraint' => '100',
             ),
             'description' => array(
-                'type'       => 'VARCHAR',
+                'type' => 'VARCHAR',
                 'constraint' => '100',
+            ),
+            'created_at' => array(
+                'type' => 'DATETIME',
+                'NULL' => TRUE,
+            ),
+            'updated_at' => array(
+                'type' => 'DATETIME',
+                'NULL' => TRUE,
             )
         ));
         $this->dbforge->add_key('id', TRUE);
@@ -71,6 +79,19 @@ class Migration_Create_menu_tables extends CI_Migration {
             'description' => array(
                 'type'       => 'VARCHAR',
                 'constraint' => '100',
+            ),
+            'menu_id' => array(
+                'type'       => 'MEDIUMINT',
+                'constraint' => '8',
+                'unsigned'   => TRUE
+            ),
+            'created_at' => array(
+                'type' => 'DATETIME',
+                'NULL' => TRUE,
+            ),
+            'updated_at' => array(
+                'type' => 'DATETIME',
+                'NULL' => TRUE,
             )
         ));
         $this->dbforge->add_key('id', TRUE);
@@ -79,7 +100,7 @@ class Migration_Create_menu_tables extends CI_Migration {
 
 
         // Drop table 'users' if it exists
-        $this->dbforge->drop_table('xx_menu_items', TRUE);
+        $this->dbforge->drop_table('xx_group_menu', TRUE);
 
         // Table structure for table 'users'
         $this->dbforge->add_field(array(
@@ -89,7 +110,7 @@ class Migration_Create_menu_tables extends CI_Migration {
                 'unsigned'       => TRUE,
                 'auto_increment' => TRUE
             ),
-            'sub_menu_id' => array(
+            'group_id' => array(
                 'type'       => 'MEDIUMINT',
                 'constraint' => '8',
                 'unsigned'   => TRUE
@@ -98,18 +119,26 @@ class Migration_Create_menu_tables extends CI_Migration {
                 'type'       => 'MEDIUMINT',
                 'constraint' => '8',
                 'unsigned'   => TRUE
+            ),
+            'created_at' => array(
+                'type' => 'DATETIME',
+                'NULL' => TRUE,
+            ),
+            'updated_at' => array(
+                'type' => 'DATETIME',
+                'NULL' => TRUE,
             )
 
         ));
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table('xx_menu_items');
+        $this->dbforge->create_table('xx_group_menu');
 
 
     }
 
     public function down() {
         $this->dbforge->drop_table('xx_menu', TRUE);
-        $this->dbforge->drop_table('xx_menu_items', TRUE);
+        $this->dbforge->drop_table('xx_group_menu', TRUE);
         $this->dbforge->drop_table('xx_sub_menu', TRUE);
     }
 }

@@ -7,6 +7,9 @@ Home extends CI_Controller {
 	public function __construct() {
 		parent::__construct();		
 		$this->load->model('user/User_model');
+        $this->load->model('Menu_model', 'menu');
+        $this->load->model('Sub_menu_model', 'sub_menu');
+
         $this->load->library(['ion_auth']);
 
         if (!$this->ion_auth->logged_in())
@@ -27,9 +30,10 @@ Home extends CI_Controller {
 	* Dashboard area
 	*/
 	public function index() {
-//		logged();
+        $data['menu'] = $this->menu->with_subMenu()->get_all();
 		$data['title'] = "Dashboard";
 		$data['page'] = "dashboard";
+		$data['current'] = "dashboard";
 		$this->load->view('template', $data);
 	}
 	
@@ -122,4 +126,127 @@ Home extends CI_Controller {
 		$this->session->unset_userdata('user_profile');
 		redirect('login');
 	}
+
+
+    public function menu($param1="",$param2="")
+    {
+
+        if ($param1 == 'edit') {
+            $data['current_menu'] = $this->menu->where('id', $param2)->get();
+        }
+
+        if ($param1=='delete') {
+            if ($param2 != "") {
+                if ($this->menu->delete($param2)) {
+                    $this->session->set_flashdata('message', 'Deleted');
+                    redirect(site_url('/menu'), 'refresh');
+                    exit;
+                }else{
+                    $this->session->set_flashdata('message', 'Delete error');
+                    redirect(site_url('/menu'), 'refresh');
+                    exit;
+                }
+            }else{
+                show_error('Something Went wrong');
+            }
+        }
+
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('title', 'title', 'required');
+            if ($this->form_validation->run() == TRUE) {
+                $data = [];
+                $data['title'] = $this->input->post('title');
+                $data['link'] = $this->input->post('link');
+                $data['icon'] = $this->input->post('icon');
+                $data['description'] = $this->input->post('description');
+
+                if ($param1 == 'edit' and $param2 != "") {
+                    if ($this->menu->update($data ,$param2)) {
+                        $this->session->set_flashdata('message', 'Updated');
+                        redirect(site_url('/menu'), 'refresh');
+                        exit;
+                    } else {
+                        $this->session->set_flashdata('error', 'Does\'t Updated');
+                        redirect(site_url('/menu'), 'refresh');
+                        exit;
+                    }
+                }
+
+
+                if ($this->menu->insert($data)) {
+                    $this->session->set_flashdata('message', 'Added');
+                    redirect(site_url('/menu'), 'refresh');
+                } else {
+                    $this->session->set_flashdata('error', 'Added');
+                    redirect(site_url('/menu'), 'refresh');
+                }
+            }
+        }
+        $data['current'] = "main menu";
+        $data['title'] = "Main Menu";
+        $data['page'] = "menu";
+        $this->load->view('template', $data);
+    }
+
+    public function sub_menu($param1="",$param2="")
+    {
+        if ($param1 == 'edit') {
+            $data['current_menu'] = $this->sub_menu->with_menu()->where('id', $param2)->get();
+        }
+        if ($param1=='delete') {
+            if ($param2 != "") {
+                if ($this->sub_menu->delete($param2)) {
+                    $this->session->set_flashdata('message', 'Deleted');
+                    redirect(site_url('/sub-menu'), 'refresh');
+                    exit;
+                }else{
+                    $this->session->set_flashdata('message', 'Delete error');
+                    redirect(site_url('/sub-menu'), 'refresh');
+                    exit;
+                }
+            }else{
+                show_error('Something Went wrong');
+            }
+        }
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('menu', 'title', 'required');
+            $this->form_validation->set_rules('title', 'title', 'required');
+            if ($this->form_validation->run() == TRUE) {
+                $data = [];
+                $data['title'] = $this->input->post('title');
+                $data['link'] = $this->input->post('link');
+                $data['icon'] = $this->input->post('icon');
+                $data['description'] = $this->input->post('description');
+                $data['menu_id'] = $this->input->post('menu');
+
+                if ($param1 == 'edit' and $param2 != "") {
+                    if ($this->sub_menu->update($data ,$param2)) {
+                        $this->session->set_flashdata('message', 'Updated');
+                        redirect(site_url('/sub-menu'), 'refresh');
+                        exit;
+                    } else {
+                        $this->session->set_flashdata('error', 'Does\'t Updated');
+                        redirect(site_url('/sub-menu'), 'refresh');
+                        exit;
+                    }
+                }
+                if ($this->sub_menu->insert($data)) {
+                    $this->session->set_flashdata('message', 'Added');
+                    redirect(site_url('/sub-menu'), 'refresh');
+                } else {
+                    $this->session->set_flashdata('error', 'Added');
+                    redirect(site_url('/sub-menu'), 'refresh');
+                }
+            }
+
+        }
+
+        $data['current'] = "sub menu";
+        $data['title'] = "Sub Menu";
+        $data['page'] = "sub_menu";
+        $this->load->view('template', $data);
+
+    }
+
+
 }

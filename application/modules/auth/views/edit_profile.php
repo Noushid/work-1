@@ -9,7 +9,7 @@
                 </div>
             </div>
 
-            <div class="form-group <?php echo(form_error('first_name') != '' ? 'has-error' : '');?>">
+            <div class="form-group <?php echo(form_error('last_name') != '' ? 'has-error' : '');?>">
                 <label class="control-label col-md-2">last Name</label>
                 <div class="col-lg-4">
                     <input class="form-control" type="text" name="last_name" placeholder="Your Last Name" value="<?php echo(set_value('last_name') == '' ? $user->last_name : set_value('last_name'));?>"/>
@@ -17,7 +17,7 @@
                 </div>
             </div>
 
-            <div class="form-group <?php echo(form_error('first_name') != '' ? 'has-error' : '');?>">
+            <div class="form-group <?php echo(form_error('email') != '' ? 'has-error' : '');?>">
                 <label class="control-label col-md-2">Email</label>
                 <div class="col-lg-4">
                     <input class="form-control" type="email" name="email" placeholder="example@example.com" value="<?php echo(set_value('email') == '' ? $user->email : set_value('email'));?>"/>
@@ -25,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="form-group <?php echo(form_error('first_name') != '' ? 'has-error' : '');?>">
+            <div class="form-group <?php echo(form_error('phone') != '' ? 'has-error' : '');?>">
                 <label class="control-label col-md-2">Phone</label>
                 <div class="col-lg-4">
                     <input class="form-control" type="text" name="phone" placeholder="Your phone Number" value="<?php echo(set_value('phone') == '' ? $user->phone : set_value('phone'));?>"/>
