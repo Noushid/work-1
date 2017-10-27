@@ -58,5 +58,6 @@ $route['login'] = "auth/login";
 $route['logout'] = "auth/logout";
 $route['forgot-password'] = "auth/forgot_password";
 $route['reset-password/(:any)'] = "auth/reset_password/$1";
+$route['profile'] = "auth/edit_profile";
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

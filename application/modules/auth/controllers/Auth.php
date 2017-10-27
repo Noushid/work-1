@@ -689,8 +689,11 @@ class Auth extends CI_Controller {
 			'type' => 'password'
 		);
 
-		$this->_render_page('auth/edit_user', $this->data);
-	}
+        $this->data['title'] = "Dashboard";
+        $this->data['page'] = "edit_user";
+//        $this->load->view('template', $data);
+        $this->_render_page('home/template', $this->data);
+    }
 
 	// create a new group
 	public function create_group()
@@ -837,5 +840,71 @@ class Auth extends CI_Controller {
 
 		if ($returnhtml) return $view_html;//This will return html on 3rd argument being true
 	}
+
+
+    public function edit_profile()
+    {
+        $user_id = $name = $this->session->user_id;
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
+            $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required');
+            $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
+            $this->form_validation->set_rules('email', $this->lang->line('edit_user_validation_phone_label'), 'required');
+
+            if ($this->input->post('password'))
+            {
+                $this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[confirm_password]');
+                $this->form_validation->set_rules('confirm_password', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
+            }
+
+            if ($this->form_validation->run() === TRUE)
+            {
+                $data = array(
+                    'first_name' => $this->input->post('first_name'),
+                    'last_name'  => $this->input->post('last_name'),
+                    'email'  => $this->input->post('email'),
+                    'phone'      => $this->input->post('phone'),
+                );
+
+                // update the password if it was posted
+                if ($this->input->post('password'))
+                {
+                    $data['password'] = $this->input->post('password');
+                }
+
+                // check to see if we are updating the user
+                if($this->ion_auth->update($user_id, $data))
+                {
+                    // redirect them back to the admin page if admin, or to the base url if non admin
+                    $this->session->set_flashdata('message', $this->ion_auth->messages() );
+                    redirect('/', 'refresh');
+
+                }
+                else
+                {
+                    // redirect them back to the admin page if admin, or to the base url if non admin
+                    $this->session->set_flashdata('message', $this->ion_auth->errors() );
+                    redirect('profile', 'refresh');
+
+                }
+            }else{
+                $this->data['user'] = $this->ion_auth->user()->row();
+                $this->data['title'] = "Dashboard";
+                $this->data['page'] = "edit_profile";
+                $this->data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
+                $this->data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
+                $this->data['csrf'] = $this->_get_csrf_nonce();
+                $this->_render_page('home/template', $this->data);
+            }
+        }else {
+            $this->data['user'] = $this->ion_auth->user()->row();
+            $this->data['title'] = "Dashboard";
+            $this->data['page'] = "edit_profile";
+            $this->data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
+            $this->data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
+            $this->data['csrf'] = $this->_get_csrf_nonce();
+            $this->_render_page('home/template', $this->data);
+        }
+    }
 
 }

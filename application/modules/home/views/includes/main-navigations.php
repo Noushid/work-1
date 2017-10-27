@@ -1,3 +1,4 @@
+<?php $user = $this->ion_auth->user()->row();?>
 <li class="nav-header">
 <div class="dropdown profile-element"> <span>
     <img alt="image" class="img-circle" src="<?php echo asset('img/profile_small.jpg'); ?>" />
@@ -7,7 +8,7 @@
         </span> <span class="text-muted text-xs block">Art Director <b class="caret"></b></span> </span>
     </a>
     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-        <li><a href="profile.html">Profile</a></li>
+        <li><a href="<?php echo site_url('profile')?>">Profile</a></li>
         <li><a href="contacts.html">Contacts</a></li>
         <li><a href="mailbox.html">Mailbox</a></li>
         <li class="divider"></li>
