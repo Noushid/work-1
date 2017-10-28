@@ -42,6 +42,7 @@
                     <?php echo form_error('phone', '<div class="">', '</div>'); ?>
                 </div>
             </div>
+
             <div class="form-group <?php echo(form_error('group') != '' ? 'has-error' : '');?>">
                 <label class="control-label col-lg-2">Group</label>
                 <div class="col-lg-4">
@@ -65,6 +66,21 @@
                     <?php echo form_error('username', '<div class="">', '</div>'); ?>
                 </div>
             </div>
+            <?php
+            if (!isset($current_user)) {
+                ?>
+                <div class="form-group">
+                    <label class="control-label col-lg-2">Password</label>
+
+                    <div class="col-lg-4">
+                        <div class="help-block">
+                            Default password is "password"
+                        </div>
+                    </div>
+                </div>
+            <?php
+            }
+            ?>
 
             <?php
             if (isset($current_user)) {

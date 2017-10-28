@@ -156,7 +156,11 @@ Home extends CI_Controller {
         }
 
         if ($this->input->post()) {
-            $this->form_validation->set_rules('title', 'title', 'required|is_unique[xx_menu.title]');
+            if ($param1 == 'edit' and $param2 != "") {
+                $this->form_validation->set_rules('title', 'title', 'required');
+            }else{
+                $this->form_validation->set_rules('title', 'title', 'required|is_unique[xx_menu.title]');
+            }
             if ($this->form_validation->run() == TRUE) {
                 $data = [];
                 $data['title'] = $this->input->post('title');
