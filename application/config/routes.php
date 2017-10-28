@@ -61,6 +61,10 @@ $route['reset-password/(:any)'] = "auth/reset_password/$1";
 $route['profile'] = "auth/edit_profile";
 
 $route['users'] = "auth";
+$route['users/(:any)/(:num)'] = "auth/index/$1/$2";
+
+$route['user-menu'] = "home/user_menu";
+$route['user-menu/(:num)'] = "home/user_menu/$1";
 
 $route['group'] = "auth/group";
 $route['group/(:any)/(:num)'] = "auth/group/$1/$2";

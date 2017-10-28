@@ -7,8 +7,10 @@ Home extends CI_Controller {
 	public function __construct() {
 		parent::__construct();		
 		$this->load->model('user/User_model');
-        $this->load->model('Menu_model', 'menu');
-        $this->load->model('Sub_menu_model', 'sub_menu');
+        $this->load->model('home/Menu_model', 'menu');
+        $this->load->model('home/Sub_menu_model', 'sub_menu');
+        $this->load->model('home/Group_menu_model', 'group_menu');
+        $this->load->model('home/Group_model', 'group');
 
         $this->load->library(['ion_auth']);
 
@@ -30,6 +32,8 @@ Home extends CI_Controller {
 	* Dashboard area
 	*/
 	public function index() {
+//        render_menu();
+//        exit;
         $data['menu'] = $this->menu->with_subMenu()->get_all();
 		$data['title'] = "Dashboard";
 		$data['page'] = "dashboard";
@@ -152,7 +156,7 @@ Home extends CI_Controller {
         }
 
         if ($this->input->post()) {
-            $this->form_validation->set_rules('title', 'title', 'required');
+            $this->form_validation->set_rules('title', 'title', 'required|is_unique[xx_menu.title]');
             if ($this->form_validation->run() == TRUE) {
                 $data = [];
                 $data['title'] = $this->input->post('title');
@@ -249,4 +253,43 @@ Home extends CI_Controller {
     }
 
 
+    public function user_menu($param="")
+    {
+        if ($param != "") {
+            $current_menu=$this->group_menu->where('group_id', $param)->get_all();
+            $current_pre = [];
+            if ($current_menu) {
+                foreach ($current_menu as $value) {
+                    $current_pre[] = (int)$value->menu_id;
+                }
+            }
+            $data['current_perm'] = $current_pre;
+            $data['menu'] = $this->menu->get_all();
+        }
+        if ($this->input->post()) {
+
+            $menu = $this->input->post('menu');
+            $this->group_menu->where('group_id', $param)->delete();
+            if ($menu != null) {
+                foreach ($menu as $value) {
+                    $menu_data = [];
+                    $menu_data['menu_id'] = $value;
+                    $menu_data['group_id'] = $param;
+                    $this->group_menu->insert($menu_data);
+                }
+            }
+            $this->session->set_flashdata('message', 'updated');
+            redirect(site_url('/user-menu'), 'refresh');
+        }
+        $data['current'] = "user menu";
+        $data['title'] = "User Menu";
+        $data['page'] = "user_menu";
+
+        /*$data['users'] = $this->ion_auth->users()->result();
+        foreach ($data['users'] as $k => $user) {
+            $data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+        }*/
+        $data['groups'] = $this->ion_auth->groups()->result();
+        $this->load->view('template', $data);
+    }
 }

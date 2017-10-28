@@ -9,15 +9,20 @@ class Auth extends CI_Controller {
 		$this->load->library(array('ion_auth','form_validation'));
 		$this->load->helper(array('url','language'));
 
+        $this->load->model('user/User_model');
+        $this->load->model('home/Menu_model', 'menu');
+        $this->load->model('home/Sub_menu_model', 'sub_menu');
+        $this->load->model('home/Group_menu_model', 'group_menu');
+        $this->load->model('home/Group_model', 'group');
+
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
 		$this->lang->load('auth');
 	}
 
 	// redirect if needed, otherwise display the user list
-	public function index()
+	public function index($param1="",$param2="")
 	{
-
 		if (!$this->ion_auth->logged_in())
 		{
 			// redirect them to the login page
@@ -30,15 +35,104 @@ class Auth extends CI_Controller {
 		}
 		else
 		{
-			// set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+            if ($param1 == "edit") {
+                $this->data['current_user'] = $this->ion_auth->user($param2)->row();
+                    $this->data['current_user']->groups = $this->ion_auth->get_users_groups($this->data['current_user']->id)->result();
+            }
 
-			//list the users
-			$this->data['users'] = $this->ion_auth->users()->result();
-			foreach ($this->data['users'] as $k => $user)
-			{
-				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-			}
+            if ($param1 == 'delete') {
+                if ($this->ion_auth->delete_user($param2)) {
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect("users", 'refresh');
+                }
+            }
+            if ($this->input->post()) {
+                $tables = $this->config->item('tables','ion_auth');
+                $identity_column = $this->config->item('identity','ion_auth');
+                $this->data['identity_column'] = $identity_column;
+
+                // validate form input
+                $this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required');
+                $this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required');
+                if($identity_column!=='email')
+                {
+                    $this->form_validation->set_rules('identity',$this->lang->line('create_user_validation_identity_label'),'required|is_unique['.$tables['users'].'.'.$identity_column.']');
+                    $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email');
+                }
+                else
+                {
+                    if ($param1 == "edit") {
+                        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'valid_email');
+                    } else {
+                        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[' . $tables['users'] . '.email]');
+                    }
+                }
+
+                $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'trim');
+                $this->form_validation->set_rules('group', $this->lang->line('create_user_validation_company_label'), 'trim|numeric');
+
+                if ($this->form_validation->run() == true)
+                {
+                    $user = $this->ion_auth->user($param2)->row();
+                    $email = ($this->input->post('email') != '' ? strtolower($this->input->post('email')) : $user->email);
+
+                    $identity = ($identity_column==='email') ? $email : $this->input->post('identity');
+
+
+                    $group[] = $this->input->post('group');
+
+                    $additional_data = array(
+                        'first_name' => $this->input->post('first_name'),
+                        'last_name'  => $this->input->post('last_name'),
+                        'phone'      => $this->input->post('phone'),
+                    );
+                    if ($param1 == 'edit') {
+                        $data = [];
+                        $data['first_name'] = $this->input->post('first_name');
+                        $data['last_name'] = $this->input->post('last_name');
+                        $data['email'] = $email;
+                        $data['phone'] = $this->input->post('phone');
+                        if ($this->input->post('reset_password') != null) {
+                            $data['password'] = 'password';
+                        }
+                        if ($this->ion_auth->update($param2, $data)) {
+                            if ($this->ion_auth->remove_from_group(NULL, $param2)) {
+                                $group_id = [];
+                                foreach ($group as $val) {
+                                    $group_id[] = $val;
+                                }
+                                $this->ion_auth->add_to_group($group_id, $param2);
+                            }
+                            $this->session->set_flashdata('message', $this->ion_auth->messages());
+                            redirect("users", 'refresh');
+                        }
+                    } else {
+                        $password = 'password';
+                        if ($this->ion_auth->register($identity, $password, $email, $additional_data, $group)) {
+                            $this->session->set_flashdata('message', $this->ion_auth->messages());
+                            redirect("users", 'refresh');
+                        }
+                    }
+
+                }else{
+                    $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+                    //list the users
+                    $this->data['users'] = $this->ion_auth->users()->result();
+                    foreach ($this->data['users'] as $k => $user) {
+                        $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+                    }
+                }
+            }else {
+
+                // set the flash data error message if there is one
+                $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+                //list the users
+                $this->data['users'] = $this->ion_auth->users()->result();
+                foreach ($this->data['users'] as $k => $user) {
+                    $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+                }
+            }
 
             $this->data['current'] = "users";
             $this->data['title'] = "users";
@@ -46,6 +140,7 @@ class Auth extends CI_Controller {
 			$this->_render_page('home/template', $this->data);
 		}
 	}
+
 
 	// log the user in
 	public function login()
@@ -64,6 +159,9 @@ class Auth extends CI_Controller {
 
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{
+                $group = $this->ion_auth->get_users_groups($_SESSION['user_id'])->result();
+                $this->session->set_userdata('group_id', $group[0]->id);
+                $this->session->set_userdata('group_name', $group[0]->name);
 				//if the login is successful
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -726,7 +824,7 @@ class Auth extends CI_Controller {
             }
 
             // validate form input
-            $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash');
+            $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash|is_unique[xx_groups.name]');
 
             if ($this->form_validation->run() == TRUE)
             {
@@ -974,6 +1072,11 @@ class Auth extends CI_Controller {
             $this->data['csrf'] = $this->_get_csrf_nonce();
             $this->_render_page('home/template', $this->data);
         }
+    }
+
+    public function check_email($field)
+    {
+
     }
 
 }

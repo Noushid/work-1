@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
         <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
-            <div class="form-group <?php echo(form_error('title') != '' ? 'has-error' : '');?>">
+            <div class="form-group <?php echo(form_error('name') != '' ? 'has-error' : '');?>">
                 <label class="control-label col-lg-2">Name</label>
                 <div class="col-lg-4">
                     <input class="form-control" type="text" name="name" placeholder="Group Name" value="<?php echo(isset($current_group) ? $current_group->name : set_value('name'));?>"/>
