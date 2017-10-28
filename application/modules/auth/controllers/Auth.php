@@ -790,6 +790,7 @@ class Auth extends CI_Controller {
 			'type' => 'password'
 		);
 
+        $this->data['current'] = "Dashboard";
         $this->data['title'] = "Dashboard";
         $this->data['page'] = "edit_user";
 //        $this->load->view('template', $data);
@@ -1057,6 +1058,7 @@ class Auth extends CI_Controller {
             }else{
                 $this->data['user'] = $this->ion_auth->user()->row();
                 $this->data['title'] = "Dashboard";
+                $this->data['current'] = "dashboard";
                 $this->data['page'] = "edit_profile";
                 $this->data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
                 $this->data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
@@ -1066,6 +1068,7 @@ class Auth extends CI_Controller {
         }else {
             $this->data['user'] = $this->ion_auth->user()->row();
             $this->data['title'] = "Dashboard";
+            $this->data['current'] = "dashboard";
             $this->data['page'] = "edit_profile";
             $this->data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
             $this->data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
@@ -1074,9 +1077,5 @@ class Auth extends CI_Controller {
         }
     }
 
-    public function check_email($field)
-    {
-
-    }
 
 }
