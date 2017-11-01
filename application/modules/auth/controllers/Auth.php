@@ -36,8 +36,9 @@ class Auth extends CI_Controller {
 		else
 		{
             if ($param1 == "edit") {
+                $this->data['modal_opened'] = true;
                 $this->data['current_user'] = $this->ion_auth->user($param2)->row();
-                    $this->data['current_user']->groups = $this->ion_auth->get_users_groups($this->data['current_user']->id)->result();
+                $this->data['current_user']->groups = $this->ion_auth->get_users_groups($this->data['current_user']->id)->result();
             }
 
             if ($param1 == 'delete') {
@@ -115,6 +116,7 @@ class Auth extends CI_Controller {
                     }
 
                 }else{
+                    $this->data['modal_opened'] = true;
                     $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
                     //list the users
                     $this->data['users'] = $this->ion_auth->users()->result();
@@ -799,7 +801,9 @@ class Auth extends CI_Controller {
 
     public function group($param1="",$param2="")
     {
+        $this->data['groups'] = $this->ion_auth->groups()->result();
         if ($param1 == 'edit') {
+            $this->data['modal_opened'] = true;
             $this->data['current_group'] = $this->ion_auth->group($param2)->row();
         }
         if ($param1=='delete') {
@@ -825,7 +829,11 @@ class Auth extends CI_Controller {
             }
 
             // validate form input
-            $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash|is_unique[xx_groups.name]');
+            if ($param1 == 'edit') {
+                $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash');
+            }else{
+                $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash|is_unique[xx_groups.name]');
+            }
 
             if ($this->form_validation->run() == TRUE)
             {
@@ -850,16 +858,17 @@ class Auth extends CI_Controller {
                     redirect("group", 'refresh');
                 }
             }else{
+                $this->data['modal_opened'] = true;
                 // display the create group form
                 // set the flash data error message if there is one
                 $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
             }
         }
-        $this->data['groups'] = $this->ion_auth->groups()->result();
+
+
         $this->data['current'] = "groups";
         $this->data['title'] = "Group";
         $this->data['page'] = "group";
-        $this->data['groups'] = $groups = $this->ion_auth->groups()->result();
         $this->_render_page('home/template', $this->data);
     }
 

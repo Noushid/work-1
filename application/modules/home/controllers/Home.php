@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class
-Home extends CI_Controller {
+class Home extends CI_Controller {
 
 	public function __construct() {
 		parent::__construct();		
@@ -31,13 +30,12 @@ Home extends CI_Controller {
 	/**
 	* Dashboard area
 	*/
-	public function index() {
-//        render_menu();
-//        exit;
+	public function index($param1="",$param2="",$param3="") {
         $data['menu'] = $this->menu->with_subMenu()->get_all();
 		$data['title'] = "Dashboard";
 		$data['page'] = "dashboard";
 		$data['current'] = "dashboard";
+
 		$this->load->view('template', $data);
 	}
 	
@@ -136,6 +134,7 @@ Home extends CI_Controller {
     {
 
         if ($param1 == 'edit') {
+            $data['modal_opened'] = true;
             $data['current_menu'] = $this->menu->where('id', $param2)->get();
         }
 
@@ -188,6 +187,8 @@ Home extends CI_Controller {
                     $this->session->set_flashdata('error', 'Added');
                     redirect(site_url('/menu'), 'refresh');
                 }
+            }else{
+                $data['modal_opened'] = true;
             }
         }
         $data['current'] = "main menu";
@@ -199,6 +200,7 @@ Home extends CI_Controller {
     public function sub_menu($param1="",$param2="")
     {
         if ($param1 == 'edit') {
+            $data['modal_opened'] = true;
             $data['current_menu'] = $this->sub_menu->with_menu()->where('id', $param2)->get();
         }
         if ($param1=='delete') {
@@ -245,6 +247,8 @@ Home extends CI_Controller {
                     $this->session->set_flashdata('error', 'Added');
                     redirect(site_url('/sub-menu'), 'refresh');
                 }
+            }else{
+                $data['modal_opened'] = true;
             }
 
         }
@@ -271,7 +275,6 @@ Home extends CI_Controller {
             $data['menu'] = $this->menu->get_all();
         }
         if ($this->input->post()) {
-
             $menu = $this->input->post('menu');
             $this->group_menu->where('group_id', $param)->delete();
             if ($menu != null) {
@@ -295,5 +298,119 @@ Home extends CI_Controller {
         }*/
         $data['groups'] = $this->ion_auth->groups()->result();
         $this->load->view('template', $data);
+    }
+
+    public function test($param)
+    {
+        $data['current'] = $param;
+        $data['title'] = "test";
+        $data['page'] = 'test';
+        $this->load->view('template', $data);
+    }
+
+    public function group($param1="",$param2="")
+    {
+        if ($param1 == 'edit') {
+            $this->data['current_group'] = $this->ion_auth->group($param2)->row();
+        }
+        if ($param1=='delete') {
+            if ($param2 != "") {
+                if ($this->ion_auth->delete_group($param2)) {
+                    $this->session->set_flashdata('message', 'Deleted');
+                    redirect(site_url('/group'), 'refresh');
+                    exit;
+                }else{
+                    $this->session->set_flashdata('message', 'Delete error');
+                    redirect(site_url('/group'), 'refresh');
+                    exit;
+                }
+            }else{
+                show_error('Something Went wrong');
+            }
+        }
+
+        if ($this->input->post()) {
+            if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin())
+            {
+                redirect('/', 'refresh');
+            }
+
+            // validate form input
+            $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash|is_unique[xx_groups.name]');
+
+            if ($this->form_validation->run() == TRUE)
+            {
+                if ($param1 == 'edit' and $param2 != "") {
+                    if ( $this->ion_auth->update_group($param2, $this->input->post('name'), $this->input->post('description'))) {
+                        $this->session->set_flashdata('message', 'Updated');
+                        redirect(site_url('/group'), 'refresh');
+                        exit;
+                    } else {
+                        $this->session->set_flashdata('error', 'Update error');
+                        redirect(site_url('/group'), 'refresh');
+                        exit;
+                    }
+                }
+
+                $new_group_id = $this->ion_auth->create_group($this->input->post('name'), $this->input->post('description'));
+                if($new_group_id)
+                {
+                    // check to see if we are creating the group
+                    // redirect them back to the admin page
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect("group", 'refresh');
+                }
+            }else{
+                // display the create group form
+                // set the flash data error message if there is one
+                $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+            }
+        }
+        $this->data['groups'] = $this->ion_auth->groups()->result();
+        $this->data['current'] = "groups";
+        $this->data['title'] = "Group";
+        $this->data['page'] = "group";
+        $this->data['groups'] = $groups = $this->ion_auth->groups()->result();
+//        $this->_render_page('home/template', $this->data);
+    }
+
+
+    public function test1()
+    {
+        $array = [
+            [
+                'id' => '12',
+                'title' => 'sub1',
+                'link' => 'test',
+                'icon' => 'fa-bath',
+                'description' => '',
+                'menu_id' => '9',
+                'created_at' => '2017-10-28 20:19:03',
+                'updated_at' => '2017-10-30 20:01:08'
+            ],
+            [
+
+                'id' => '17',
+                'title' => 'edited',
+                'link' => 'edited',
+                'icon' => 'fa-bath',
+                'description' => 'fa-bath',
+                'menu_id' => '9',
+                'created_at' => '2017-10-28 20:20:02',
+                'updated_at' => '2017-10-30 20:12:07',
+            ],
+            [
+                'id' => '18',
+                'title' => 'sub7',
+                'link' => 'sub7',
+                'icon' => '',
+                'description' => '',
+                'menu_id' => '9',
+                'created_at' => '2017-10-28 20:20:11',
+                'updated_at' => null
+            ]
+        ];
+
+
     }
 }
