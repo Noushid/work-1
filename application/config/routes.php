@@ -81,8 +81,13 @@ $route['menu/(delete)/(:num)'] = "home/menu/$1/$2";
 $route['sub-menu'] = "home/sub_menu";
 $route['sub-menu/(:any)/(:num)'] = "home/sub_menu/$1/$2";
 
+$route['agency'] = "agency/index";
+$route['agency/(show)/(:num)'] = "agency/index/$1/$2";
+$route['agency/(edit)/(:num)'] = "agency/index/$1/$2";
+$route['agency/(delete)/(:num)'] = "agency/index/$1/$2";
 
-$route['(:any)'] = "home/test/$1";
+
+//$route['(:any)'] = "home/test/$1";
 
 
 $route['404_override'] = '';

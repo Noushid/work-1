@@ -61,6 +61,9 @@
     <script src="<?php echo asset('js/plugins/dataTables/dataTables.responsive.js');?>"></script>
     <script src="<?php echo asset('js/plugins/dataTables/dataTables.tableTools.min.js');?>"></script>
 
+    <!-- Input Mask-->
+    <script src="<?php echo asset('js/plugins/jasny/jasny-bootstrap.min.js');?>"></script>
+
     <script>
         $(document).ready(function() {
             $('.dataTables-example').dataTable({
