@@ -7,7 +7,7 @@
  */
 
 defined('BASEPATH') or exit('No direct Script access allowed');
-class Group_model extends MY_Model
+class User_agency_model extends MY_Model
 {
 
     public $table = 'us_agy';

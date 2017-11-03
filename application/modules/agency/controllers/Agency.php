@@ -63,6 +63,7 @@ class Agency extends CI_Controller {
         if ($param1 == 'show') {
             if ($param1 != "") {
                 $current_agency = $this->agency->with_posts()->where('agency_id', $param2)->get();
+                $this->load->model('User_agency_model', 'user_agency');
                 var_dump($current_agency);
                 exit;
 //                $data['title'] = "Agency";
