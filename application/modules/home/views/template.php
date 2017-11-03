@@ -66,14 +66,6 @@
 
     <script>
         $(document).ready(function() {
-            $('.dataTables-example').dataTable({
-                responsive: true,
-                "dom": 'T<"clear">lfrtip',
-                "tableTools": {
-                    "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
-                }
-            });
-
             /* Init DataTables */
             var oTable = $('#editable').dataTable();
 
@@ -139,7 +131,8 @@
 
             </div>
         </nav>
-        <div id="page-wrapper" class="gray-bg dashbard-1 main-display">
+<!--        <div id="page-wrapper" class="gray-bg dashbard-1 main-display">-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
@@ -262,7 +255,7 @@
 
                 </nav>
             </div>
-            <div class="display-area">
+            <div class="">
                 <!-- Content Start -->
                 <?php $this->load->view($page); ?>
                 <!--Content End -->

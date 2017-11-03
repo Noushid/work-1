@@ -25,7 +25,7 @@ $record_num = (int)$this->uri->segment($last);
     <div class="col-lg-12">
         <div class="ibox float-e-margins">
             <div class="ibox-title">
-                <h5>Basic form <small>Simple login form example</small></h5>
+                <h5>Menu Permission</h5>
                 <div class="ibox-tools">
                     <a class="collapse-link">
                         <i class="fa fa-chevron-up"></i>

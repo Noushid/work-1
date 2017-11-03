@@ -56,7 +56,7 @@ if (!function_exists('render_menu')) {
             foreach ($menu->menu as $main) {
                 if ($main->sub_menu == false) {
                     $html .= '<li ' . ($current == $main->title ? 'class="active"' : '') . '>
-                        <a href="' . site_url($main->link) . '"><i class="fa ' . $main->title . '"></i> <span class="nav-label">' . $main->title . '</span></a>
+                        <a href="' . site_url($main->link) . '"><i class="fa ' . $main->icon . '"></i> <span class="nav-label">' . $main->title . '</span></a>
                     </li>';
                 }else{
                     $html .= '<li ' . (array_search($current, array_column((array)$main->sub_menu, 'title')) ? 'class="active"' : '') . '>

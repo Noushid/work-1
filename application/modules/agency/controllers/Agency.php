@@ -85,9 +85,9 @@ class Agency extends CI_Controller {
                 $form_data['agency_type'] = $this->input->post('agency_type');
                 $form_data['agency_status'] = $this->input->post('agency_status');
                 $form_data['contact_name'] = $this->input->post('contact_name');
-                $form_data['contact_phone'] = $this->input->post('contact_phone');
-                $form_data['create_datetime'] = now();
-
+                $phone = str_replace([' ', '(', ')','--'], '-', $this->input->post('contact_phone'));
+                $phone = ltrim($phone, '-');
+                $form_data['contact_phone'] = $phone;
                 if ($param1 == 'edit' and $param2 != "") {
                     $form_data['modify_datetime'] = now();
                     if ($this->agency->update($form_data ,$param2)) {
@@ -101,6 +101,7 @@ class Agency extends CI_Controller {
                     }
                 }
 
+                $form_data['create_datetime'] = now();
                 if ($this->agency->insert($form_data)) {
                     $this->session->set_flashdata('message', 'Added');
                     redirect(site_url('/agency'), 'refresh');

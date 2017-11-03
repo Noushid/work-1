@@ -11,7 +11,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Basic Form</h2>
+        <h2>Agency</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
@@ -31,7 +31,7 @@ if (isset($modal_opened) and $modal_opened == true) {
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>List All agency</h5>
+                    <h5>Agency List</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -52,9 +52,17 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <div class="modal-dialog  modal-lg">
                             <div class="modal-content animated fadeIn">
                                 <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title">Create Agency</h4>
-                                    <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                                    <a href="<?php echo site_url('agency');?>" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+                                    <?php
+                                    if (isset($current_agency)) { ?>
+                                        <h4 class="modal-title">Edit  Agency</h4>
+                                        <small>Edit the given agency.</small>
+                                    <?php }else{ ?>
+                                        <h4 class="modal-title">Create Agency</h4>
+                                        <small>Create a new agency.</small>
+                                    <?php }
+                                    ?>
+
                                 </div>
                                 <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
                                     <div class="modal-body">
@@ -64,14 +72,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 <input class="form-control" type="text" name="agency_name" placeholder="Agency Name" value="<?php echo(isset($current_agency) ? $current_agency->agency_name : set_value('agency_name'));?>" required/>
                                                 <?php echo form_error('name', '<div class="help-block">', '</div>'); ?>
                                             </div>
-
                                             <label class="control-label col-lg-2">Type</label>
                                             <div class="col-lg-4 <?php echo(form_error('agency_type') != '' ? 'has-error' : '');?>">
                                                 <select name="agency_type" class="form-control" <?php echo set_select('agency_type');?>>
                                                     <option value="" selected>Select</option>
-                                                    <option value="A">Agency</option>
-                                                    <option value="C">Contractor</option>
-                                                    <option value="P">Doctor office</option>
+                                                    <option value="A" <?php echo ((isset($current_agency) && $current_agency->agency_type == 'A') ? 'selected' : '')?>>Agency</option>
+                                                    <option value="C" <?php echo ((isset($current_agency) && $current_agency->agency_type == 'C') ? 'selected' : '')?>>Contractor</option>
+                                                    <option value="D" <?php echo ((isset($current_agency) && $current_agency->agency_type == 'D') ? 'selected' : '')?>>Doctor office</option>
                                                 </select>
                                                 <?php echo form_error('agency_type', '<div class="">', '</div>'); ?>
                                             </div>
@@ -82,9 +89,9 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             <div class="col-lg-4 <?php echo(form_error('agency_status') != '' ? 'has-error' : '');?>">
                                                 <select name="agency_status" class="form-control" <?php echo set_select('agency_status');?>>
                                                     <option value="" selected>Select</option>
-                                                    <option value="act">Active</option>
-                                                    <option value="inact">Inactive</option>
-                                                    <option value="SA">Stand alone</option>
+                                                    <option value="act" <?php echo ((isset($current_agency) && $current_agency->agency_status == 'act') ? 'selected' : '')?>>Active</option>
+                                                    <option value="inact" <?php echo ((isset($current_agency) && $current_agency->agency_status == "inact") ? 'selected' : '')?>>Inactive</option>
+                                                    <option value="SA" <?php echo ((isset($current_agency) && $current_agency->agency_status == 'SA') ? 'selected' : '')?>>Stand alone</option>
                                                 </select>
                                                 <?php echo form_error('agency_status', '<div class="">', '</div>'); ?>
                                             </div>
@@ -115,6 +122,14 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                         </div>
                     </div>
+                    <script>
+                        $(document).ready(function () {
+                            $('#test').dataTable({
+                                "iDisplayLength": 5,
+                                "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
+                            });
+                        });
+                    </script>
                     <table class="table table-striped table-bordered table-hover dataTables-example">
                         <thead>
                         <tr>

@@ -1,6 +1,6 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Basic Form</h2>
+        <h2>Agency List</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
@@ -51,100 +51,95 @@
 
                     </div>
 
-                    <div id="tab-3" class="tab-pane">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="col-md-5">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                        Add a new Users
-                                    </button>
+                    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content animated fadeIn">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title">New Agency user</h4>
+                                    <small>You can add user to agency.</small>
                                 </div>
+                                <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
+                                    <div class="modal-body">
 
-                                <div class="col-md-7">
-                                    <h4>Agency Users</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
-                            <div class="modal-dialog modal-lg">
-                                <div class="modal-content animated fadeIn">
-                                    <div class="modal-header">
-                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                        <h4 class="modal-title">Modal title</h4>
-                                        <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                                        <div class="form-group ">
+                                            <label class="control-label col-lg-2">Select User</label>
+                                            <div class="col-lg-4 <?php echo(form_error('user') != '' ? 'has-error' : '');?>">
+                                                <select class="form-control" name="user" required="" <?php set_select('user');?>>
+                                                    <option value="" selected disabled>Select</option>
+                                                    <option value="ddd">user1</option>
+                                                    <option value="ddd">user2</option>
+                                                    <option value="ddd">user3</option>
+                                                </select>
+                                                <?php echo form_error('user', '<div class="help-block">', '</div>'); ?>
+                                            </div>
+
+                                            <label class="control-label col-lg-2">Status</label>
+                                            <div class="col-lg-4 <?php echo(form_error('status') != '' ? 'has-error' : '');?>">
+                                                <select class="form-control" name="status" required="" <?php set_select('status');?>>
+                                                    <option value="" selected disabled>Select</option>
+                                                    <option value="ddd">stats</option>
+                                                    <option value="ddd">stats</option>
+                                                </select>
+                                                <?php echo form_error('status', '<div class="help-block">', '</div>'); ?>
+                                            </div>
+                                        </div>
+                                        <!--                                            <div class="form-group --><?php //echo(form_error('first_name') != '' ? 'has-error' : '');?><!--">-->
+                                        <!--                                                <label class="control-label col-lg-2">First Name</label>-->
+                                        <!--                                                <div class="col-lg-4">-->
+                                        <!--                                                    <input class="form-control" type="text" name="first_name" placeholder="First Name" value="--><?php //echo(isset($current_agy_user) ? $current_agy_user->first_name : set_value('first_name'));?><!--" required/>-->
+                                        <!--                                                    --><?php //echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
+                                        <!--                                                </div>-->
+                                        <!---->
+                                        <!--                                                <label class="control-label col-lg-2">Last Name</label>-->
+                                        <!--                                                <div class="col-lg-4">-->
+                                        <!--                                                    <input class="form-control" type="text" name="last_name" placeholder="Last Name" value="--><?php //echo (isset($current_agy_user) ? $current_agy_user->last_name: '');?><!--"/>-->
+                                        <!--                                                    --><?php //echo form_error('description', '<div class="">', '</div>'); ?>
+                                        <!--                                                </div>-->
+                                        <!--                                            </div>-->
+
+                                        <div class="form-group">
+                                            <label class="control-label col-lg-2">Profile</label>
+                                            <div class="col-lg-4 <?php echo(form_error('profile') != '' ? 'has-error' : '');?>">
+                                                <select class="form-control" name="profile" required="" <?php set_select('status');?>>
+                                                    <option value="" selected disabled>Select</option>
+                                                    <option value="ddd">profile</option>
+                                                    <option value="ddd">profile</option>
+                                                </select>
+                                                <?php echo form_error('profile', '<div class="help-block">', '</div>'); ?>
+                                            </div>
+
+                                            <label class="control-label col-lg-2">Discipline</label>
+                                            <div class="col-lg-4 <?php echo(form_error('discipline') != '' ? 'has-error' : '');?>">
+                                                <select class="form-control" name="Discipline" required="" <?php set_select('discipline');?>>
+                                                    <option value="" selected disabled>Select</option>
+                                                    <option value="ddd">discipline</option>
+                                                    <option value="ddd">discipline</option>
+                                                    <option value="ddd">discipline</option>
+                                                </select>
+                                                <?php echo form_error('discipline', '<div class="help-block">', '</div>'); ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="button">Or Add new User</button>
+                                        </div>
                                     </div>
-                                    <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
-                                        <div class="modal-body">
-
-                                            <div class="form-group ">
-                                                <label class="control-label col-lg-2">Select User</label>
-                                                <div class="col-lg-4 <?php echo(form_error('user') != '' ? 'has-error' : '');?>">
-                                                    <select class="form-control" name="user" required="" <?php set_select('user');?>>
-                                                        <option value="" selected disabled>Select</option>
-                                                        <option value="ddd">user1</option>
-                                                        <option value="ddd">user2</option>
-                                                        <option value="ddd">user3</option>
-                                                    </select>
-                                                    <?php echo form_error('user', '<div class="help-block">', '</div>'); ?>
-                                                </div>
-
-                                                <label class="control-label col-lg-2">Status</label>
-                                                <div class="col-lg-4 <?php echo(form_error('status') != '' ? 'has-error' : '');?>">
-                                                    <select class="form-control" name="status" required="" <?php set_select('status');?>>
-                                                        <option value="" selected disabled>Select</option>
-                                                        <option value="ddd">stats</option>
-                                                        <option value="ddd">stats</option>
-                                                    </select>
-                                                    <?php echo form_error('status', '<div class="help-block">', '</div>'); ?>
-                                                </div>
-                                            </div>
-<!--                                            <div class="form-group --><?php //echo(form_error('first_name') != '' ? 'has-error' : '');?><!--">-->
-<!--                                                <label class="control-label col-lg-2">First Name</label>-->
-<!--                                                <div class="col-lg-4">-->
-<!--                                                    <input class="form-control" type="text" name="first_name" placeholder="First Name" value="--><?php //echo(isset($current_agy_user) ? $current_agy_user->first_name : set_value('first_name'));?><!--" required/>-->
-<!--                                                    --><?php //echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
-<!--                                                </div>-->
-<!---->
-<!--                                                <label class="control-label col-lg-2">Last Name</label>-->
-<!--                                                <div class="col-lg-4">-->
-<!--                                                    <input class="form-control" type="text" name="last_name" placeholder="Last Name" value="--><?php //echo (isset($current_agy_user) ? $current_agy_user->last_name: '');?><!--"/>-->
-<!--                                                    --><?php //echo form_error('description', '<div class="">', '</div>'); ?>
-<!--                                                </div>-->
-<!--                                            </div>-->
-
-                                            <div class="form-group">
-                                                <label class="control-label col-lg-2">Profile</label>
-                                                <div class="col-lg-4 <?php echo(form_error('profile') != '' ? 'has-error' : '');?>">
-                                                    <select class="form-control" name="profile" required="" <?php set_select('status');?>>
-                                                        <option value="" selected disabled>Select</option>
-                                                        <option value="ddd">profile</option>
-                                                        <option value="ddd">profile</option>
-                                                    </select>
-                                                    <?php echo form_error('profile', '<div class="help-block">', '</div>'); ?>
-                                                </div>
-
-                                                <label class="control-label col-lg-2">Discipline</label>
-                                                <div class="col-lg-4 <?php echo(form_error('discipline') != '' ? 'has-error' : '');?>">
-                                                    <select class="form-control" name="Discipline" required="" <?php set_select('discipline');?>>
-                                                        <option value="" selected disabled>Select</option>
-                                                        <option value="ddd">discipline</option>
-                                                        <option value="ddd">discipline</option>
-                                                        <option value="ddd">discipline</option>
-                                                    </select>
-                                                    <?php echo form_error('discipline', '<div class="help-block">', '</div>'); ?>
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="modal-footer">
-                                            <a href="<?php echo site_url('group')?>" class="btn btn-white">Close</a>
-                                            <button type="submit" class="btn btn-primary">Save changes</button>
-                                        </div>
-                                    </form>
-                                </div>
+                                    <div class="modal-footer">
+                                        <a href="<?php echo site_url('group')?>" class="btn btn-white">Close</a>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
+                    </div>
 
+                    <div id="tab-3" class="tab-pane">
+                        <div class="ibox">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                Add a new Users
+                            </button>
+                        </div>
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                             <tr>
