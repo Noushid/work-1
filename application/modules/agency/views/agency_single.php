@@ -65,7 +65,85 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="clearfix"></div>
+                        <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content animated fadeIn">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                        <h4 class="modal-title">Modal title</h4>
+                                        <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</small>
+                                    </div>
+                                    <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
+                                        <div class="modal-body">
+
+                                            <div class="form-group ">
+                                                <label class="control-label col-lg-2">Select User</label>
+                                                <div class="col-lg-4 <?php echo(form_error('user') != '' ? 'has-error' : '');?>">
+                                                    <select class="form-control" name="user" required="" <?php set_select('user');?>>
+                                                        <option value="" selected disabled>Select</option>
+                                                        <option value="ddd">user1</option>
+                                                        <option value="ddd">user2</option>
+                                                        <option value="ddd">user3</option>
+                                                    </select>
+                                                    <?php echo form_error('user', '<div class="help-block">', '</div>'); ?>
+                                                </div>
+
+                                                <label class="control-label col-lg-2">Status</label>
+                                                <div class="col-lg-4 <?php echo(form_error('status') != '' ? 'has-error' : '');?>">
+                                                    <select class="form-control" name="status" required="" <?php set_select('status');?>>
+                                                        <option value="" selected disabled>Select</option>
+                                                        <option value="ddd">stats</option>
+                                                        <option value="ddd">stats</option>
+                                                    </select>
+                                                    <?php echo form_error('status', '<div class="help-block">', '</div>'); ?>
+                                                </div>
+                                            </div>
+<!--                                            <div class="form-group --><?php //echo(form_error('first_name') != '' ? 'has-error' : '');?><!--">-->
+<!--                                                <label class="control-label col-lg-2">First Name</label>-->
+<!--                                                <div class="col-lg-4">-->
+<!--                                                    <input class="form-control" type="text" name="first_name" placeholder="First Name" value="--><?php //echo(isset($current_agy_user) ? $current_agy_user->first_name : set_value('first_name'));?><!--" required/>-->
+<!--                                                    --><?php //echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
+<!--                                                </div>-->
+<!---->
+<!--                                                <label class="control-label col-lg-2">Last Name</label>-->
+<!--                                                <div class="col-lg-4">-->
+<!--                                                    <input class="form-control" type="text" name="last_name" placeholder="Last Name" value="--><?php //echo (isset($current_agy_user) ? $current_agy_user->last_name: '');?><!--"/>-->
+<!--                                                    --><?php //echo form_error('description', '<div class="">', '</div>'); ?>
+<!--                                                </div>-->
+<!--                                            </div>-->
+
+                                            <div class="form-group">
+                                                <label class="control-label col-lg-2">Profile</label>
+                                                <div class="col-lg-4 <?php echo(form_error('profile') != '' ? 'has-error' : '');?>">
+                                                    <select class="form-control" name="profile" required="" <?php set_select('status');?>>
+                                                        <option value="" selected disabled>Select</option>
+                                                        <option value="ddd">profile</option>
+                                                        <option value="ddd">profile</option>
+                                                    </select>
+                                                    <?php echo form_error('profile', '<div class="help-block">', '</div>'); ?>
+                                                </div>
+
+                                                <label class="control-label col-lg-2">Discipline</label>
+                                                <div class="col-lg-4 <?php echo(form_error('discipline') != '' ? 'has-error' : '');?>">
+                                                    <select class="form-control" name="Discipline" required="" <?php set_select('discipline');?>>
+                                                        <option value="" selected disabled>Select</option>
+                                                        <option value="ddd">discipline</option>
+                                                        <option value="ddd">discipline</option>
+                                                        <option value="ddd">discipline</option>
+                                                    </select>
+                                                    <?php echo form_error('discipline', '<div class="help-block">', '</div>'); ?>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="modal-footer">
+                                            <a href="<?php echo site_url('group')?>" class="btn btn-white">Close</a>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
@@ -81,23 +159,23 @@
                             </thead>
                             <tbody>
                             <?php
-                            if (isset($agencies) and $agencies != FALSE) {
+                            if (isset($agency->user_agency) and $agency->user_agency != FALSE) {
                                 $i = 1;
-                                foreach ($agencies as $agency) {
+                                foreach ($agency->user_agency as $user_agency) {
                                     ?>
                                     <tr>
                                         <td><?php echo $i; ?></td>
-                                        <td><a href="<?php echo site_url('agency/show/' . $agency->agency_id);?>"><?php echo $agency->agency_name; ?></a></td>
-                                        <td><?php echo $agency->agency_type; ?></td>
-                                        <td><?php echo $agency->agency_status; ?></td>
-                                        <td><?php echo $agency->contact_name; ?></td>
-                                        <td><?php echo $agency->contact_phone; ?></td>
+                                        <td><?php echo $user_agency->first_name; ?></td>
+                                        <td><?php echo $user_agency->last_name; ?></td>
+                                        <td><?php echo $user_agency->tab_021_user_status; ?></td>
+                                        <td><?php echo $user_agency->last_name; ?></td>
+                                        <td><?php echo $user_agency->discipline_id; ?></td>
                                         <td class="center">
                                             <div  class="btn-group btn-group-xs" role="group">
-                                                <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $agency->agency_id);?>">
+                                                <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $user_agency->us_agy_id);?>">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo site_url('agency/delete/' . $agency->agency_id);?>">
+                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo site_url('agency/delete/' . $user_agency->us_agy_id);?>">
                                                     <i class="fa fa-trash-o"></i>
                                                 </a>
                                             </div>

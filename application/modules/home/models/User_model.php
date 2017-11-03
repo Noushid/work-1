@@ -1,6 +1,6 @@
 <?php
 /**
- * User_model.php
+ * Us1_user_model.php
  * User: psybo-03
  * Date: 28/10/17
  * Time: 12:56 PM

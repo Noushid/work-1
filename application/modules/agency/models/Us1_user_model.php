@@ -7,7 +7,7 @@
  */
 
 defined('BASEPATH') or exit('No direct Script access allowed');
-class User_model extends MY_Model
+class Us1_user_model extends MY_Model
 {
 
     public $table = 'us1_user';

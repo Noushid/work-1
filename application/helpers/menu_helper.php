@@ -25,7 +25,7 @@ if (!function_exists('render_menu')) {
             $html = '<li>
                         <a href="' . site_url('users') . '"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>
                     </li>
-            <li ' . (array_search($current, ['users', 'main menu', 'sub menu', 'user menu','groups']) >= 0 ? 'class="active"' : '') . '>
+            <li ' . (is_int(array_search($current, ['users', 'main menu', 'sub menu', 'user menu','groups'])) ? 'class="active"' : '') . '>
                     <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Groups and menu</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li ' . ($current == 'groups' ? 'class="active"' : '') . ' ><a href="' . site_url('group') . '">Groups</a></li>
@@ -54,8 +54,8 @@ if (!function_exists('render_menu')) {
         if (isset($menu->menu) and $menu->menu != FALSE) {
             $i = 1;
             foreach ($menu->menu as $main) {
-                if ($main->sub_menu == null) {
-                    $html .= '<li ' . ($current == $main->title ? 'class="active' : '') . '>
+                if ($main->sub_menu == false) {
+                    $html .= '<li ' . ($current == $main->title ? 'class="active"' : '') . '>
                         <a href="' . site_url($main->link) . '"><i class="fa ' . $main->title . '"></i> <span class="nav-label">' . $main->title . '</span></a>
                     </li>';
                 }else{

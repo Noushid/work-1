@@ -45,27 +45,20 @@ class User_agency_model extends MY_Model
 
     public function select_where($where)
     {
-        $group = $this->group->where($where)->get();
-        if ($group) {
-//            foreach ($groups as $group) {
-            $group_menu = $this->group_menu->where('group_id', $group->id)->get_all();
-            if ($group_menu) {
-                $temp = [];
-                foreach ($group_menu as $grp_mn) {
-                    $menu = $this->menu->where('id', $grp_mn->menu_id)->get();
-                    if ($menu) {
-                        $sub_menu = $this->sub_menu->where('menu_id', $menu->id)->get_all();
-                        $menu->sub_menu = $sub_menu;
-                        $temp[] = $menu;
-
-                    }
+        $agency = $this->agency->where($where)->get();
+        if ($agency) {
+            $agency_user = $this->user_agency->where('agency_id', $agency->agency_id)->get_all();
+            if ($agency_user) {
+                foreach ($agency_user as $ag_usr) {
+                    $user = $this->us1_user->where('user_id', $ag_usr->user_id)->get();
+                    $profile = $this->profile->where('profile_id', $ag_usr->profile_id)->get();
+                    $ag_usr->profile = $profile;
+                    $ag_usr->users = $user;
                 }
-                $group->menu = $temp;
+                $agency->user_agency = $agency_user;
             }
-
-//            }
-            return $group;
         }
+        return $agency;
     }
 
 

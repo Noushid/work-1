@@ -14,6 +14,10 @@ class Agency extends CI_Controller {
         parent::__construct();
 
         $this->load->model('Agency_model', 'agency');
+        $this->load->model('User_agency_model', 'user_agency');
+        $this->load->model('Us1_user_model', 'us1_user');
+        $this->load->model('Profile_model', 'profile');
+
         $this->load->library(['ion_auth']);
 
         if (!$this->ion_auth->logged_in())
@@ -62,12 +66,10 @@ class Agency extends CI_Controller {
 
         if ($param1 == 'show') {
             if ($param1 != "") {
-                $current_agency = $this->agency->with_posts()->where('agency_id', $param2)->get();
-                $this->load->model('User_agency_model', 'user_agency');
-                var_dump($current_agency);
-                exit;
-//                $data['title'] = "Agency";
-//                $data['page'] = "agency_single";
+                $data['agency'] = $this->user_agency->select_where(['agency_id' => $param2]);
+                $data['title'] = "Agency";
+                $data['title'] = "Agency";
+                $data['page'] = "agency_single";
             }
         }
 
@@ -112,7 +114,7 @@ class Agency extends CI_Controller {
         }
 
 
-        $data['current'] = "agency";
+        $data['current'] = "Agency";
         $this->load->view('home/template', $data);
     }
 
