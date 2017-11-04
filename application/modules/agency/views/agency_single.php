@@ -1,12 +1,17 @@
+<?php //var_dump($agency);
+//exit
+
+?>
+
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Agency List</h2>
+        <h2><?php echo $agency->agency_name;?></h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
             </li>
             <li class="active">
-                <strong>agency</strong>
+                <strong><?php echo $agency->agency_name;?></strong>
             </li>
         </ol>
     </div>
@@ -20,7 +25,6 @@
         <div class="panel blank-panel">
 
             <div class="panel-heading">
-                <div class="panel-title m-b-md"><h4>Agency Details</h4></div>
                 <div class="panel-options">
 
                     <ul class="nav nav-tabs">
@@ -126,7 +130,8 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="<?php echo site_url('group')?>" class="btn btn-white">Close</a>
+
+                                        <a href="<?php echo site_url('agency/show/' . $agency->agency_id);?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
                                 </form>
@@ -137,18 +142,20 @@
                     <div id="tab-3" class="tab-pane">
                         <div class="ibox">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Add a new Users
+                                Add new user to Agency
                             </button>
                         </div>
                         <table class="table table-striped table-bordered table-hover dataTables-example">
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>First Name</th>
+                                <th>Id</th>
                                 <th>last Name</th>
+                                <th>First Name</th>
                                 <th>Status</th>
                                 <th>Profile</th>
                                 <th>Discipline</th>
+                                <th>Phone</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -160,11 +167,13 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $i; ?></td>
-                                        <td><?php echo $user_agency->first_name; ?></td>
-                                        <td><?php echo $user_agency->last_name; ?></td>
-                                        <td><?php echo $user_agency->tab_021_user_status; ?></td>
-                                        <td><?php echo $user_agency->last_name; ?></td>
-                                        <td><?php echo $user_agency->discipline_id; ?></td>
+                                        <td><?php echo $user_agency->us_agy_id; ?></td>
+                                        <td><?php echo $user_agency->users->last_name; ?></td>
+                                        <td><?php echo $user_agency->users->first_name; ?></td>
+                                        <td><?php echo $user_agency->tab_021_user_status->tab_description; ?></td>
+                                        <td><?php echo $user_agency->profile->profile_name; ?></td>
+                                        <td><?php echo $user_agency->discipline->description; ?></td>
+                                        <td><?php echo $user_agency->users->phone_home; ?></td>
                                         <td class="center">
                                             <div  class="btn-group btn-group-xs" role="group">
                                                 <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $user_agency->us_agy_id);?>">

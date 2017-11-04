@@ -52,12 +52,18 @@ class User_agency_model extends MY_Model
                 foreach ($agency_user as $ag_usr) {
                     $user = $this->us1_user->where('user_id', $ag_usr->user_id)->get();
                     $profile = $this->profile->where('profile_id', $ag_usr->profile_id)->get();
+                    $tab_021_user_status = $this->tab_parameter->where('tab_type', 21)->get();
+                    $discipline = $this->discipline->where('discipline_id', $ag_usr->discipline_id)->get();
+
+                    $ag_usr->discipline = $discipline;
                     $ag_usr->profile = $profile;
                     $ag_usr->users = $user;
+                    $ag_usr->tab_021_user_status = $tab_021_user_status;
                 }
                 $agency->user_agency = $agency_user;
             }
         }
+//        var_dump($agency);
         return $agency;
     }
 

@@ -801,6 +801,9 @@ class Auth extends CI_Controller {
 
     public function group($param1="",$param2="")
     {
+        if (!$this->ion_auth->logged_in()) {
+            redirect('login', 'refresh');
+        }
         $this->data['groups'] = $this->ion_auth->groups()->result();
         if ($param1 == 'edit') {
             $this->data['modal_opened'] = true;
@@ -1021,6 +1024,10 @@ class Auth extends CI_Controller {
 
     public function edit_profile()
     {
+        if (!$this->ion_auth->logged_in()) {
+            redirect('login', 'refresh');
+        }
+
         $user_id = $name = $this->session->user_id;
         if ($this->input->post()) {
             $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
