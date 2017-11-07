@@ -110,10 +110,24 @@
                     showMethod: 'slideDown',
                     timeOut: 4000
                 };
-                toastr.success('<?php echo(isset($_SESSION['message']) ? $_SESSION['message'] : 'ddddd');?>');
+                toastr.success('<?php echo(isset($_SESSION['message']) ? $_SESSION['message'] : '');?>');
 
             }, 330);
         });
+        <?php
+        } elseif(isset($_SESSION['error'])){ ?>
+            $(document).ready(function () {
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.error('<?php echo(isset($_SESSION['error']) ? $_SESSION['error'] : '');?>');
+
+                }, 330);
+            });
         <?php
         }
         ?>

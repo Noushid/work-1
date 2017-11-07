@@ -1,8 +1,26 @@
-<?php //var_dump($agency);
+<?php //var_dump($crnt_agy_usr);
 //exit
 
 ?>
 
+<?php
+if (isset($modal_opened) and $modal_opened == true) {
+    ?>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#myModal').modal('show');
+
+        });
+    </script>
+<?php
+}
+?>
+<script>
+    $(document).ready(function () {
+        $('#myTab a[href="#tab2"]').tab('show'); // Select tab by name
+    });
+
+</script>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2><?php echo $agency->agency_name;?></h2>
@@ -27,9 +45,9 @@
             <div class="panel-heading">
                 <div class="panel-options">
 
-                    <ul class="nav nav-tabs">
+                    <ul class="nav nav-tabs" id="myTab">
                         <li class="active"><a data-toggle="tab" href="#tab-1">Agency Details</a></li>
-                        <li class=""><a data-toggle="tab" href="#tab-2">Agency Settings</a></li>
+                        <li><a data-toggle="tab" href="#tab-2">Agency Settings</a></li>
                         <li class=""><a data-toggle="tab" href="#tab-3">Agency Users</a></li>
                     </ul>
                 </div>
@@ -60,78 +78,159 @@
                             <div class="modal-content animated fadeIn">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title">New Agency user</h4>
+                                    <?php
+                                    if (isset($current_user)) {
+                                        echo '<h4 class="modal-title">Edit User</h4>';
+                                    }else{
+                                        echo '<h4 class="modal-title">Add New User</h4>';
+                                    }
+                                    ?>
+
                                     <small>You can add user to agency.</small>
                                 </div>
                                 <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
                                     <div class="modal-body">
+<!--                                        <div class="form-group">-->
+<!--                                            <label class="control-label col-lg-2">Select User</label>-->
+<!--                                            <div class="col-lg-10 --><?php //echo(form_error('user') != '' ? 'has-error' : '');?><!--">-->
+<!--                                                <select class="form-control" name="user" --><?php //set_select('user');?><!-- onchange="getUser(this)">-->
+<!--                                                    <option value="" selected>Select</option>-->
+<!--                                                    --><?php
+//                                                    if (isset($users) and $users != FALSE) {
+//                                                        foreach ($users as $user) {
+//                                                            ?>
+<!--                                                            <option value="--><?php //echo $user->user_id;?><!--">--><?php //echo $user->first_name;?><!--</option>-->
+<!--                                                        --><?php
+//                                                        }
+//                                                    }
+//                                                    ?>
+<!--                                                </select>-->
+<!--                                                --><?php //echo form_error('user', '<div class="help-block">', '</div>'); ?>
+<!--                                            </div>-->
+<!--                                        </div>-->
 
-                                        <div class="form-group ">
-                                            <label class="control-label col-lg-2">Select User</label>
-                                            <div class="col-lg-4 <?php echo(form_error('user') != '' ? 'has-error' : '');?>">
-                                                <select class="form-control" name="user" required="" <?php set_select('user');?>>
-                                                    <option value="" selected disabled>Select</option>
-                                                    <option value="ddd">user1</option>
-                                                    <option value="ddd">user2</option>
-                                                    <option value="ddd">user3</option>
-                                                </select>
-                                                <?php echo form_error('user', '<div class="help-block">', '</div>'); ?>
+                                        <div class="form-group <?php echo(form_error('first_name') != '' ? 'has-error' : '');?>">
+                                            <label class="control-label col-lg-2">First Name</label>
+                                            <div class="col-lg-4">
+                                                <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name" value="<?php echo(isset($crnt_agy_usr) ? $crnt_agy_usr->zfirst_name : set_value('first_name'));?>" required/>
+                                                <?php echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
+                                            <label class="control-label col-lg-2">Last Name</label>
+                                            <div class="col-lg-4">
+                                                <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Last Name" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->last_name: set_value('last_name'));?>"/>
+                                                <?php echo form_error('last_name', '<div class="">', '</div>'); ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+
+                                            <label class="control-label col-lg-2">Middle Name</label>
+                                            <div class="col-lg-4">
+                                                <input class="form-control" type="text" name="middle_name" id="middle_name" placeholder="Middle name" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->middle_initial: set_value('middle_initial'));?>"/>
+                                                <?php echo form_error('middle_name', '<div class="">', '</div>'); ?>
+                                            </div>
+
+                                            <label class="control-label col-lg-2">Email</label>
+                                            <div class="col-lg-4 <?php echo(form_error('email') != '' ? 'has-error' : '');?>">
+                                                <input class="form-control" type="email" name="email" id="email" placeholder="Email" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->user_email: set_value('email'));?>"/>
+                                                <?php echo form_error('email', '<div class="">', '</div>'); ?>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group <?php echo(form_error('phone') != '' ? 'has-error' : '');?>">
+                                            <label class="control-label col-lg-2">Phone</label>
+                                            <div class="col-lg-4">
+                                                <input class="form-control" type="text" name="phone" id="phone" placeholder="First Name" value="<?php echo(isset($crnt_agy_usr) ? $crnt_agy_usr->phone_home : set_value('phone'));?>" required/>
+                                                <?php echo form_error('phone', '<div class="help-block">', '</div>'); ?>
+                                            </div>
+
+                                            <label class="control-label col-lg-2">Date Of Birth</label>
+                                            <div class="col-lg-4">
+                                                <input class="form-control" type="text" name="dob" id="dob" placeholder="Date Of Birth" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->date_birth: set_value('dob'));?>"/>
+                                                <?php echo form_error('dob', '<div class="">', '</div>'); ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <label class="control-label col-lg-2">Status</label>
                                             <div class="col-lg-4 <?php echo(form_error('status') != '' ? 'has-error' : '');?>">
-                                                <select class="form-control" name="status" required="" <?php set_select('status');?>>
+                                                <select class="form-control" name="status" required="" <?php set_select('status');?> required="">
                                                     <option value="" selected disabled>Select</option>
-                                                    <option value="ddd">stats</option>
-                                                    <option value="ddd">stats</option>
+                                                    <?php
+                                                    if (isset($user_status) and $user_status != FALSE) {
+                                                        foreach ($user_status as $status) {
+                                                            ?>
+                                                            <option value="<?php echo $status->tab_value;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->tab_021_user_status == $status->tab_value) ? 'selected' : '');?>><?php echo $status->tab_description;?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </select>
                                                 <?php echo form_error('status', '<div class="help-block">', '</div>'); ?>
                                             </div>
-                                        </div>
-                                        <!--                                            <div class="form-group --><?php //echo(form_error('first_name') != '' ? 'has-error' : '');?><!--">-->
-                                        <!--                                                <label class="control-label col-lg-2">First Name</label>-->
-                                        <!--                                                <div class="col-lg-4">-->
-                                        <!--                                                    <input class="form-control" type="text" name="first_name" placeholder="First Name" value="--><?php //echo(isset($current_agy_user) ? $current_agy_user->first_name : set_value('first_name'));?><!--" required/>-->
-                                        <!--                                                    --><?php //echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
-                                        <!--                                                </div>-->
-                                        <!---->
-                                        <!--                                                <label class="control-label col-lg-2">Last Name</label>-->
-                                        <!--                                                <div class="col-lg-4">-->
-                                        <!--                                                    <input class="form-control" type="text" name="last_name" placeholder="Last Name" value="--><?php //echo (isset($current_agy_user) ? $current_agy_user->last_name: '');?><!--"/>-->
-                                        <!--                                                    --><?php //echo form_error('description', '<div class="">', '</div>'); ?>
-                                        <!--                                                </div>-->
-                                        <!--                                            </div>-->
 
-                                        <div class="form-group">
+
                                             <label class="control-label col-lg-2">Profile</label>
                                             <div class="col-lg-4 <?php echo(form_error('profile') != '' ? 'has-error' : '');?>">
-                                                <select class="form-control" name="profile" required="" <?php set_select('status');?>>
+                                                <select class="form-control" name="profile" required="" <?php set_select('profile');?> required="">
                                                     <option value="" selected disabled>Select</option>
-                                                    <option value="ddd">profile</option>
-                                                    <option value="ddd">profile</option>
+                                                    <?php
+                                                    if (isset($profile) and $profile != FALSE) {
+                                                        foreach ($profile as $prfl) {
+                                                            ?>
+                                                            <option value="<?php echo $prfl->profile_id;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->profile_id == $prfl->profile_id) ? 'selected' : '');?>><?php echo $prfl->profile_name;?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
                                                 </select>
                                                 <?php echo form_error('profile', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
-                                            <label class="control-label col-lg-2">Discipline</label>
-                                            <div class="col-lg-4 <?php echo(form_error('discipline') != '' ? 'has-error' : '');?>">
-                                                <select class="form-control" name="Discipline" required="" <?php set_select('discipline');?>>
-                                                    <option value="" selected disabled>Select</option>
-                                                    <option value="ddd">discipline</option>
-                                                    <option value="ddd">discipline</option>
-                                                    <option value="ddd">discipline</option>
-                                                </select>
-                                                <?php echo form_error('discipline', '<div class="help-block">', '</div>'); ?>
-                                            </div>
+
                                         </div>
 
                                         <div class="form-group">
-                                            <button class="btn btn-primary" type="button">Or Add new User</button>
+                                            <label class="control-label col-lg-2">Discipline</label>
+                                            <div class="col-lg-4 <?php echo(form_error('discipline') != '' ? 'has-error' : '');?>">
+                                                <select class="form-control" name="discipline" required="" <?php set_select('discipline');?> required="">
+                                                    <option value="" selected disabled>Select</option>
+                                                    <?php
+                                                    if (isset($discipline) and $discipline != FALSE) {
+                                                        foreach ($discipline as $dspln) {
+                                                            ?>
+                                                            <option value="<?php echo $dspln->discipline_id;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->discipline_id == $dspln->discipline_id) ? 'selected' : '');?>><?php echo $dspln->description;?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <?php echo form_error('discipline', '<div class="help-block">', '</div>'); ?>
+                                            </div>
+
+                                            <label class="control-label col-lg-2">Employee type</label>
+                                            <div class="col-lg-4 <?php echo(form_error('employee_type') != '' ? 'has-error' : '');?>">
+                                                <select class="form-control" name="employee_type" required="" <?php set_select('employee_type');?> required="">
+                                                    <option value="" selected disabled>Select</option>
+                                                    <?php
+                                                    if (isset($employee_type) and $employee_type != FALSE) {
+                                                        foreach ($employee_type as $emp_type) {
+                                                            ?>
+                                                            <option value="<?php echo $emp_type->tab_value;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->tab_006_employee_type == $emp_type->tab_value) ? 'selected' : '');?> ><?php echo $emp_type->tab_description;?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <?php echo form_error('employee_type', '<div class="help-block">', '</div>'); ?>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer">
 
-                                        <a href="<?php echo site_url('agency/show/' . $agency->agency_id);?>" class="btn btn-white">Close</a>
+                                        <a href="<?php echo site_url('agency/' . $agency->agency_id);?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
                                 </form>
@@ -176,7 +275,7 @@
                                         <td><?php echo $user_agency->users->phone_home; ?></td>
                                         <td class="center">
                                             <div  class="btn-group btn-group-xs" role="group">
-                                                <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $user_agency->us_agy_id);?>">
+                                                <a class="btn btn-info" href="<?php echo current_url().'/edit/'.$user_agency->us_agy_id;?>">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
                                                 <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo site_url('agency/delete/' . $user_agency->us_agy_id);?>">
@@ -201,3 +300,29 @@
         </div>
     </div>
 </div>
+<script>
+    function getUser(e) {
+        if (e.value == "") {
+//            $('#first_name').val("").prop('disabled', false);
+            $('#first_name').val("");
+            $('#last_name').val("");
+            $('#middle_name').val("");
+            $('#email').val("");
+            $('#phone').val("");
+            $('#dob').val("");
+        }else{
+            $.get('get-user/' + e.value)
+                .done(function (response) {
+                    $('#first_name').val(response.first_name);
+                    $('#last_name').val(response.last_name);
+                    $('#middle_name').val(response.middle_name);
+                    $('#email').val(response.user_email);
+                    $('#phone').val(response.phone_home);
+                    $('#dob').val(response.birth_date);
+                })
+                .fail(function () {
+                    console.log("error");
+                });
+        }
+    }
+</script>

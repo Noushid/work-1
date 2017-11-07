@@ -66,14 +66,7 @@ class Agency extends CI_Controller {
             }
         }
 
-        if ($param1 == 'show') {
-            if ($param1 != "") {
-                $data['agency'] = $this->user_agency->select_where(['agency_id' => $param2]);
-                $data['title'] = "Agency";
-                $data['title'] = "Agency";
-                $data['page'] = "agency_single";
-            }
-        }
+
 
         if ($this->input->post()) {
             if ($param1 == 'edit' and $param2 != "") {
@@ -121,4 +114,111 @@ class Agency extends CI_Controller {
         $this->load->view('home/template', $data);
     }
 
+
+    public function agency_single($param1,$param2="",$param3="")
+    {
+
+        $data['agency'] = $this->user_agency->select_where(['agency_id' => $param1]);
+        $data['users'] = $this->us1_user->get_all();
+        $data['user_status'] = $this->tab_parameter->where('tab_type', 21)->get_all();
+        $data['profile'] = $this->profile->get_all();
+        $data['discipline'] = $this->discipline->get_all();
+        $data['employee_type'] = $this->tab_parameter->where('tab_type', 6)->get_all();
+        if ($param2 == 'edit') {
+            $data['crnt_agy_usr'] = $this->user_agency->with_user()->where('us_agy_id', $param3)->get();
+            $data['modal_opened'] = true;
+        }
+
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('first_name', 'First name', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required|is_unique[us_agy.user_email]');
+
+            if ($this->form_validation->run() == TRUE) {
+                $user = $this->us1_user->where('user_email', $this->input->post('email'))->get();
+                if ($user == FALSE) {
+                    $form_data = [];
+                    $form_data['first_name'] = $this->input->post('first_name');
+                    $form_data['last_name'] = $this->input->post('last_name');
+                    $form_data['middle_initial'] = $this->input->post('middle_name');
+                    $form_data['user_email'] = $this->input->post('email');
+                    $form_data['phone_home'] = $this->input->post('phone');
+                    if ($param2 == 'edit') {
+//                        $this->us1_user->update($form_data,);
+                    }else{
+                        $user_id = $this->us1_user->insert($form_data);
+                    }
+                    if ($user_id) {
+                        unset($form_data['first_name']);
+                        $form_data['zfirst_name'] = $this->input->post('first_name');
+                        $form_data['user_id'] = $user_id;
+                        $form_data['date_birth'] = $this->input->post('dob');
+                        $form_data['profile_id'] = $this->input->post('profile');
+                        $form_data['discipline_id'] = $this->input->post('discipline');
+                        $form_data['tab_021_user_status'] = $this->input->post('status');
+                        $form_data['tab_006_employee_type'] = $this->input->post('employee_type');
+                        $form_data['agency_id'] = $param1;
+                        if ($this->user_agency->insert($form_data)) {
+                            $this->session->set_flashdata('message', 'New User added.');
+                            redirect(site_url('agency/' . $param1), 'refresh');
+                        } else {
+                            $this->session->set_flashdata('error', 'Something Went wrong! try again later');
+                            log_message('debug', 'insert error to us_agy table');
+                        }
+                    } else {
+                        $this->session->set_flashdata('error', 'Something Went wrong! try again later');
+                        log_message('debug', 'insert error to us1_user table');
+                    }
+                }else{
+                    $form_data = [];
+                    $form_data['first_name'] = $this->input->post('first_name');
+                    $form_data['last_name'] = $this->input->post('last_name');
+                    $form_data['middle_initial'] = $this->input->post('middle_name');
+                    $form_data['user_email'] = $this->input->post('email');
+                    $form_data['phone_home'] = $this->input->post('phone');
+
+//                    $this->us1_user->update($form_data, $user->user_id);
+                    unset($form_data['first_name']);
+                    $form_data['zfirst_name'] = $this->input->post('first_name');
+                    $form_data['user_id'] = $user->user_id;
+                    $form_data['date_birth'] = $this->input->post('dob');
+                    $form_data['profile_id'] = $this->input->post('profile');
+                    $form_data['discipline_id'] = $this->input->post('discipline');
+                    $form_data['tab_021_user_status'] = $this->input->post('status');
+                    $form_data['tab_006_employee_type'] = $this->input->post('employee_type');
+                    $form_data['agency_id'] = $param1;
+                    var_dump($form_data);
+                    exit;
+
+                    if ($this->user_agency->where('user_id',$user->user_id)->get() == FALSE) {
+                        if ($this->user_agency->insert($form_data)) {
+                            $this->session->set_flashdata('message', 'New User added.');
+                            redirect(site_url('agency/' . $param1), 'refresh');
+                        }else{
+                            $this->session->set_flashdata('error', 'Something Went wrong! try again later');
+                            log_message('debug', 'update error to us_agy table');
+                        }
+                    }else{
+                        $this->session->set_flashdata('error', 'User already exist');
+                    }
+                }
+            }else{
+                $data['modal_opened'] = true;
+            }
+        }
+
+        $data['title'] = "Agency";
+        $data['page'] = "agency_single";
+
+        $data['current'] = "Agency";
+        $this->load->view('home/template', $data);
+    }
+
+    public function get_user($param)
+    {
+        $user = $this->us1_user->where('user_id', $param)->get();
+        $this->output->set_content_type('application/json')->set_output(json_encode($user));
+    }
+
+
 }
+

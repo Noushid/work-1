@@ -14,8 +14,9 @@ class User_agency_model extends MY_Model
     public $primary_key = 'us_agy_id';
     function __construct()
     {
+        $this->has_one['user'] = array('foreign_model' => 'Us1_user_model', 'foreign_table' => 'us1_users', 'foreign_key' => 'user_id', 'local_key' => 'user_id');
+        $this->timestamps = FALSE;
         parent::__construct();
-
     }
 
     public function select()
@@ -52,7 +53,7 @@ class User_agency_model extends MY_Model
                 foreach ($agency_user as $ag_usr) {
                     $user = $this->us1_user->where('user_id', $ag_usr->user_id)->get();
                     $profile = $this->profile->where('profile_id', $ag_usr->profile_id)->get();
-                    $tab_021_user_status = $this->tab_parameter->where('tab_type', 21)->get();
+                    $tab_021_user_status = $this->tab_parameter->where('tab_type', 21)->where('tab_value',$ag_usr->tab_021_user_status)->get();
                     $discipline = $this->discipline->where('discipline_id', $ag_usr->discipline_id)->get();
 
                     $ag_usr->discipline = $discipline;
@@ -63,7 +64,6 @@ class User_agency_model extends MY_Model
                 $agency->user_agency = $agency_user;
             }
         }
-//        var_dump($agency);
         return $agency;
     }
 

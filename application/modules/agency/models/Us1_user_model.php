@@ -11,8 +11,10 @@ class Us1_user_model extends MY_Model
 {
 
     public $table = 'us1_user';
+    public $primary_key = 'user_id';
     function __construct()
     {
+        $this->timestamps = FALSE;
         parent::__construct();
     }
 
