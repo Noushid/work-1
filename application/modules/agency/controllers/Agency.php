@@ -21,7 +21,9 @@ class Agency extends CI_Controller {
         $this->load->model('Dis_discipline_model', 'discipline');
 
         $this->load->library(['ion_auth']);
-
+        /*
+         * Check login
+         * */
         if (!$this->ion_auth->logged_in())
         {
             // Allow some methods?
@@ -38,18 +40,22 @@ class Agency extends CI_Controller {
 
     /**
      * Dashboard area
+     *
      */
     public function index($param1="",$param2="",$param3="") {
 
         $data['agencies'] = $this->agency->get_all();
         $data['title'] = "Agency";
         $data['page'] = "agency";
-
+        /*
+         * edit agency
+         *  */
         if ($param1 == 'edit') {
             $data['modal_opened'] = true;
             $data['current_agency'] = $this->agency->where('agency_id', $param2)->get();
         }
 
+        /*delete agency*/
         if ($param1=='delete') {
             if ($param2 != "") {
                 if ($this->agency->delete($param2)) {
@@ -65,7 +71,6 @@ class Agency extends CI_Controller {
                 show_error('Something Went wrong');
             }
         }
-
 
 
         if ($this->input->post()) {
