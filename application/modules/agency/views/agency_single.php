@@ -31,6 +31,9 @@ if (isset($modal_opened) and $modal_opened == true) {
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
             </li>
+            <li>
+                <a href="<?php echo site_url('agency');?>">Agency</a>
+            </li>
             <li class="active">
                 <strong><?php echo $agency->agency_name;?></strong>
             </li>

@@ -15,7 +15,7 @@ class Agency extends CI_Controller {
 
         $this->load->model('Agency_model', 'agency');
         $this->load->model('User_agency_model', 'user_agency');
-        $this->load->model('Us1_user_model', 'us1_user');
+        $this->load->model('user/Us1_user_model', 'us1_user');
         $this->load->model('Profile_model', 'profile');
         $this->load->model('Tab_parameter_model', 'tab_parameter');
         $this->load->model('Dis_discipline_model', 'discipline');

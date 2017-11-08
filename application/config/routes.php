@@ -92,6 +92,9 @@ $route['agency/(:num)/(delete)/(:num)'] = "agency/agency_single/$1/$2/$3";
 $route['agency/get-user/(:num)'] = "agency/get_user/$1";
 
 
+$route['user-list'] = "user";
+
+
 //$route['(:any)'] = "home/test/$1";
 
 

@@ -122,15 +122,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                         </div>
                     </div>
-                    <script>
-                        $(document).ready(function () {
-                            $('#test').dataTable({
-                                "iDisplayLength": 5,
-                                "aLengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]]
-                            });
-                        });
-                    </script>
-                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                    <table class="table table-striped table-bordered table-hover dataTables-agency">
                         <thead>
                         <tr>
                             <th>#</th>
