@@ -98,7 +98,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 
                                             <label class="control-label col-lg-2">Contact Name</label>
                                             <div class="col-lg-4  <?php echo(form_error('contact_name') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="contact_name" placeholder="Contact Name" value="<?php echo (isset($current_agency) ? $current_agency->contact_name: set_value('agency_name'));?>"/>
+                                                <input class="form-control" type="text" name="contact_name" placeholder="Contact Name" value="<?php echo (isset($current_agency) ? $current_agency->contact_name: set_value('contact_name'));?>"/>
                                                 <?php echo form_error('contact_name', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
@@ -107,7 +107,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 
                                             <label class="control-label col-lg-2">Contact Phone</label>
                                             <div class="col-lg-4  <?php echo(form_error('contact_phone') != '' ? 'has-error' : '');?>">
-                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Contact Phone Number" name="contact_phone" value="<?php echo (isset($current_agency) ? $current_agency->contact_phone: set_value('agency_name'));?>">
+                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Contact Phone Number" name="contact_phone" value="<?php echo (isset($current_agency) ? $current_agency->contact_phone: set_value('contact_phone'));?>">
                                                 <span class="help-block">(999) 999-9999</span>
                                                 <?php echo form_error('contact_phone', '<div class="">', '</div>'); ?>
                                             </div>

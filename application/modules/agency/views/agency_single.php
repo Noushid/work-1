@@ -4,6 +4,9 @@
 ?>
 
 <?php
+if (isset($_SESSION['active_tab'])) {
+    $active_tab = $_SESSION['active_tab'];
+}
 if (isset($modal_opened) and $modal_opened == true) {
     ?>
     <script type="text/javascript">
@@ -46,9 +49,9 @@ if (isset($modal_opened) and $modal_opened == true) {
                 <div class="panel-options">
 
                     <ul class="nav nav-tabs" id="myTab">
-                        <li class="active"><a data-toggle="tab" href="#tab-1">Agency Details</a></li>
-                        <li><a data-toggle="tab" href="#tab-2">Agency Settings</a></li>
-                        <li class=""><a data-toggle="tab" href="#tab-3">Agency Users</a></li>
+                        <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-1') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-1">Agency Details</a></li>
+                        <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-2') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-2">Agency Settings</a></li>
+                        <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-3') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-3">Agency Users</a></li>
                     </ul>
                 </div>
             </div>
@@ -56,7 +59,7 @@ if (isset($modal_opened) and $modal_opened == true) {
             <div class="panel-body">
 
                 <div class="tab-content">
-                    <div id="tab-1" class="tab-pane active">
+                    <div id="tab-1" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'tab-1') ? 'active' : '');?>">
                         <strong>Lorem ipsum dolor sit amet, consectetuer adipiscing</strong>
 
                         <p>A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.</p>
@@ -64,13 +67,68 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <p>I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now. When.</p>
                     </div>
 
-                    <div id="tab-2" class="tab-pane">
+                    <div id="tab-2" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'tab-2') ? 'active' : '');?>">
                         <strong>Donec quam felis</strong>
 
                         <p>Thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath </p>
 
                         <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet.</p>
 
+                    </div>
+
+                    <div id="tab-3" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'tab-3') ? 'active' : '');?>">
+                        <div class="ibox">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                Add new user to Agency
+                            </button>
+                        </div>
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Id</th>
+                                <th>last Name</th>
+                                <th>First Name</th>
+                                <th>Status</th>
+                                <th>Profile</th>
+                                <th>Discipline</th>
+                                <th>Phone</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            if (isset($agency->user_agency) and $agency->user_agency != FALSE) {
+                                $i = 1;
+                                foreach ($agency->user_agency as $user_agency) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i; ?></td>
+                                        <td><?php echo $user_agency->us_agy_id; ?></td>
+                                        <td><?php echo $user_agency->users->last_name; ?></td>
+                                        <td><?php echo $user_agency->users->first_name; ?></td>
+                                        <td><?php echo $user_agency->tab_021_user_status->tab_description; ?></td>
+                                        <td><?php echo $user_agency->profile->profile_name; ?></td>
+                                        <td><?php echo $user_agency->discipline->description; ?></td>
+                                        <td><?php echo $user_agency->users->phone_home; ?></td>
+                                        <td class="center">
+                                            <div  class="btn-group btn-group-xs" role="group">
+                                                <a class="btn btn-info" href="<?php echo current_url() . '/edit/' . $user_agency->us_agy_id;?>">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo current_url() . '/delete/' . $user_agency->us_agy_id;?>">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $i++;
+                                }
+                            }
+                            ?>
+                            </tbody>
+                        </table>
                     </div>
 
                     <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -139,17 +197,26 @@ if (isset($modal_opened) and $modal_opened == true) {
 
                                         </div>
 
-                                        <div class="form-group <?php echo(form_error('phone') != '' ? 'has-error' : '');?>">
+                                        <div class="form-group <?php echo(form_error('phone') != '' ? 'has-error' : '');?>" id="data_3">
                                             <label class="control-label col-lg-2">Phone</label>
                                             <div class="col-lg-4">
-                                                <input class="form-control" type="text" name="phone" id="phone" placeholder="First Name" value="<?php echo(isset($crnt_agy_usr) ? $crnt_agy_usr->phone_home : set_value('phone'));?>" required/>
+<!--                                                <input class="form-control" type="text" name="phone" id="phone" placeholder="phone home" value="--><?php //echo(isset($crnt_agy_usr) ? $crnt_agy_usr->phone_home : set_value('phone'));?><!--" required/>-->
+                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Phone home" name="phone" id="phone" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->phone_home : set_value('phone'));?>">
+                                                <span class="help-block">(999) 999-9999</span>
                                                 <?php echo form_error('phone', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
-                                            <label class="control-label col-lg-2">Date Of Birth</label>
+<!--                                            <label class="control-label col-lg-2">Date Of Birth</label>-->
+<!--                                            <div class="col-lg-4">-->
+<!--                                                <input class="form-control" type="text" name="dob" id="dob" placeholder="Date Of Birth" value="--><?php //echo (isset($crnt_agy_usr) ? $crnt_agy_usr->date_birth: set_value('dob'));?><!--"/>-->
+<!--                                                --><?php //echo form_error('dob', '<div class="">', '</div>'); ?>
+<!--                                            </div>-->
+                                            <label class="font-noraml col-lg-2">Date of birth</label>
                                             <div class="col-lg-4">
-                                                <input class="form-control" type="text" name="dob" id="dob" placeholder="Date Of Birth" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->date_birth: set_value('dob'));?>"/>
-                                                <?php echo form_error('dob', '<div class="">', '</div>'); ?>
+                                                <div class="input-group date">
+                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                    <input type="text" class="form-control" value="<?php echo(isset($crnt_agy_usr)) ? date('Y-m-d',strtotime($crnt_agy_usr->date_birth)) : ((set_value('dob') != "") ? set_value('dob') : '01-01-1990');?>" name="dob" id="dob" >
+                                                </div>
                                             </div>
                                         </div>
 
@@ -196,6 +263,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             <label class="control-label col-lg-2">Discipline</label>
                                             <div class="col-lg-4 <?php echo(form_error('discipline') != '' ? 'has-error' : '');?>">
                                                 <select class="form-control" name="discipline" required="" <?php set_select('discipline');?> required="">
+
                                                     <option value="" selected disabled>Select</option>
                                                     <?php
                                                     if (isset($discipline) and $discipline != FALSE) {
@@ -230,7 +298,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                     </div>
                                     <div class="modal-footer">
 
-                                        <a href="<?php echo site_url('agency/' . $agency->agency_id);?>" class="btn btn-white">Close</a>
+                                        <a <?php echo(isset($crnt_agy_usr) ? 'href="'.site_url('agency/' . $agency->agency_id).'?tab=tab-3"' : 'data-dismiss="modal"');?> class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
                                 </form>
@@ -238,61 +306,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                         </div>
                     </div>
 
-                    <div id="tab-3" class="tab-pane">
-                        <div class="ibox">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Add new user to Agency
-                            </button>
-                        </div>
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Id</th>
-                                <th>last Name</th>
-                                <th>First Name</th>
-                                <th>Status</th>
-                                <th>Profile</th>
-                                <th>Discipline</th>
-                                <th>Phone</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            if (isset($agency->user_agency) and $agency->user_agency != FALSE) {
-                                $i = 1;
-                                foreach ($agency->user_agency as $user_agency) {
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $i; ?></td>
-                                        <td><?php echo $user_agency->us_agy_id; ?></td>
-                                        <td><?php echo $user_agency->users->last_name; ?></td>
-                                        <td><?php echo $user_agency->users->first_name; ?></td>
-                                        <td><?php echo $user_agency->tab_021_user_status->tab_description; ?></td>
-                                        <td><?php echo $user_agency->profile->profile_name; ?></td>
-                                        <td><?php echo $user_agency->discipline->description; ?></td>
-                                        <td><?php echo $user_agency->users->phone_home; ?></td>
-                                        <td class="center">
-                                            <div  class="btn-group btn-group-xs" role="group">
-                                                <a class="btn btn-info" href="<?php echo current_url().'/edit/'.$user_agency->us_agy_id;?>">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo site_url('agency/delete/' . $user_agency->us_agy_id);?>">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <?php
-                                    $i++;
-                                }
-                            }
-                            ?>
-                            </tbody>
-                        </table>
 
-                    </div>
                 </div>
 
             </div>
@@ -325,4 +339,12 @@ if (isset($modal_opened) and $modal_opened == true) {
                 });
         }
     }
+
+    $('#data_3 .input-group.date').datepicker({
+        startView: 2,
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true
+    });
 </script>

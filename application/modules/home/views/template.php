@@ -26,6 +26,8 @@
     <link href="<?php echo asset('css/plugins/dataTables/dataTables.bootstrap.css');?>" rel="stylesheet">
     <link href="<?php echo asset('css/plugins/dataTables/dataTables.responsive.css');?>" rel="stylesheet">
     <link href="<?php echo asset('css/plugins/dataTables/dataTables.tableTools.min.css');?>" rel="stylesheet">
+    <!--Date Picker-->
+    <link href="<?php echo asset('css/plugins/datapicker/datepicker3.css');?>" rel="stylesheet">
 
     <!-- Mainly scripts -->
     <script src="<?php echo asset('js/jquery-3.1.1.min.js'); ?>"></script>
@@ -63,6 +65,9 @@
 
     <!-- Input Mask-->
     <script src="<?php echo asset('js/plugins/jasny/jasny-bootstrap.min.js');?>"></script>
+
+    <!-- Data picker -->
+    <script src="<?php echo asset('js/plugins/datapicker/bootstrap-datepicker.js');?>"></script>
 
     <script>
         $(document).ready(function() {

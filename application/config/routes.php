@@ -87,6 +87,7 @@ $route['agency/(delete)/(:num)'] = "agency/index/$1/$2";
 
 $route['agency/(:num)'] = "agency/agency_single/$1";
 $route['agency/(:num)/(edit)/(:num)'] = "agency/agency_single/$1/$2/$3";
+$route['agency/(:num)/(delete)/(:num)'] = "agency/agency_single/$1/$2/$3";
 
 $route['agency/get-user/(:num)'] = "agency/get_user/$1";
 

@@ -124,16 +124,64 @@ class Agency extends CI_Controller {
         $data['profile'] = $this->profile->get_all();
         $data['discipline'] = $this->discipline->get_all();
         $data['employee_type'] = $this->tab_parameter->where('tab_type', 6)->get_all();
+        $data['active_tab'] = 'tab-1';
+        if ($this->input->get('tab')) {
+            $data['active_tab'] = $this->input->get('tab');
+        }
+
         if ($param2 == 'edit') {
             $data['crnt_agy_usr'] = $this->user_agency->with_user()->where('us_agy_id', $param3)->get();
             $data['modal_opened'] = true;
+            $data['active_tab'] = 'tab-3';
+        }
+
+        if ($param2 == 'delete') {
+            if ($this->user_agency->delete($param3)) {
+                $this->session->set_flashdata('message', 'Data deleted.');
+                redirect(site_url('agency/' . $param1), 'refresh');
+                exit;
+            }else{
+                $this->session->set_flashdata('error', 'Delete Failed.');
+                redirect(site_url('agency/' . $param1), 'refresh');
+                exit;
+            }
         }
 
         if ($this->input->post()) {
             $this->form_validation->set_rules('first_name', 'First name', 'required');
-            $this->form_validation->set_rules('email', 'Email', 'required|is_unique[us_agy.user_email]');
+            if ($param2 == 'edit') {
+                $this->form_validation->set_rules('email', 'Email', 'required');
+            }else{
+                $this->form_validation->set_rules('email', 'Email', 'required|is_unique[us_agy.user_email]');
+            }
 
             if ($this->form_validation->run() == TRUE) {
+                $phone = str_replace([' ', '(', ')','--'], '-', $this->input->post('phone'));
+                $phone = ltrim($phone, '-');
+                if ($param2 == 'edit') {
+                    $form_data['zfirst_name'] = $this->input->post('first_name');
+                    $form_data['last_name'] = $this->input->post('last_name');
+                    $form_data['middle_initial'] = $this->input->post('middle_name');
+                    $form_data['user_email'] = $this->input->post('email');
+                    $form_data['phone_home'] = $phone;
+                    $form_data['date_birth'] = date('Y-m-d', strtotime($this->input->post('dob')));
+                    $form_data['profile_id'] = $this->input->post('profile');
+                    $form_data['discipline_id'] = $this->input->post('discipline');
+                    $form_data['tab_021_user_status'] = $this->input->post('status');
+                    $form_data['tab_006_employee_type'] = $this->input->post('employee_type');
+                    $us_agy_update = $this->user_agency->update($form_data, $param3);
+                    if ( $us_agy_update >= 0 ) {
+                        $this->session->set_flashdata('message', 'Data Updated.');
+                        $this->session->set_flashdata('active_tab', 'tab-3');
+                        redirect(site_url('agency/' . $param1), 'refresh');
+                        exit;
+                    }else{
+                        $this->session->set_flashdata('error', 'Update Failed.');
+                        $this->session->set_flashdata('active_tab', 'tab-3');
+                        redirect(site_url('agency/' . $param1), 'refresh');
+                        exit;
+                    }
+                }
                 $user = $this->us1_user->where('user_email', $this->input->post('email'))->get();
                 if ($user == FALSE) {
                     $form_data = [];
@@ -141,12 +189,8 @@ class Agency extends CI_Controller {
                     $form_data['last_name'] = $this->input->post('last_name');
                     $form_data['middle_initial'] = $this->input->post('middle_name');
                     $form_data['user_email'] = $this->input->post('email');
-                    $form_data['phone_home'] = $this->input->post('phone');
-                    if ($param2 == 'edit') {
-//                        $this->us1_user->update($form_data,);
-                    }else{
-                        $user_id = $this->us1_user->insert($form_data);
-                    }
+                    $form_data['phone_home'] = $phone;
+                    $user_id = $this->us1_user->insert($form_data);
                     if ($user_id) {
                         unset($form_data['first_name']);
                         $form_data['zfirst_name'] = $this->input->post('first_name');
@@ -159,14 +203,19 @@ class Agency extends CI_Controller {
                         $form_data['agency_id'] = $param1;
                         if ($this->user_agency->insert($form_data)) {
                             $this->session->set_flashdata('message', 'New User added.');
+                            $this->session->set_flashdata('active_tab', 'tab-3');
                             redirect(site_url('agency/' . $param1), 'refresh');
                         } else {
                             $this->session->set_flashdata('error', 'Something Went wrong! try again later');
+                            $this->session->set_flashdata('active_tab', 'tab-3');
                             log_message('debug', 'insert error to us_agy table');
+                            redirect(site_url('agency/' . $param1), 'refresh');
                         }
                     } else {
                         $this->session->set_flashdata('error', 'Something Went wrong! try again later');
+                        $this->session->set_flashdata('active_tab', 'tab-3');
                         log_message('debug', 'insert error to us1_user table');
+                        redirect(site_url('agency/' . $param1), 'refresh');
                     }
                 }else{
                     $form_data = [];
@@ -174,7 +223,7 @@ class Agency extends CI_Controller {
                     $form_data['last_name'] = $this->input->post('last_name');
                     $form_data['middle_initial'] = $this->input->post('middle_name');
                     $form_data['user_email'] = $this->input->post('email');
-                    $form_data['phone_home'] = $this->input->post('phone');
+                    $form_data['phone_home'] = $phone;
 
 //                    $this->us1_user->update($form_data, $user->user_id);
                     unset($form_data['first_name']);
@@ -186,16 +235,17 @@ class Agency extends CI_Controller {
                     $form_data['tab_021_user_status'] = $this->input->post('status');
                     $form_data['tab_006_employee_type'] = $this->input->post('employee_type');
                     $form_data['agency_id'] = $param1;
-                    var_dump($form_data);
-                    exit;
 
                     if ($this->user_agency->where('user_id',$user->user_id)->get() == FALSE) {
                         if ($this->user_agency->insert($form_data)) {
                             $this->session->set_flashdata('message', 'New User added.');
+                            $this->session->set_flashdata('active_tab', 'tab-3');
                             redirect(site_url('agency/' . $param1), 'refresh');
                         }else{
                             $this->session->set_flashdata('error', 'Something Went wrong! try again later');
+                            $this->session->set_flashdata('active_tab', 'tab-3');
                             log_message('debug', 'update error to us_agy table');
+                            redirect(site_url('agency/' . $param1), 'refresh');
                         }
                     }else{
                         $this->session->set_flashdata('error', 'User already exist');
