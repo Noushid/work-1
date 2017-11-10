@@ -140,7 +140,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                     <?php
-                                    if (isset($current_user)) {
+                                    if (isset($crnt_agy_usr)) {
                                         echo '<h4 class="modal-title">Edit User</h4>';
                                     }else{
                                         echo '<h4 class="modal-title">Add New User</h4>';
@@ -173,7 +173,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <div class="form-group <?php echo(form_error('first_name') != '' ? 'has-error' : '');?>">
                                             <label class="control-label col-lg-2">First Name</label>
                                             <div class="col-lg-4">
-                                                <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name" value="<?php echo(isset($crnt_agy_usr) ? $crnt_agy_usr->zfirst_name : set_value('first_name'));?>" required/>
+                                                <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name" value="<?php echo(isset($crnt_agy_usr) ? $crnt_agy_usr->first_name : set_value('first_name'));?>" required/>
                                                 <?php echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
@@ -218,7 +218,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             <div class="col-lg-4">
                                                 <div class="input-group date">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                    <input type="text" class="form-control" value="<?php echo(isset($crnt_agy_usr)) ? date('Y-m-d',strtotime($crnt_agy_usr->date_birth)) : ((set_value('dob') != "") ? set_value('dob') : '01-01-1990');?>" name="dob" id="dob" >
+                                                    <input type="text" class="form-control" value="<?php echo(isset($crnt_agy_usr)) ? date('m-d-Y',strtotime($crnt_agy_usr->date_birth)) : ((set_value('dob') != "") ? set_value('dob') : '01-01-1990');?>" name="dob" id="dob" >
                                                 </div>
                                             </div>
                                         </div>

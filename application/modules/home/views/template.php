@@ -33,6 +33,75 @@
     <!--Date Picker-->
     <link href="<?php echo asset('css/plugins/datapicker/datepicker3.css');?>" rel="stylesheet">
 
+    <!-- Mainly scripts -->
+    <script src="<?php echo asset('js/jquery-3.1.1.min.js');?>"></script>
+    <script src="<?php echo asset('js/bootstrap.min.js');?>"></script>
+    <script src="<?php echo asset('js/plugins/metisMenu/jquery.metisMenu.js');?>"></script>
+    <script src="<?php echo asset('js/plugins/slimscroll/jquery.slimscroll.min.js');?>"></script>
+
+
+    <!-- Flot -->
+    <script src="<?php echo asset('js/plugins/flot/jquery.flot.js'); ?>"></script>
+    <script src="<?php echo asset('js/plugins/flot/jquery.flot.tooltip.min.js'); ?>"></script>
+    <script src="<?php echo asset('js/plugins/flot/jquery.flot.spline.js'); ?>"></script>
+    <script src="<?php echo asset('js/plugins/flot/jquery.flot.resize.js'); ?>"></script>
+    <script src="<?php echo asset('js/plugins/flot/jquery.flot.pie.js'); ?>"></script>
+
+    <!-- Peity -->
+    <script src="<?php echo asset('js/plugins/peity/jquery.peity.min.js'); ?>"></script>
+    <script src="<?php echo asset('js/demo/peity-demo.js'); ?>"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="<?php echo asset('js/inspinia.js');?>"></script>
+    <script src="<?php echo asset('js/plugins/pace/pace.min.js');?>"></script>
+
+    <!-- jQuery UI -->
+    <script src="<?php echo asset('js/plugins/jquery-ui/jquery-ui.min.js'); ?>"></script>
+
+    <!-- Toastr -->
+    <script src="<?php echo asset('js/plugins/toastr/toastr.min.js'); ?>"></script>
+
+    <!-- Data Tables -->
+    <script src="<?php echo asset('js/plugins/dataTables/jquery.dataTables.js');?>"></script>
+    <script src="<?php echo asset('js/plugins/dataTables/datatables.min.js');?>"></script>
+
+    <!-- Input Mask-->
+    <script src="<?php echo asset('js/plugins/jasny/jasny-bootstrap.min.js');?>"></script>
+
+    <!-- Data picker -->
+    <script src="<?php echo asset('js/plugins/datapicker/bootstrap-datepicker.js');?>"></script>
+
+    <!-- Custom -->
+    <script src="<?php echo asset('js/custom.js');?>"></script>
+
+    <script>
+        function fnClickAddRow() {
+            $('#editable').dataTable().fnAddData( [
+                "Custom row",
+                "New row",
+                "New row",
+                "New row",
+                "New row" ] );
+
+        }
+
+        <?php if(isset($_SESSION['message']) or isset($_SESSION['error'])){ ?>
+        $(document).ready(function () {
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                <?php echo(isset($_SESSION['message']) ? "toastr.success('".$_SESSION['message']."');" : "toastr.error('".$_SESSION['error']."');");?>
+
+            }, 330);
+        });
+        <?php
+        }
+        ?>
+    </script>
 
 
 </head>
@@ -260,74 +329,6 @@
 </style>
 
 
-<!-- Mainly scripts -->
-<script src="<?php echo asset('js/jquery-3.1.1.min.js');?>"></script>
-<script src="<?php echo asset('js/bootstrap.min.js');?>"></script>
-<script src="<?php echo asset('js/plugins/metisMenu/jquery.metisMenu.js');?>"></script>
-<script src="<?php echo asset('js/plugins/slimscroll/jquery.slimscroll.min.js');?>"></script>
 
-
-<!-- Flot -->
-<script src="<?php echo asset('js/plugins/flot/jquery.flot.js'); ?>"></script>
-<script src="<?php echo asset('js/plugins/flot/jquery.flot.tooltip.min.js'); ?>"></script>
-<script src="<?php echo asset('js/plugins/flot/jquery.flot.spline.js'); ?>"></script>
-<script src="<?php echo asset('js/plugins/flot/jquery.flot.resize.js'); ?>"></script>
-<script src="<?php echo asset('js/plugins/flot/jquery.flot.pie.js'); ?>"></script>
-
-<!-- Peity -->
-<script src="<?php echo asset('js/plugins/peity/jquery.peity.min.js'); ?>"></script>
-<script src="<?php echo asset('js/demo/peity-demo.js'); ?>"></script>
-
-<!-- Custom and plugin javascript -->
-<script src="<?php echo asset('js/inspinia.js');?>"></script>
-<script src="<?php echo asset('js/plugins/pace/pace.min.js');?>"></script>
-
-<!-- jQuery UI -->
-<script src="<?php echo asset('js/plugins/jquery-ui/jquery-ui.min.js'); ?>"></script>
-
-<!-- Toastr -->
-<script src="<?php echo asset('js/plugins/toastr/toastr.min.js'); ?>"></script>
-
-<!-- Data Tables -->
-<script src="<?php echo asset('js/plugins/dataTables/jquery.dataTables.js');?>"></script>
-<script src="<?php echo asset('js/plugins/dataTables/datatables.min.js');?>"></script>
-
-<!-- Input Mask-->
-<script src="<?php echo asset('js/plugins/jasny/jasny-bootstrap.min.js');?>"></script>
-
-<!-- Data picker -->
-<script src="<?php echo asset('js/plugins/datapicker/bootstrap-datepicker.js');?>"></script>
-
-<!-- Custom -->
-<script src="<?php echo asset('js/custom.js');?>"></script>
-
-<script>
-    function fnClickAddRow() {
-        $('#editable').dataTable().fnAddData( [
-            "Custom row",
-            "New row",
-            "New row",
-            "New row",
-            "New row" ] );
-
-    }
-
-    <?php if(isset($_SESSION['message']) or isset($_SESSION['error'])){ ?>
-    $(document).ready(function () {
-        setTimeout(function () {
-            toastr.options = {
-                closeButton: true,
-                progressBar: true,
-                showMethod: 'slideDown',
-                timeOut: 4000
-            };
-            <?php echo(isset($_SESSION['message']) ? "toastr.success('".$_SESSION['message']."');" : "toastr.error('".$_SESSION['error']."');");?>
-
-        }, 330);
-    });
-<?php
-}
-?>
-</script>
 </body>
 </html>

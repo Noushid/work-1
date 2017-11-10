@@ -1,0 +1,3 @@
+1) create new field in birth_date -> us1_user
+2)  When adding an agency_user ,after you create the us_agy record,can you create the xx_users_group record
+    ->us_ag_profile_id -> xx_user_groups.group_id

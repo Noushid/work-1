@@ -164,7 +164,7 @@ class Agency extends CI_Controller {
                 $phone = str_replace([' ', '(', ')','--'], '-', $this->input->post('phone'));
                 $phone = ltrim($phone, '-');
                 if ($param2 == 'edit') {
-                    $form_data['zfirst_name'] = $this->input->post('first_name');
+                    $form_data['first_name'] = $this->input->post('first_name');
                     $form_data['last_name'] = $this->input->post('last_name');
                     $form_data['middle_initial'] = $this->input->post('middle_name');
                     $form_data['user_email'] = $this->input->post('email');
@@ -198,7 +198,7 @@ class Agency extends CI_Controller {
                     $user_id = $this->us1_user->insert($form_data);
                     if ($user_id) {
                         unset($form_data['first_name']);
-                        $form_data['zfirst_name'] = $this->input->post('first_name');
+                        $form_data['first_name'] = $this->input->post('first_name');
                         $form_data['user_id'] = $user_id;
                         $form_data['date_birth'] = $this->input->post('dob');
                         $form_data['profile_id'] = $this->input->post('profile');
@@ -232,7 +232,7 @@ class Agency extends CI_Controller {
 
 //                    $this->us1_user->update($form_data, $user->user_id);
                     unset($form_data['first_name']);
-                    $form_data['zfirst_name'] = $this->input->post('first_name');
+                    $form_data['first_name'] = $this->input->post('first_name');
                     $form_data['user_id'] = $user->user_id;
                     $form_data['date_birth'] = $this->input->post('dob');
                     $form_data['profile_id'] = $this->input->post('profile');
