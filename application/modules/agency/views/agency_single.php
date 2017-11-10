@@ -85,7 +85,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 Add new user to Agency
                             </button>
                         </div>
-                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                        <table class="table table-striped table-bordered table-hover dataTables-single-agency-user">
                             <thead>
                             <tr>
                                 <th>#</th>

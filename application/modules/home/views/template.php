@@ -33,100 +33,7 @@
     <!--Date Picker-->
     <link href="<?php echo asset('css/plugins/datapicker/datepicker3.css');?>" rel="stylesheet">
 
-    <script>
-        $(document).ready(function() {
-            $('.dataTables-agency').DataTable( {
-                "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
-                "pageLength" : 300,
-                responsive: true,
-                destroy: true,
-                "dom": 'T<"clear">lfrtip',
-                buttons: [
-                    { extend: 'copy'},
-                    {extend: 'csv'},
-                    {extend: 'excel', title: 'ExampleFile'},
-                    {extend: 'pdf', title: 'ExampleFile'},
 
-                    {extend: 'print',
-                        customize: function (win){
-                            $(win.document.body).addClass('white-bg');
-                            $(win.document.body).css('font-size', '10px');
-
-                            $(win.document.body).find('table')
-                                .addClass('compact')
-                                .css('font-size', 'inherit');
-                        }
-                    }
-                ]
-            } );
-
-
-            /* Init DataTables */
-            var oTable = $('#editable').dataTable();
-
-            /* Apply the jEditable handlers to the table */
-            oTable.$('td').editable( '../example_ajax.php', {
-                "callback": function( sValue, y ) {
-                    var aPos = oTable.fnGetPosition( this );
-                    oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-                },
-                "submitdata": function ( value, settings ) {
-                    return {
-                        "row_id": this.parentNode.getAttribute('id'),
-                        "column": oTable.fnGetPosition( this )[2]
-                    };
-                },
-
-                "width": "90%",
-                "height": "100%"
-            } );
-
-
-        });
-
-        function fnClickAddRow() {
-            $('#editable').dataTable().fnAddData( [
-                "Custom row",
-                "New row",
-                "New row",
-                "New row",
-                "New row" ] );
-
-        }
-    </script>
-
-    <script>
-        <?php if(isset($_SESSION['message'])){ ?>
-        $(document).ready(function () {
-            setTimeout(function () {
-                toastr.options = {
-                    closeButton: true,
-                    progressBar: true,
-                    showMethod: 'slideDown',
-                    timeOut: 4000
-                };
-                toastr.success('<?php echo(isset($_SESSION['message']) ? $_SESSION['message'] : '');?>');
-
-            }, 330);
-        });
-        <?php
-        } elseif(isset($_SESSION['error'])){ ?>
-        $(document).ready(function () {
-            setTimeout(function () {
-                toastr.options = {
-                    closeButton: true,
-                    progressBar: true,
-                    showMethod: 'slideDown',
-                    timeOut: 4000
-                };
-                toastr.error('<?php echo(isset($_SESSION['error']) ? $_SESSION['error'] : '');?>');
-
-            }, 330);
-        });
-        <?php
-        }
-        ?>
-    </script>
 
 </head>
 
@@ -391,64 +298,36 @@
 <!-- Data picker -->
 <script src="<?php echo asset('js/plugins/datapicker/bootstrap-datepicker.js');?>"></script>
 
-<!-- Page-Level Scripts -->
+<!-- Custom -->
+<script src="<?php echo asset('js/custom.js');?>"></script>
+
 <script>
-    $(document).ready(function(){
-        $('.dataTables-user-list').DataTable({
-            "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
-            "pageLength" : 300,
-            responsive: true,
-            dom: '<"html5buttons"B>lTfgitp',
-            buttons: [
-//                { extend: 'copy'},
-                {extend: 'csv'},
-//                {extend: 'excel', title: 'ExampleFile'},
-//                {extend: 'pdf', title: 'ExampleFile'},
+    function fnClickAddRow() {
+        $('#editable').dataTable().fnAddData( [
+            "Custom row",
+            "New row",
+            "New row",
+            "New row",
+            "New row" ] );
 
-                {extend: 'print',
-                    customize: function (win){
-                        $(win.document.body).addClass('white-bg');
-                        $(win.document.body).css('font-size', '10px');
+    }
 
-                        $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                    }
-                }
-            ]
+    <?php if(isset($_SESSION['message']) or isset($_SESSION['error'])){ ?>
+    $(document).ready(function () {
+        setTimeout(function () {
+            toastr.options = {
+                closeButton: true,
+                progressBar: true,
+                showMethod: 'slideDown',
+                timeOut: 4000
+            };
+            <?php echo(isset($_SESSION['message']) ? "toastr.success('".$_SESSION['message']."');" : "toastr.error('".$_SESSION['error']."');");?>
 
-        });
-
-
-        $('.dataTables-agency').DataTable({
-            "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
-            "pageLength" : 300,
-            responsive: true,
-            dom: '<"html5buttons"B>lTfgitp',
-            buttons: [
-                { extend: 'copy'},
-                {extend: 'csv'},
-                {extend: 'excel', title: 'ExampleFile'},
-                {extend: 'pdf', title: 'ExampleFile'},
-
-                {extend: 'print',
-                    customize: function (win){
-                        $(win.document.body).addClass('white-bg');
-                        $(win.document.body).css('font-size', '10px');
-
-                        $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                    }
-                }
-            ]
-
-        })
-
+        }, 330);
     });
-
+<?php
+}
+?>
 </script>
-
-
 </body>
 </html>

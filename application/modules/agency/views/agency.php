@@ -122,49 +122,52 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                         </div>
                     </div>
-                    <table class="table table-striped table-bordered table-hover dataTables-agency">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Contact Name</th>
-                            <th>Contact Phone</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                        if (isset($agencies) and $agencies != FALSE) {
-                            $i = 1;
-                            foreach ($agencies as $agency) {
-                                ?>
-                                <tr>
-                                    <td><?php echo $i; ?></td>
-                                    <td><a href="<?php echo site_url('agency/' . $agency->agency_id);?>"><?php echo $agency->agency_name; ?></a></td>
-                                    <td><?php echo $agency->agency_type; ?></td>
-                                    <td><?php echo $agency->agency_status; ?></td>
-                                    <td><?php echo $agency->contact_name; ?></td>
-                                    <td><?php echo $agency->contact_phone; ?></td>
-                                    <td class="center">
-                                        <div  class="btn-group btn-group-xs" role="group">
-                                            <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $agency->agency_id);?>">
-                                                <i class="fa fa-pencil"></i>
-                                            </a>
-                                            <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo site_url('agency/delete/' . $agency->agency_id);?>">
-                                                <i class="fa fa-trash-o"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <?php
-                                $i++;
+                    <div class="table-responsive">
+
+                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-agency ">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Contact Name</th>
+                                <th>Contact Phone</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            if (isset($agencies) and $agencies != FALSE) {
+                                $i = 1;
+                                foreach ($agencies as $agency) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $i; ?></td>
+                                        <td><a href="<?php echo site_url('agency/' . $agency->agency_id);?>"><?php echo $agency->agency_name; ?></a></td>
+                                        <td><?php echo $agency->agency_type; ?></td>
+                                        <td><?php echo $agency->agency_status; ?></td>
+                                        <td><?php echo $agency->contact_name; ?></td>
+                                        <td><?php echo $agency->contact_phone; ?></td>
+                                        <td class="center">
+                                            <div  class="btn-group btn-group-xs" role="group">
+                                                <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $agency->agency_id);?>">
+                                                    <i class="fa fa-pencil"></i>
+                                                </a>
+                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo site_url('agency/delete/' . $agency->agency_id);?>">
+                                                    <i class="fa fa-trash-o"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    $i++;
+                                }
                             }
-                        }
-                        ?>
-                        </tbody>
-                    </table>
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
             </div>
