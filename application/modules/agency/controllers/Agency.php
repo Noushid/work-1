@@ -75,9 +75,23 @@ class Agency extends CI_Controller {
 
         if ($this->input->post()) {
             if ($param1 == 'edit' and $param2 != "") {
-                $this->form_validation->set_rules('agency_name', 'agency_name', 'required');
+                $agency_name = $this->agency->where('agency_id', $param2)->get()->agency_name;
+                if($this->input->post('agency_name') != $agency_name) {
+                    $is_unique = '|is_unique[agy_agency.agency_name]';
+                } else {
+                    $is_unique =  '';
+                }
+                $this->form_validation->set_rules('agency_name', 'Agency name', 'required' . $is_unique);
+                $this->form_validation->set_rules('agency_type', 'agency type', 'required');
+                $this->form_validation->set_rules('agency_status', 'agency status', 'required');
+                $this->form_validation->set_rules('contact_name', 'Contact Name', 'required');
+                $this->form_validation->set_rules('contact_phone', 'Contact phone', 'required');
             }else{
                 $this->form_validation->set_rules('agency_name', 'agency_name', 'required|is_unique[agy_agency.agency_name]');
+                $this->form_validation->set_rules('agency_type', 'agency type', 'required');
+                $this->form_validation->set_rules('agency_status', 'agency status', 'required');
+                $this->form_validation->set_rules('contact_name', 'Contact Name', 'required');
+                $this->form_validation->set_rules('contact_phone', 'Contact phone', 'required');
             }
             if ($this->form_validation->run() == TRUE) {
                 $form_data = [];
@@ -195,7 +209,9 @@ class Agency extends CI_Controller {
                     $form_data['middle_initial'] = $this->input->post('middle_name');
                     $form_data['user_email'] = $this->input->post('email');
                     $form_data['phone_home'] = $phone;
+                    $form_data['creation_datetime'] = date('Y-m-d h:i:s', time());
                     $user_id = $this->us1_user->insert($form_data);
+                    unset($form_data['creation_datetime']);
                     if ($user_id) {
                         unset($form_data['first_name']);
                         $form_data['first_name'] = $this->input->post('first_name');

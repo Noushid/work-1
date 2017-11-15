@@ -67,47 +67,58 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
                                     <div class="modal-body">
                                         <div class="form-group ">
-                                            <label class="control-label col-lg-2">Name</label>
+                                            <label class="control-label col-lg-2 required">Name</label>
                                             <div class="col-lg-4 <?php echo(form_error('agency_name') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="agency_name" placeholder="Agency Name" value="<?php echo(isset($current_agency) ? $current_agency->agency_name : set_value('agency_name'));?>" required/>
+                                                <input class="form-control" type="text" name="agency_name" placeholder="Agency Name" value="<?php echo(isset($current_agency) ? $current_agency->agency_name : set_value('agency_name'));?>" required=""/>
                                                 <?php echo form_error('name', '<div class="help-block">', '</div>'); ?>
                                             </div>
-                                            <label class="control-label col-lg-2">Type</label>
+                                            <label class="control-label col-lg-2 required">Type</label>
                                             <div class="col-lg-4 <?php echo(form_error('agency_type') != '' ? 'has-error' : '');?>">
-                                                <select name="agency_type" class="form-control" <?php echo set_select('agency_type');?>>
-                                                    <option value="" selected>Select</option>
-                                                    <option value="A" <?php echo ((isset($current_agency) && $current_agency->agency_type == 'A') ? 'selected' : '')?>>Agency</option>
-                                                    <option value="C" <?php echo ((isset($current_agency) && $current_agency->agency_type == 'C') ? 'selected' : '')?>>Contractor</option>
-                                                    <option value="D" <?php echo ((isset($current_agency) && $current_agency->agency_type == 'D') ? 'selected' : '')?>>Doctor office</option>
+                                                <select name="agency_type" class="form-control" <?php echo set_select('agency_type');?> required="">
+                                                    <option value="" selected disabled>Select</option>
+                                                    <option value="A" <?php echo((isset($current_agency) && $current_agency->agency_type == 'A') ? 'selected' : '');
+                                                    echo set_select('agency_type', 'A');?>>
+                                                        Agency
+                                                    </option>
+                                                    <option value="C" <?php echo((isset($current_agency) && $current_agency->agency_type == 'C') ? 'selected' : '');
+                                                    echo set_select('agency_type', 'C');?>>
+                                                        Contractor
+                                                    </option>
+                                                    <option value="D" <?php echo((isset($current_agency) && $current_agency->agency_type == 'D') ? 'selected' : '');
+                                                    echo set_select('agency_type', 'D');?>>
+                                                        Doctor office
+                                                    </option>
                                                 </select>
                                                 <?php echo form_error('agency_type', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
-
                                         <div class="form-group">
-                                            <label class="control-label col-lg-2">Status</label>
+                                            <label class="control-label col-lg-2 required">Status</label>
                                             <div class="col-lg-4 <?php echo(form_error('agency_status') != '' ? 'has-error' : '');?>">
-                                                <select name="agency_status" class="form-control" <?php echo set_select('agency_status');?>>
-                                                    <option value="" selected>Select</option>
-                                                    <option value="act" <?php echo ((isset($current_agency) && $current_agency->agency_status == 'act') ? 'selected' : '')?>>Active</option>
-                                                    <option value="inact" <?php echo ((isset($current_agency) && $current_agency->agency_status == "inact") ? 'selected' : '')?>>Inactive</option>
-                                                    <option value="SA" <?php echo ((isset($current_agency) && $current_agency->agency_status == 'SA') ? 'selected' : '')?>>Stand alone</option>
+                                                <select name="agency_status" class="form-control" <?php echo set_select('agency_status');?> required="">
+                                                    <option value="" selected disabled>Select</option>
+                                                    <option value="Act" <?php echo((isset($current_agency) && $current_agency->agency_status == 'Act') ? 'selected' : '');
+                                                    echo set_select('agency_status', 'Act');?>>Active</option>
+                                                    <option value="Inact" <?php echo((isset($current_agency) && $current_agency->agency_status == "Inact") ? 'selected' : '');
+                                                    echo set_select('agency_status', 'Inact');?>>Inactive</option>
+                                                    <option value="SA" <?php echo((isset($current_agency) && $current_agency->agency_status == 'SA') ? 'selected' : '');
+                                                    echo set_select('agency_status', 'SA');?>>Stand alone</option>
                                                 </select>
                                                 <?php echo form_error('agency_status', '<div class="">', '</div>'); ?>
                                             </div>
 
-                                            <label class="control-label col-lg-2">Contact Name</label>
+                                            <label class="control-label col-lg-2 required">Contact Name</label>
                                             <div class="col-lg-4  <?php echo(form_error('contact_name') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="contact_name" placeholder="Contact Name" value="<?php echo (isset($current_agency) ? $current_agency->contact_name: set_value('contact_name'));?>"/>
+                                                <input class="form-control" type="text" name="contact_name" placeholder="Contact Name" value="<?php echo (isset($current_agency) ? $current_agency->contact_name: set_value('contact_name'));?>" required=""/>
                                                 <?php echo form_error('contact_name', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
 
                                         <div class="form-group">
 
-                                            <label class="control-label col-lg-2">Contact Phone</label>
+                                            <label class="control-label col-lg-2 required">Contact Phone</label>
                                             <div class="col-lg-4  <?php echo(form_error('contact_phone') != '' ? 'has-error' : '');?>">
-                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Contact Phone Number" name="contact_phone" value="<?php echo (isset($current_agency) ? $current_agency->contact_phone: set_value('contact_phone'));?>">
+                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Contact Phone Number" name="contact_phone" value="<?php echo (isset($current_agency) ? $current_agency->contact_phone: set_value('contact_phone'));?>" required=""/>
                                                 <span class="help-block">(999) 999-9999</span>
                                                 <?php echo form_error('contact_phone', '<div class="">', '</div>'); ?>
                                             </div>

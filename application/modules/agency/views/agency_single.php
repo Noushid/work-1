@@ -80,58 +80,76 @@ if (isset($modal_opened) and $modal_opened == true) {
                     </div>
 
                     <div id="tab-3" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'tab-3') ? 'active' : '');?>">
-                        <div class="ibox">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                Add new user to Agency
-                            </button>
-                        </div>
-                        <table class="table table-striped table-bordered table-hover dataTables-single-agency-user">
-                            <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Id</th>
-                                <th>last Name</th>
-                                <th>First Name</th>
-                                <th>Status</th>
-                                <th>Profile</th>
-                                <th>Discipline</th>
-                                <th>Phone</th>
-                                <th>Action</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <?php
-                            if (isset($agency->user_agency) and $agency->user_agency != FALSE) {
-                                $i = 1;
-                                foreach ($agency->user_agency as $user_agency) {
-                                    ?>
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Agency List</h5>
+                                <div class="ibox-tools">
+<!--                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">-->
+<!--                                        Add new user to Agency-->
+<!--                                    </button>-->
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="close-link">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="ibox">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                        Add new user to Agency
+                                    </button>
+                                </div>
+                                <table class="table table-striped table-bordered table-hover dataTables-single-agency-user">
+                                    <thead>
                                     <tr>
-                                        <td><?php echo $i; ?></td>
-                                        <td><?php echo $user_agency->us_agy_id; ?></td>
-                                        <td><?php echo $user_agency->users->last_name; ?></td>
-                                        <td><?php echo $user_agency->users->first_name; ?></td>
-                                        <td><?php echo $user_agency->tab_021_user_status->tab_description; ?></td>
-                                        <td><?php echo $user_agency->profile->profile_name; ?></td>
-                                        <td><?php echo $user_agency->discipline->description; ?></td>
-                                        <td><?php echo $user_agency->users->phone_home; ?></td>
-                                        <td class="center">
-                                            <div  class="btn-group btn-group-xs" role="group">
-                                                <a class="btn btn-info" href="<?php echo current_url() . '/edit/' . $user_agency->us_agy_id;?>">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo current_url() . '/delete/' . $user_agency->us_agy_id;?>">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </a>
-                                            </div>
-                                        </td>
+                                        <th>#</th>
+                                        <th>Id</th>
+                                        <th>last Name</th>
+                                        <th>First Name</th>
+                                        <th>Status</th>
+                                        <th>Profile</th>
+                                        <th>Discipline</th>
+                                        <th>Phone</th>
+                                        <th>Action</th>
                                     </tr>
+                                    </thead>
+                                    <tbody>
                                     <?php
-                                    $i++;
-                                }
-                            }
-                            ?>
-                            </tbody>
-                        </table>
+                                    if (isset($agency->user_agency) and $agency->user_agency != FALSE) {
+                                        $i = 1;
+                                        foreach ($agency->user_agency as $user_agency) {
+                                            ?>
+                                            <tr>
+                                                <td><?php echo $i; ?></td>
+                                                <td><?php echo $user_agency->us_agy_id; ?></td>
+                                                <td><?php echo $user_agency->users->last_name; ?></td>
+                                                <td><?php echo $user_agency->users->first_name; ?></td>
+                                                <td><?php echo $user_agency->tab_021_user_status->tab_description; ?></td>
+                                                <td><?php echo $user_agency->profile->profile_name; ?></td>
+                                                <td><?php echo $user_agency->discipline->description; ?></td>
+                                                <td><?php echo $user_agency->users->phone_home; ?></td>
+                                                <td class="center">
+                                                    <div  class="btn-group btn-group-xs" role="group">
+                                                        <a class="btn btn-info" href="<?php echo current_url() . '/edit/' . $user_agency->us_agy_id;?>">
+                                                            <i class="fa fa-pencil"></i>
+                                                        </a>
+                                                        <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo current_url() . '/delete/' . $user_agency->us_agy_id;?>">
+                                                            <i class="fa fa-trash-o"></i>
+                                                        </a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <?php
+                                            $i++;
+                                        }
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -171,7 +189,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 <!--                                        </div>-->
 
                                         <div class="form-group <?php echo(form_error('first_name') != '' ? 'has-error' : '');?>">
-                                            <label class="control-label col-lg-2">First Name</label>
+                                            <label class="control-label col-lg-2 required">First Name</label>
                                             <div class="col-lg-4">
                                                 <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name" value="<?php echo(isset($crnt_agy_usr) ? $crnt_agy_usr->first_name : set_value('first_name'));?>" required/>
                                                 <?php echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
@@ -224,7 +242,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-lg-2">Status</label>
+                                            <label class="control-label col-lg-2 required">Status</label>
                                             <div class="col-lg-4 <?php echo(form_error('status') != '' ? 'has-error' : '');?>">
                                                 <select class="form-control" name="status" required="" <?php set_select('status');?> required="">
                                                     <option value="" selected disabled>Select</option>

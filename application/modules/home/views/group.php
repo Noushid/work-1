@@ -11,13 +11,13 @@ if (isset($modal_opened) and $modal_opened == true) {
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Basic Form</h2>
+        <h2>Group List</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
             </li>
             <li class="active">
-                <strong>group</strong>
+                <strong>group list</strong>
             </li>
         </ol>
     </div>
@@ -31,20 +31,11 @@ if (isset($modal_opened) and $modal_opened == true) {
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>List All Groups</h5>
+                    <h5>Group List</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
                         </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#">Config option 1</a>
-                            </li>
-                            <li><a href="#">Config option 2</a>
-                            </li>
-                        </ul>
                         <a class="close-link">
                             <i class="fa fa-times"></i>
                         </a>
@@ -53,7 +44,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                 <div class="ibox-content">
                     <div class="">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">
-                            Add a new group
+                            Add New Group
                         </button>
                     </div>
 
@@ -62,7 +53,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                             <div class="modal-content animated fadeIn">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title">Create Group</h4>
+                                    <?php
+                                    if (isset($current_group)) { ?>
+                                        <h4 class="modal-title">Edit Group</h4>
+                                    <?php }else{
+                                    ?>
+                                        <h4 class="modal-title">Create Group</h4>
+                                    <?php } ?>
                                 </div>
                                 <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
                                     <div class="modal-body">

@@ -376,8 +376,8 @@ class Auth extends CI_Controller {
 		{
 			// if the code is valid then display the password reset form
 
-			$this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
-			$this->form_validation->set_rules('new_confirm', $this->lang->line('reset_password_validation_new_password_confirm_label'), 'required');
+            $this->form_validation->set_rules('new', $this->lang->line('reset_password_validation_new_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[new_confirm]');
+            $this->form_validation->set_rules('new_confirm', $this->lang->line('reset_password_validation_new_password_confirm_label'), 'required');
 
 			if ($this->form_validation->run() == false)
 			{
@@ -833,9 +833,15 @@ class Auth extends CI_Controller {
 
             // validate form input
             if ($param1 == 'edit') {
-                $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash');
+                $group_name = $this->ion_auth->group($param2)->row()->name;
+                if($this->input->post('name') != $group_name) {
+                    $is_unique = '|is_unique[' . $this->config->item('tables', 'ion_auth')['groups'] . '.name]';
+                } else {
+                    $is_unique =  '';
+                }
+                $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required' . $is_unique);
             }else{
-                $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|alpha_dash|is_unique[xx_groups.name]');
+                $this->form_validation->set_rules('name', $this->lang->line('create_group_validation_name_label'), 'required|is_unique[' . $this->config->item('tables', 'ion_auth')['groups'] . '.name]');
             }
 
             if ($this->form_validation->run() == TRUE)
