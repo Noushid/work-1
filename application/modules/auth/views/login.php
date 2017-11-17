@@ -46,6 +46,34 @@
             <a href="<?php echo site_url('forgot-password'); ?>""><small><?php echo lang('login_forgot_password');?></small></a>
         </form>
     </div>
+
+    <?php
+    if (isset($agencies) and $agency > 1) {
+        ?>
+        <div>
+            <div>
+                <h1 class="logo-name">IN+</h1>
+            </div>
+            <h3>Select Agency</h3>
+
+            <p>Select an agency to access administrator section</p>
+            <?php echo $message; ?>
+            <form class="m-t" role="form" method="POST" action="<?php echo site_url('login'); ?>">
+                <div class="form-group">
+                    <select name="agency" id="agency" class="form-control">
+                        <option value="" disabled selected>Select</option>
+                        <option value="ss">dd</option>
+                        <option value="ss">dd</option>
+                        <option value="ss">dd</option>
+                        <option value="ss">dd</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary block full-width m-b">Submit</button>
+            </form>
+        </div>
+    <?php
+    }
+    ?>
 </div>
 
 <!-- Mainly scripts -->

@@ -23,8 +23,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$config['base_url'] = 'http://oasis-c1.com/boot2/';
-$config['base_url'] = 'http://' . $_SERVER['HTTP_HOST'] . '/';
+$config['base_url'] = 'http://oasis-c1.com/boot2/';
+//$config['base_url'] = 'http://' . $_SERVER['HTTP_HOST'] . '/';
 
 /*
 |--------------------------------------------------------------------------

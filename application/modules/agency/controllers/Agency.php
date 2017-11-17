@@ -351,6 +351,10 @@ class Agency extends CI_Controller {
         $this->output->set_content_type('application/json')->set_output(json_encode($user));
     }
 
+    public function test()
+    {
+        var_dump($this->user_agency->where('user_id' , 22)->get_all());
+    }
 
 }
 

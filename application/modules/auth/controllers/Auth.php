@@ -14,6 +14,8 @@ class Auth extends CI_Controller {
         $this->load->model('home/Sub_menu_model', 'sub_menu');
         $this->load->model('home/Group_menu_model', 'group_menu');
         $this->load->model('home/Group_model', 'group');
+        $this->load->model('agency/User_agency_model', 'user_agency');
+        $this->load->model('agency/Agency_model', 'agency');
 
 		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
@@ -164,13 +166,25 @@ class Auth extends CI_Controller {
 
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{
+                $user_id = $this->ion_auth->user()->row()->user_id;
+                $user_agency = $this->user_agency->where('user_id', $user_id)->fields('agency_id')->get_all();
                 $group = $this->ion_auth->get_users_groups($_SESSION['user_id'])->result();
                 $this->session->set_userdata('group_id', $group[0]->id);
                 $this->session->set_userdata('group_name', $group[0]->name);
-				//if the login is successful
-				//redirect them back to the home page
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect('/', 'refresh');
+
+                if (count($user_agency) > 1) {
+                    $user_agency_id = [];
+                    foreach ($user_agency as $agency) {
+                        $user_agency_id[] = $agency->agency_id;
+                    }
+                    $data['agencies'] = $this->agency->where('agency_id', $user_agency_id)->get_all();
+                    $this->_render_page('auth/login', $data);
+                }else{
+                    //if the login is successful
+                    //redirect them back to the home page
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect('/', 'refresh');
+                }
 			}
 			else
 			{
@@ -193,7 +207,8 @@ class Auth extends CI_Controller {
                 'class' => 'form-control',
                 'required' => '',
                 'autocomplete' => 'off',
-                'placeholder' => $this->config->item('identity', 'ion_auth')
+                'placeholder' => 'Email'
+//                'placeholder' => $this->config->item('identity', 'ion_auth')
             );
             $this->data['password'] = array('name' => 'password',
                 'id' => 'password',
