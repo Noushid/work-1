@@ -28,11 +28,11 @@ class Auth extends CI_Controller {
 			// redirect them to the login page
 			redirect('login', 'refresh');
 		}
-		elseif (!$this->ion_auth->is_admin()) // remove this elseif if you want to enable this for non-admins
+		/*elseif (!$this->ion_auth->is_admin()) // remove this elseif if you want to enable this for non-admins
 		{
 			// redirect them to the home page because they must be an administrator to view this
 			return show_error('You must be an administrator to view this page.');
-		}
+		}*/
 		else
 		{
             if ($param1 == "edit") {
@@ -48,6 +48,9 @@ class Auth extends CI_Controller {
                 }
             }
             if ($this->input->post()) {
+                $phone = str_replace([' ', '(', ')','--'], '-', $this->input->post('phone'));
+                $_POST['phone'] = ltrim($phone, '-');
+
                 $tables = $this->config->item('tables','ion_auth');
                 $identity_column = $this->config->item('identity','ion_auth');
                 $this->data['identity_column'] = $identity_column;
@@ -55,7 +58,7 @@ class Auth extends CI_Controller {
                 // validate form input
                 $this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required');
                 $this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required');
-                if($identity_column!=='email')
+                if($identity_column !== 'user_email')
                 {
                     $this->form_validation->set_rules('identity',$this->lang->line('create_user_validation_identity_label'),'required|is_unique['.$tables['users'].'.'.$identity_column.']');
                     $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email');
@@ -65,7 +68,7 @@ class Auth extends CI_Controller {
                     if ($param1 == "edit") {
                         $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'valid_email');
                     } else {
-                        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[' . $tables['users'] . '.email]');
+                        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
                     }
                 }
 
@@ -75,7 +78,7 @@ class Auth extends CI_Controller {
                 if ($this->form_validation->run() == true)
                 {
                     $user = $this->ion_auth->user($param2)->row();
-                    $email = ($this->input->post('email') != '' ? strtolower($this->input->post('email')) : $user->email);
+                    $email = ($this->input->post('email') != '' ? strtolower($this->input->post('email')) : $user->user_email);
 
                     $identity = ($identity_column==='email') ? $email : $this->input->post('identity');
 

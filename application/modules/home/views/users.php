@@ -85,7 +85,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <div class="form-group <?php echo(form_error('email') != '' ? 'has-error' : '');?>">
                                             <label class="control-label col-lg-2">Email</label>
                                             <div class="col-lg-8">
-                                                <input class="form-control" type="email" name="email" placeholder="<?php echo (isset($current_user) ? $current_user->email: 'Email');?>" value="<?php echo set_value('email');?>" <?php echo (isset($current_user) ? '': 'required');?>/>
+                                                <input class="form-control" type="email" name="email" placeholder="<?php echo (isset($current_user) ? $current_user->user_email: 'Email');?>" value="<?php echo set_value('email');?>" <?php echo (isset($current_user) ? '': 'required');?>/>
                                                 <?php echo form_error('email', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
@@ -93,7 +93,9 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <div class="form-group <?php echo(form_error('phone') != '' ? 'has-error' : '');?>">
                                             <label class="control-label col-lg-2">Phone</label>
                                             <div class="col-lg-8">
-                                                <input class="form-control" type="text" name="phone" placeholder="Phone Number" value="<?php echo (isset($current_user) ? $current_user->phone : set_value('phone'));?>"/>
+<!--                                                <input class="form-control" type="text" name="phone" placeholder="Phone Number" value="--><?php //echo (isset($current_user) ? $current_user->phone_home : set_value('phone'));?><!--"/>-->
+                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Phone Number" name="phone" value="<?php echo (isset($current_user) ? $current_user->phone_home : set_value('phone'));?>" required=""/>
+                                                <span class="help-block">(999) 999-9999</span>
                                                 <?php echo form_error('phone', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
@@ -109,7 +111,8 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                             ?>
                                                             <option
                                                                 value="<?php echo $group->id;?>"
-                                                                <?php echo (!empty($current_user->groups) ? ($group->id == $current_user->groups[0]->id ? 'selected' : '') : '')?> >
+                                                                <?php echo(!empty($current_user->groups) ? ($group->id == $current_user->groups[0]->id ? 'selected' : '') : '');
+                                                                echo set_select('group', $group->id);?>>
                                                                 <?php echo $group->name;?>
                                                             </option>
                                                         <?php
@@ -167,7 +170,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 <th>#</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
-                                <th>Username</th>
+<!--                                <th>Username</th>-->
                                 <th>Email</th>
                                 <th>Groups</th>
                                 <th>Action</th>
@@ -183,8 +186,8 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo $value->first_name; ?></td>
                                         <td><?php echo $value->last_name; ?></td>
-                                        <td><?php echo $value->username; ?></td>
-                                        <td><?php echo $value->email; ?></td>
+<!--                                        <td>--><?php //echo $value->username; ?><!--</td>-->
+                                        <td><?php echo $value->user_email; ?></td>
                                         <td>
                                             <?php foreach ($value->groups as $group) { ?>
                                                 <a href=""><?php echo $group->name;?></a>,

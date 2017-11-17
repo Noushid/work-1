@@ -19,6 +19,7 @@ class Agency extends CI_Controller {
         $this->load->model('Profile_model', 'profile');
         $this->load->model('Tab_parameter_model', 'tab_parameter');
         $this->load->model('Dis_discipline_model', 'discipline');
+        $this->load->model('home/User_group_model', 'user_group');
 
         $this->load->library(['ion_auth']);
         /*
@@ -148,12 +149,18 @@ class Agency extends CI_Controller {
             $data['active_tab'] = $this->input->get('tab');
         }
 
+        /*
+         * If edit get appropriate date form DB
+        */
         if ($param2 == 'edit') {
             $data['crnt_agy_usr'] = $this->user_agency->with_user()->where('us_agy_id', $param3)->get();
             $data['modal_opened'] = true;
             $data['active_tab'] = 'tab-3';
         }
 
+        /*
+         * If edit get appropriate date form DB
+        */
         if ($param2 == 'delete') {
             if ($this->user_agency->delete($param3)) {
                 $this->session->set_flashdata('message', 'Data deleted.');
@@ -166,15 +173,36 @@ class Agency extends CI_Controller {
             }
         }
 
+        /*
+         * If data posted form view
+        */
         if ($this->input->post()) {
+            /*
+             * validation
+             * */
             $this->form_validation->set_rules('first_name', 'First name', 'required');
             if ($param2 == 'edit') {
-                $this->form_validation->set_rules('email', 'Email', 'required');
+                /*
+                 * set unique validation if email was changed
+                 * */
+                $agency_user_email = $this->user_agency->where('us_agy_id', $param3)->get()->user_email;
+                if($this->input->post('email') != $agency_user_email) {
+                    $is_unique = '|is_unique[us_agy.email]';
+                } else {
+                    $is_unique =  '';
+                }
+                $this->form_validation->set_rules('email', 'Email', 'required' . $is_unique);
             }else{
                 $this->form_validation->set_rules('email', 'Email', 'required|is_unique[us_agy.user_email]');
             }
 
+            /*
+             * validation success
+             * */
             if ($this->form_validation->run() == TRUE) {
+                /*
+                 *delete masks from phone number
+                 *  */
                 $phone = str_replace([' ', '(', ')','--'], '-', $this->input->post('phone'));
                 $phone = ltrim($phone, '-');
                 if ($param2 == 'edit') {
@@ -201,7 +229,15 @@ class Agency extends CI_Controller {
                         exit;
                     }
                 }
+                /**
+                 *insert data
+                 **/
                 $user = $this->us1_user->where('user_email', $this->input->post('email'))->get();
+
+                /*
+                 * If user not exist in us1_user table
+                 * create new record both table us1_user and us_agy
+                 *  */
                 if ($user == FALSE) {
                     $form_data = [];
                     $form_data['first_name'] = $this->input->post('first_name');
@@ -222,7 +258,19 @@ class Agency extends CI_Controller {
                         $form_data['tab_021_user_status'] = $this->input->post('status');
                         $form_data['tab_006_employee_type'] = $this->input->post('employee_type');
                         $form_data['agency_id'] = $param1;
-                        if ($this->user_agency->insert($form_data)) {
+
+                        /*insert record to us_agy table*/
+                        $us_agy_id = $this->user_agency->insert($form_data);
+
+                        if ($us_agy_id) {
+                            /*
+                             * Add data to xx_users_group
+                             * */
+                            $users_group_data['user_id'] = $user_id;
+                            $users_group_data['group_id'] = $form_data['profile_id'];
+                            $users_group_data['us_agy_id'] = $us_agy_id;
+                            $this->user_group->insert($users_group_data);
+
                             $this->session->set_flashdata('message', 'New User added.');
                             $this->session->set_flashdata('active_tab', 'tab-3');
                             redirect(site_url('agency/' . $param1), 'refresh');
@@ -239,6 +287,10 @@ class Agency extends CI_Controller {
                         redirect(site_url('agency/' . $param1), 'refresh');
                     }
                 }else{
+                    /*
+                     * If user exist in us1_user table
+                     * create new record in us_agy
+                    **/
                     $form_data = [];
                     $form_data['first_name'] = $this->input->post('first_name');
                     $form_data['last_name'] = $this->input->post('last_name');
@@ -258,7 +310,16 @@ class Agency extends CI_Controller {
                     $form_data['agency_id'] = $param1;
 
                     if ($this->user_agency->where('user_id',$user->user_id)->get() == FALSE) {
-                        if ($this->user_agency->insert($form_data)) {
+                        $us_agy_id = $this->user_agency->insert($form_data);
+                        if ($us_agy_id) {
+                            /*
+                             * Add data to xx_users_group
+                             * */
+                            $users_group_data['user_id'] = $user->user_id;
+                            $users_group_data['group_id'] = $form_data['profile_id'];
+                            $users_group_data['us_agy_id'] = $us_agy_id;
+                            $this->user_group->insert($users_group_data);
+
                             $this->session->set_flashdata('message', 'New User added.');
                             $this->session->set_flashdata('active_tab', 'tab-3');
                             redirect(site_url('agency/' . $param1), 'refresh');

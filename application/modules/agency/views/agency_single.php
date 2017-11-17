@@ -250,7 +250,12 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     if (isset($user_status) and $user_status != FALSE) {
                                                         foreach ($user_status as $status) {
                                                             ?>
-                                                            <option value="<?php echo $status->tab_value;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->tab_021_user_status == $status->tab_value) ? 'selected' : '');?>><?php echo $status->tab_description;?></option>
+                                                            <option
+                                                                value="<?php echo $status->tab_value;?>"
+                                                                <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->tab_021_user_status == $status->tab_value) ? 'selected' : '');
+                                                                echo set_select('status', $status->tab_value);?> >
+                                                                <?php echo $status->tab_description;?>
+                                                            </option>
                                                         <?php
                                                         }
                                                     }
@@ -268,7 +273,12 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     if (isset($profile) and $profile != FALSE) {
                                                         foreach ($profile as $prfl) {
                                                             ?>
-                                                            <option value="<?php echo $prfl->profile_id;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->profile_id == $prfl->profile_id) ? 'selected' : '');?>><?php echo $prfl->profile_name;?></option>
+                                                            <option
+                                                                value="<?php echo $prfl->profile_id;?>"
+                                                                <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->profile_id == $prfl->profile_id) ? 'selected' : '');
+                                                                echo set_select('profile', $prfl->profile_id);?>>
+                                                                <?php echo $prfl->profile_name;?>
+                                                            </option>
                                                         <?php
                                                         }
                                                     }
@@ -290,7 +300,11 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     if (isset($discipline) and $discipline != FALSE) {
                                                         foreach ($discipline as $dspln) {
                                                             ?>
-                                                            <option value="<?php echo $dspln->discipline_id;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->discipline_id == $dspln->discipline_id) ? 'selected' : '');?>><?php echo $dspln->description;?></option>
+                                                            <option
+                                                                value="<?php echo $dspln->discipline_id;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->discipline_id == $dspln->discipline_id) ? 'selected' : '');
+                                                            echo set_select('discipline', $dspln->discipline_id);?>>
+                                                                <?php echo $dspln->description;?>
+                                                            </option>
                                                         <?php
                                                         }
                                                     }
@@ -307,7 +321,10 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     if (isset($employee_type) and $employee_type != FALSE) {
                                                         foreach ($employee_type as $emp_type) {
                                                             ?>
-                                                            <option value="<?php echo $emp_type->tab_value;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->tab_006_employee_type == $emp_type->tab_value) ? 'selected' : '');?> ><?php echo $emp_type->tab_description;?></option>
+                                                            <option value="<?php echo $emp_type->tab_value;?>" <?php echo((isset($crnt_agy_usr) && $crnt_agy_usr->tab_006_employee_type == $emp_type->tab_value) ? 'selected' : '');
+                                                            echo set_select('employee_type', $emp_type->tab_value);?>>
+                                                                <?php echo $emp_type->tab_description;?>
+                                                            </option>
                                                         <?php
                                                         }
                                                     }

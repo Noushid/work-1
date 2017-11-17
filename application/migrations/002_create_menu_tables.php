@@ -11,10 +11,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Migration_Create_menu_tables extends CI_Migration {
 
     public function up() {
-        // Drop table 'groups' if it exists
+        // Drop table 'xx_menu' if it exists
         $this->dbforge->drop_table('xx_menu', TRUE);
 
-        // Table structure for table 'groups'
+        // Table structure for table 'xx_menu'
         $this->dbforge->add_field(array(
             'id' => array(
                 'type' => 'MEDIUMINT',
@@ -53,10 +53,10 @@ class Migration_Create_menu_tables extends CI_Migration {
 
 
 
-        // Drop table 'users_groups' if it exists
+        // Drop table 'xx_sub_menu' if it exists
         $this->dbforge->drop_table('xx_sub_menu', TRUE);
 
-        // Table structure for table 'users_groups'
+        // Table structure for table 'xx_sub_menu'
         $this->dbforge->add_field(array(
             'id' => array(
                 'type'           => 'MEDIUMINT',
@@ -99,10 +99,10 @@ class Migration_Create_menu_tables extends CI_Migration {
 
 
 
-        // Drop table 'users' if it exists
+        // Drop table 'xx_group_menu' if it exists
         $this->dbforge->drop_table('xx_group_menu', TRUE);
 
-        // Table structure for table 'users'
+        // Table structure for table 'xx_group_menu'
         $this->dbforge->add_field(array(
             'id' => array(
                 'type'           => 'MEDIUMINT',

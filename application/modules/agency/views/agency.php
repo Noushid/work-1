@@ -42,12 +42,6 @@ if (isset($modal_opened) and $modal_opened == true) {
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <div class="">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                            Add a new Agency
-                        </button>
-                    </div>
-
                     <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog"  aria-hidden="true">
                         <div class="modal-dialog  modal-lg">
                             <div class="modal-content animated fadeIn">
