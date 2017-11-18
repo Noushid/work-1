@@ -13,20 +13,64 @@
 
     <link href="<?php echo asset('css/animate.css'); ?>" rel="stylesheet">
     <link href="<?php echo asset('css/style.css'); ?>" rel="stylesheet">
+    <!-- Mainly scripts -->
+    <script src="<?php echo asset('js/jquery-3.1.1.min.js'); ?>"></script>
+    <script src="<?php echo asset('js/bootstrap.min.js'); ?>"></script>
 
 </head>
 
 <body class="gray-bg">
+<?php
+if (isset($agencies) and $agencies > 1) {
+    ?>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+                $('#AgyModal').modal({show:true,backdrop: 'static',
+                    keyboard: false});
+
+
+        });
+    </script>
+    <div class="modal inmodal fade" id="AgyModal" tabindex="-1" role="dialog"  aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a href="<?php echo site_url('login');?>" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+                    <h4 class="modal-title">Choose Agency</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="m-t" role="form" method="POST" action="<?php echo site_url('login/submit-agency'); ?>">
+                        <div class="form-group">
+                            <select name="agency" id="agency" class="form-control" required="">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach ($agencies as $agency) {
+                                    ?>
+                                    <option
+                                        value="<?php echo $agency->agency_id; ?>"><?php echo $agency->agency_name; ?></option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary block full-width m-b">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php
+}else{
+?>
 
 <div class="middle-box text-center loginscreen animated fadeInDown">
     <div>
         <div>
-
             <h1 class="logo-name">IN+</h1>
-
         </div>
         <h3>Login Area</h3>
         <p>Login to access administrator section</p>
+
         <?php echo $message; ?>
         <form class="m-t" role="form" method="POST" action="<?php echo site_url('login'); ?>">
             <div class="form-group">
@@ -46,39 +90,10 @@
             <a href="<?php echo site_url('forgot-password'); ?>""><small><?php echo lang('login_forgot_password');?></small></a>
         </form>
     </div>
-
-    <?php
-    if (isset($agencies) and $agency > 1) {
-        ?>
-        <div>
-            <div>
-                <h1 class="logo-name">IN+</h1>
-            </div>
-            <h3>Select Agency</h3>
-
-            <p>Select an agency to access administrator section</p>
-            <?php echo $message; ?>
-            <form class="m-t" role="form" method="POST" action="<?php echo site_url('login'); ?>">
-                <div class="form-group">
-                    <select name="agency" id="agency" class="form-control">
-                        <option value="" disabled selected>Select</option>
-                        <option value="ss">dd</option>
-                        <option value="ss">dd</option>
-                        <option value="ss">dd</option>
-                        <option value="ss">dd</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary block full-width m-b">Submit</button>
-            </form>
-        </div>
-    <?php
-    }
-    ?>
 </div>
+<?php }?>
 
-<!-- Mainly scripts -->
-<script src="<?php echo asset('js/jquery-3.1.1.min.js'); ?>"></script>
-<script src="<?php echo asset('js/bootstrap.min.js'); ?>"></script>
+
 
 </body>
 

@@ -5,6 +5,8 @@
         </span>
     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
         <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo profile('first_name'); ?></strong>
+        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo (isset($_SESSION['profile_name']) ? $_SESSION['profile_name'] :'');?></strong>
+        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo (isset($_SESSION['group_name']) ? $_SESSION['group_name'] :'');?></strong>
 <!--        </span> <span class="text-muted text-xs block">--><?php //echo (isset($_SESSION['group_name']) ? $_SESSION['group_name'] :'');?><!--<b class="caret"></b></span> </span>-->
         </span> <span class="text-muted text-xs block"><?php echo $user->first_name . ' ' . $user->last_name;?><b class="caret"></b></span> </span>
     </a>

@@ -181,19 +181,8 @@ class Agency extends CI_Controller {
              * validation
              * */
             $this->form_validation->set_rules('first_name', 'First name', 'required');
-            if ($param2 == 'edit') {
-                /*
-                 * set unique validation if email was changed
-                 * */
-                $agency_user_email = $this->user_agency->where('us_agy_id', $param3)->get()->user_email;
-                if($this->input->post('email') != $agency_user_email) {
-                    $is_unique = '|is_unique[us_agy.email]';
-                } else {
-                    $is_unique =  '';
-                }
-                $this->form_validation->set_rules('email', 'Email', 'required' . $is_unique);
-            }else{
-                $this->form_validation->set_rules('email', 'Email', 'required|is_unique[us_agy.user_email]');
+            if ($param2 != 'edit') {
+                $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
             }
 
             /*
@@ -309,7 +298,7 @@ class Agency extends CI_Controller {
                     $form_data['tab_006_employee_type'] = $this->input->post('employee_type');
                     $form_data['agency_id'] = $param1;
 
-                    if ($this->user_agency->where('user_id',$user->user_id)->get() == FALSE) {
+                    if ($this->user_agency->where('user_id',$user->user_id)->where('agency_id',$param1)->get() == FALSE) {
                         $us_agy_id = $this->user_agency->insert($form_data);
                         if ($us_agy_id) {
                             /*

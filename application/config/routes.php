@@ -95,6 +95,11 @@ $route['agency/get-user/(:num)'] = "agency/get_user/$1";
 $route['user-list'] = "user";
 
 
+$route['login/submit-agency'] = "auth/select_agency";
+
+
+
+
 //$route['(:any)'] = "home/test/$1";
 
 

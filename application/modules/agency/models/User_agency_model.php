@@ -16,6 +16,8 @@ class User_agency_model extends MY_Model
     {
         $this->has_one['user'] = array('foreign_model' => 'Us1_user_model', 'foreign_table' => 'us1_users', 'foreign_key' => 'user_id', 'local_key' => 'user_id');
         $this->has_one['agency'] = array('foreign_model' => 'User_agency_model', 'foreign_table' => 'us_agy', 'foreign_key' => 'agency_id', 'local_key' => 'agency_id');
+        $this->has_one['user_group'] = array('foreign_model' => 'User_group_model', 'foreign_table' => 'xx_users_groups', 'foreign_key' => 'us_agy_id', 'local_key' => 'us_agy_id');
+        $this->has_one['profile'] = array('foreign_model' => 'Profile_model', 'foreign_table' => 'x_profile', 'foreign_key' => 'profile_id', 'local_key' => 'profile_id');
         $this->timestamps = FALSE;
         parent::__construct();
     }

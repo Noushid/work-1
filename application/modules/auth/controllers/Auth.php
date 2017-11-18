@@ -14,10 +14,12 @@ class Auth extends CI_Controller {
         $this->load->model('home/Sub_menu_model', 'sub_menu');
         $this->load->model('home/Group_menu_model', 'group_menu');
         $this->load->model('home/Group_model', 'group');
+        $this->load->model('home/user_group_model', 'user_group');
         $this->load->model('agency/User_agency_model', 'user_agency');
         $this->load->model('agency/Agency_model', 'agency');
+        $this->load->model('agency/Profile_model', 'profile');
 
-		$this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
+        $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
 		$this->lang->load('auth');
 	}
@@ -167,12 +169,16 @@ class Auth extends CI_Controller {
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{
                 $user_id = $this->ion_auth->user()->row()->user_id;
-                $user_agency = $this->user_agency->where('user_id', $user_id)->fields('agency_id')->get_all();
-                $group = $this->ion_auth->get_users_groups($_SESSION['user_id'])->result();
-                $this->session->set_userdata('group_id', $group[0]->id);
-                $this->session->set_userdata('group_name', $group[0]->name);
+                $user_agency = $this->user_agency->where('user_id', $user_id)->get_all();
+
+//                $group = $this->ion_auth->get_users_groups($_SESSION['user_id'])->result();
+//                $this->session->set_userdata('group_id', $group[0]->id);
+//                $this->session->set_userdata('group_name', $group[0]->name);
 
                 if (count($user_agency) > 1) {
+                    /*
+                     *  IF user exists in more than one agency,
+                     * */
                     $user_agency_id = [];
                     foreach ($user_agency as $agency) {
                         $user_agency_id[] = $agency->agency_id;
@@ -180,6 +186,12 @@ class Auth extends CI_Controller {
                     $data['agencies'] = $this->agency->where('agency_id', $user_agency_id)->get_all();
                     $this->_render_page('auth/login', $data);
                 }else{
+                    /*
+                     *  IF user exists in only one agency,
+                     * */
+                    $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
+                    $this->session->set_userdata('group_id', $user_group->group->id);
+                    $this->session->set_userdata('group_name', $user_group->group->name);
                     //if the login is successful
                     //redirect them back to the home page
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -222,6 +234,24 @@ class Auth extends CI_Controller {
 			$this->_render_page('auth/login', $this->data);
 		}
 	}
+
+    public function select_agency()
+    {
+        $agency_id = $this->input->post();
+        $user_agency = $this->user_agency
+            ->where('agency_id', $agency_id)
+            ->where('user_id', $this->session->user_id)
+            ->with_user_group(['with' => ['relation' => 'group']])
+            ->with('profile')->get();
+        $this->session->set_userdata('profile_id', $user_agency->profile->profile_id);
+        $this->session->set_userdata('profile_name', $user_agency->profile->profile_name);
+        $this->session->set_userdata('group_id', $user_agency->user_group->group->id);
+        $this->session->set_userdata('group_name', $user_agency->user_group->group->name);
+//        //if the login is successful
+//        //redirect them back to the home page
+        $this->session->set_flashdata('message', $this->ion_auth->messages());
+        redirect('/', 'refresh');
+    }
 
 	// log the user out
 	public function logout()
@@ -1052,12 +1082,12 @@ class Auth extends CI_Controller {
             redirect('login', 'refresh');
         }
 
-        $user_id = $name = $this->session->user_id;
+        $user_id = $this->session->user_id;
+        $this->data['user'] = $this->ion_auth->user()->row();
         if ($this->input->post()) {
             $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
-            $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required');
-            $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
-            $this->form_validation->set_rules('email', $this->lang->line('edit_user_validation_phone_label'), 'required');
+            $this->form_validation->set_rules('phone_home', $this->lang->line('edit_user_validation_phone_label'), 'required');
+            $this->form_validation->set_rules('user_email', $this->lang->line('edit_user_validation_phone_label'), 'required');
 
             if ($this->input->post('password'))
             {
@@ -1070,14 +1100,17 @@ class Auth extends CI_Controller {
                 $data = array(
                     'first_name' => $this->input->post('first_name'),
                     'last_name'  => $this->input->post('last_name'),
-                    'email'  => $this->input->post('email'),
-                    'phone'      => $this->input->post('phone'),
+                    'user_nick'  => $this->input->post('user_nick'),
+                    'phone_home'      => $this->input->post('phone_home'),
+                    'user_email'  => $this->input->post('user_email'),
+                    'city'  => $this->input->post('city'),
+                    'address'  => $this->input->post('address'),
                 );
 
                 // update the password if it was posted
                 if ($this->input->post('password'))
                 {
-                    $data['password'] = $this->input->post('password');
+                    $data['xx_password'] = $this->input->post('password');
                 }
 
                 // check to see if we are updating the user
@@ -1096,25 +1129,17 @@ class Auth extends CI_Controller {
 
                 }
             }else{
-                $this->data['user'] = $this->ion_auth->user()->row();
-                $this->data['title'] = "Dashboard";
-                $this->data['current'] = "dashboard";
-                $this->data['page'] = "edit_profile";
-                $this->data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
-                $this->data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
-                $this->data['csrf'] = $this->_get_csrf_nonce();
-                $this->_render_page('home/template', $this->data);
+                unset($this->data['user']);
             }
-        }else {
-            $this->data['user'] = $this->ion_auth->user()->row();
-            $this->data['title'] = "Dashboard";
-            $this->data['current'] = "dashboard";
-            $this->data['page'] = "edit_profile";
-            $this->data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
-            $this->data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
-            $this->data['csrf'] = $this->_get_csrf_nonce();
-            $this->_render_page('home/template', $this->data);
         }
+
+        $this->data['title'] = "Dashboard";
+        $this->data['current'] = "dashboard";
+        $this->data['page'] = "edit_profile";
+        $this->data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
+        $this->data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
+        $this->data['csrf'] = $this->_get_csrf_nonce();
+        $this->_render_page('home/template', $this->data);
     }
 
 

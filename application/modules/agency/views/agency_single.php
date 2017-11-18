@@ -124,12 +124,12 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             <tr>
                                                 <td><?php echo $i; ?></td>
                                                 <td><?php echo $user_agency->us_agy_id; ?></td>
-                                                <td><?php echo $user_agency->users->last_name; ?></td>
-                                                <td><?php echo $user_agency->users->first_name; ?></td>
+                                                <td><?php echo($user_agency->users != FALSE ? $user_agency->users->last_name : ''); ?></td>
+                                                <td><?php echo($user_agency->users != FALSE ? $user_agency->users->first_name : ''); ?></td>
                                                 <td><?php echo $user_agency->tab_021_user_status->tab_description; ?></td>
                                                 <td><?php echo $user_agency->profile->profile_name; ?></td>
                                                 <td><?php echo $user_agency->discipline->description; ?></td>
-                                                <td><?php echo $user_agency->users->phone_home; ?></td>
+                                                <td><?php echo($user_agency->users != FALSE ? $user_agency->users->phone_home : ''); ?></td>
                                                 <td class="center">
                                                     <div  class="btn-group btn-group-xs" role="group">
                                                         <a class="btn btn-info" href="<?php echo current_url() . '/edit/' . $user_agency->us_agy_id;?>">
@@ -212,7 +212,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 
                                             <label class="control-label col-lg-2">Email</label>
                                             <div class="col-lg-4 <?php echo(form_error('email') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="email" name="email" id="email" placeholder="Email" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->user_email: set_value('email'));?>"/>
+                                                <input class="form-control" type="email" name="email" id="email" placeholder="Email" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->user_email: set_value('email'));?>" <?php echo (isset($crnt_agy_usr) ? 'disabled': '');?>/>
                                                 <?php echo form_error('email', '<div class="">', '</div>'); ?>
                                             </div>
 
@@ -221,7 +221,6 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <div class="form-group <?php echo(form_error('phone') != '' ? 'has-error' : '');?>" id="data_3">
                                             <label class="control-label col-lg-2">Phone</label>
                                             <div class="col-lg-4">
-<!--                                                <input class="form-control" type="text" name="phone" id="phone" placeholder="phone home" value="--><?php //echo(isset($crnt_agy_usr) ? $crnt_agy_usr->phone_home : set_value('phone'));?><!--" required/>-->
                                                 <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Phone home" name="phone" id="phone" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->phone_home : set_value('phone'));?>">
                                                 <span class="help-block">(999) 999-9999</span>
                                                 <?php echo form_error('phone', '<div class="help-block">', '</div>'); ?>
@@ -265,7 +264,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             </div>
 
 
-                                            <label class="control-label col-lg-2">Profile</label>
+                                            <label class="control-label col-lg-2 required">Profile</label>
                                             <div class="col-lg-4 <?php echo(form_error('profile') != '' ? 'has-error' : '');?>">
                                                 <select class="form-control" name="profile" required="" <?php set_select('profile');?> required="">
                                                     <option value="" selected disabled>Select</option>
@@ -291,7 +290,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-lg-2">Discipline</label>
+                                            <label class="control-label col-lg-2 required">Discipline</label>
                                             <div class="col-lg-4 <?php echo(form_error('discipline') != '' ? 'has-error' : '');?>">
                                                 <select class="form-control" name="discipline" required="" <?php set_select('discipline');?> required="">
 
@@ -313,7 +312,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 <?php echo form_error('discipline', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
-                                            <label class="control-label col-lg-2">Employee type</label>
+                                            <label class="control-label col-lg-2 required">Employee type</label>
                                             <div class="col-lg-4 <?php echo(form_error('employee_type') != '' ? 'has-error' : '');?>">
                                                 <select class="form-control" name="employee_type" required="" <?php set_select('employee_type');?> required="">
                                                     <option value="" selected disabled>Select</option>
