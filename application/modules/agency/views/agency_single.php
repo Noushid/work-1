@@ -96,11 +96,6 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 </div>
                             </div>
                             <div class="ibox-content">
-                                <div class="ibox">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                        Add new user to Agency
-                                    </button>
-                                </div>
                                 <table class="table table-striped table-bordered table-hover dataTables-single-agency-user">
                                     <thead>
                                     <tr>

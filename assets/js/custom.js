@@ -6,12 +6,13 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
-        dom: '<"html5buttons"B>lTfgitp',
+        //dom: '<"html5buttons"B>lTfgitp',
+        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
         buttons: [
-//                { extend: 'copy'},
-            {extend: 'csv'},
-//                {extend: 'excel', title: 'ExampleFile'},
-//                {extend: 'pdf', title: 'ExampleFile'},
+                { extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'ExampleFile'},
+                {extend: 'pdf', title: 'ExampleFile'},
 
             {
                 extend: 'print',
@@ -55,7 +56,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add a new Agency</button></div>');
+            $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add new user to Agency</button></div>');
         }
     });
 
@@ -63,7 +64,7 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
-        dom: '<"html5buttons"B>lTfgitp',
+        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
         buttons: [
             {extend: 'copy'},
             {extend: 'csv'},
@@ -81,8 +82,10 @@ $(document).ready(function () {
                         .css('font-size', 'inherit');
                 }
             }
-        ]
-
-    })
+        ],
+        "fnInitComplete": function (oSettings, json) {
+            $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add a new Agency</button></div>');
+        }
+    });
 
 });
