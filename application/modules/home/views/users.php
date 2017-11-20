@@ -62,7 +62,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                             <div class="modal-content animated fadeIn">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                                    <h4 class="modal-title">Create User</h4>
+                                    <?php echo(isset($current_user) ? '<h4 class="modal-title">Edit User</h4>' : '<h4 class="modal-title">Create User</h4>');?>
                                 </div>
                                 <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
                                     <div class="modal-body">
@@ -94,7 +94,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             <label class="control-label col-lg-2">Phone</label>
                                             <div class="col-lg-8">
 <!--                                                <input class="form-control" type="text" name="phone" placeholder="Phone Number" value="--><?php //echo (isset($current_user) ? $current_user->phone_home : set_value('phone'));?><!--"/>-->
-                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Phone Number" name="phone" value="<?php echo (isset($current_user) ? $current_user->phone_home : set_value('phone'));?>" required=""/>
+                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Phone Number" name="phone" value="<?php echo (isset($current_user) ? $current_user->phone_home : set_value('phone'));?>"/>
                                                 <span class="help-block">(999) 999-9999</span>
                                                 <?php echo form_error('phone', '<div class="">', '</div>'); ?>
                                             </div>
@@ -148,7 +148,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 
                                                 <div class="col-lg-8">
                                                     <input type="checkbox" name="reset_password" value="1"/>
-                                                    <div class="help-block">If Tick Password changed to "password"</div>
+                                                    <div class="help-block">Password changed to "password"</div>
                                                 </div>
                                             </div>
                                         <?php

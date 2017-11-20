@@ -17,7 +17,7 @@ class Home extends CI_Controller {
         {
             // Allow some methods?
             $allowed = array(
-                'test'
+                'test',
             );
             if ( ! in_array($this->router->fetch_method(), $allowed))
             {
