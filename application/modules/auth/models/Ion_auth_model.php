@@ -294,7 +294,9 @@ class Ion_auth_model extends CI_Model
 	 **/
 	public function hash_xx_password_db($id, $xx_password, $use_sha1_override=FALSE)
 	{
-		if (empty($id) || empty($xx_password))
+//		if (empty($id) || empty($xx_password))
+        /*Changed for id == '0' */
+		if (!isset($id) || empty($xx_password))
 		{
 			return FALSE;
 		}
@@ -980,6 +982,7 @@ class Ion_auth_model extends CI_Model
 		    			  ->order_by('user_id', 'desc')
 		                  ->get($this->tables['users']);
 
+
 		if($this->is_max_login_attempts_exceeded($identity))
 		{
 			// Hash something anyway, just to take up time
@@ -995,9 +998,9 @@ class Ion_auth_model extends CI_Model
 		{
 			$user = $query->row();
 
-			$xx_password = $this->hash_xx_password_db($user->user_id, $xx_password);
+            $xx_password = $this->hash_xx_password_db($user->user_id, $xx_password);
 
-			if ($xx_password === TRUE)
+            if ($xx_password === TRUE)
 			{
 				if ($user->active == 0)
 				{

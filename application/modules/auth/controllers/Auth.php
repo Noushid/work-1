@@ -101,8 +101,9 @@ class Auth extends CI_Controller {
                         $data['email'] = $email;
                         $data['phone'] = $this->input->post('phone');
                         if ($this->input->post('reset_password') != null) {
-                            $data['password'] = 'password';
+                            $data['xx_password'] = 'password';
                         }
+
                         if ($this->ion_auth->update($param2, $data)) {
                             if ($this->ion_auth->remove_from_group(NULL, $param2)) {
                                 $group_id = [];
@@ -189,6 +190,10 @@ class Auth extends CI_Controller {
                     /*
                      *  IF user exists in only one agency,
                      * */
+                    if (!$user_agency) {
+                        $this->session->set_flashdata('message', ' <p class="alert alert-danger">You haven\'t any agency</p>');
+                        redirect('login', 'refresh');
+                    }
                     $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
                     $this->session->set_userdata('group_id', $user_group->group->id);
                     $this->session->set_userdata('group_name', $user_group->group->name);

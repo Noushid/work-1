@@ -64,7 +64,7 @@ class Migration_Add_column_us1_users extends CI_Migration
                 'type'       => 'TINYINT',
                 'constraint' => '1',
                 'unsigned'   => TRUE,
-                'null'       => TRUE
+                'default'       => 1
             )
         ]);
     }

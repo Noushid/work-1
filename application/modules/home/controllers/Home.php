@@ -300,9 +300,6 @@ class Home extends CI_Controller {
         $this->load->view('template', $data);
     }
 
-    public function test()
-    {
-    }
 
     public function group($param1="",$param2="")
     {
