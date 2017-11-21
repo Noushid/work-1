@@ -119,10 +119,16 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         </div>
 
                                     </div>
+
+
+                                        <?php
+                                        echo validation_errors();
+                                        ?>
                                     <div class="modal-footer">
                                         <a href="<?php echo site_url('agency')?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
+
                                 </form>
                             </div>
                         </div>

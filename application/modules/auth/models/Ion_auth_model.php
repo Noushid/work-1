@@ -2029,7 +2029,7 @@ class Ion_auth_model extends CI_Model
 		}
 
 		// restrict change of name of the admin group
-        $group = $this->db->get_where($this->tables['groups'], array('user_id' => $group_id))->row();
+        $group = $this->db->get_where($this->tables['groups'], array('id' => $group_id))->row();
         if($this->config->item('admin_group', 'ion_auth') === $group->name && $group_name !== $group->name)
         {
             $this->set_error('group_name_admin_not_alter');
@@ -2047,7 +2047,7 @@ class Ion_auth_model extends CI_Model
 		if (!empty($additional_data)) $data = array_merge($this->_filter_data($this->tables['groups'], $additional_data), $data);
 
 
-		$this->db->update($this->tables['groups'], $data, array('user_id' => $group_id));
+		$this->db->update($this->tables['groups'], $data, array('id' => $group_id));
 
 		$this->set_message('group_update_successful');
 

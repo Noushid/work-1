@@ -32,22 +32,8 @@ if (isset($modal_opened) and $modal_opened == true) {
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>Group List</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
                 </div>
                 <div class="ibox-content">
-                    <div class="">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">
-                            Add New Group
-                        </button>
-                    </div>
-
                     <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content animated fadeIn">
@@ -87,7 +73,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                         </div>
                     </div>
-                    <table class="table table-striped table-bordered table-hover dataTables-example">
+                    <table class="table table-striped table-bordered table-hover dataTables-group">
                         <thead>
                         <tr>
                             <th>#</th>
