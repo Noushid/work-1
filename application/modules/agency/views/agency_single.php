@@ -82,7 +82,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                     <div id="tab-3" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'tab-3') ? 'active' : '');?>">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Agency List</h5>
+                                <h5>Agency user List</h5>
                                 <div class="ibox-tools">
 <!--                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">-->
 <!--                                        Add new user to Agency-->

@@ -235,10 +235,14 @@ class Agency extends CI_Controller {
                     $form_data['user_email'] = $this->input->post('email');
                     $form_data['phone_home'] = $phone;
                     $form_data['creation_datetime'] = date('Y-m-d h:i:s', time());
+                    $form_data['xx_password'] = '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36';
+                    $form_data['active'] = 1;
                     $user_id = $this->us1_user->insert($form_data);
                     unset($form_data['creation_datetime']);
                     if ($user_id) {
                         unset($form_data['first_name']);
+                        unset($form_data['xx_password']);
+                        unset($form_data['active']);
                         $form_data['first_name'] = $this->input->post('first_name');
                         $form_data['user_id'] = $user_id;
                         $form_data['date_birth'] = $this->input->post('dob');

@@ -100,6 +100,7 @@ class Auth extends CI_Controller {
                         $data['last_name'] = $this->input->post('last_name');
                         $data['email'] = $email;
                         $data['phone'] = $this->input->post('phone');
+                        $data['active'] = 1;
                         if ($this->input->post('reset_password') != null) {
                             $data['xx_password'] = 'password';
                         }
