@@ -63,12 +63,12 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <div class="form-group ">
                                             <label class="control-label col-lg-2 required">Name</label>
                                             <div class="col-lg-4 <?php echo(form_error('agency_name') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="agency_name" placeholder="Agency Name" value="<?php echo(isset($current_agency) ? $current_agency->agency_name : set_value('agency_name'));?>" required=""/>
-                                                <?php echo form_error('name', '<div class="help-block">', '</div>'); ?>
+                                                <input class="form-control" type="text" name="agency_name" placeholder="Agency Name" value="<?php echo(isset($current_agency) ? $current_agency->agency_name : set_value('agency_name'));?>" /><!--required=""/>-->
+<!--                                                --><?php //echo form_error('agency_name', '<div class="help-block">', '</div>'); ?>
                                             </div>
                                             <label class="control-label col-lg-2 required">Type</label>
                                             <div class="col-lg-4 <?php echo(form_error('agency_type') != '' ? 'has-error' : '');?>">
-                                                <select name="agency_type" class="form-control" <?php echo set_select('agency_type');?> required="">
+                                                <select name="agency_type" class="form-control" <?php echo set_select('agency_type');?> ><!--required="">-->
                                                     <option value="" selected disabled>Select</option>
                                                     <option value="A" <?php echo((isset($current_agency) && $current_agency->agency_type == 'A') ? 'selected' : '');
                                                     echo set_select('agency_type', 'A');?>>
@@ -83,13 +83,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                         Doctor office
                                                     </option>
                                                 </select>
-                                                <?php echo form_error('agency_type', '<div class="">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('agency_type', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label class="control-label col-lg-2 required">Status</label>
                                             <div class="col-lg-4 <?php echo(form_error('agency_status') != '' ? 'has-error' : '');?>">
-                                                <select name="agency_status" class="form-control" <?php echo set_select('agency_status');?> required="">
+                                                <select name="agency_status" class="form-control" <?php echo set_select('agency_status');?> ><!--required="">-->
                                                     <option value="" selected disabled>Select</option>
                                                     <option value="Act" <?php echo((isset($current_agency) && $current_agency->agency_status == 'Act') ? 'selected' : '');
                                                     echo set_select('agency_status', 'Act');?>>Active</option>
@@ -98,13 +98,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     <option value="SA" <?php echo((isset($current_agency) && $current_agency->agency_status == 'SA') ? 'selected' : '');
                                                     echo set_select('agency_status', 'SA');?>>Stand alone</option>
                                                 </select>
-                                                <?php echo form_error('agency_status', '<div class="">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('agency_status', '<div class="">', '</div>'); ?>
                                             </div>
 
                                             <label class="control-label col-lg-2 required">Contact Name</label>
                                             <div class="col-lg-4  <?php echo(form_error('contact_name') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="contact_name" placeholder="Contact Name" value="<?php echo (isset($current_agency) ? $current_agency->contact_name: set_value('contact_name'));?>" required=""/>
-                                                <?php echo form_error('contact_name', '<div class="">', '</div>'); ?>
+                                                <input class="form-control" type="text" name="contact_name" placeholder="Contact Name" value="<?php echo (isset($current_agency) ? $current_agency->contact_name: set_value('contact_name'));?>" /><!--required=""/>-->
+<!--                                                --><?php //echo form_error('contact_name', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
 
@@ -112,18 +112,23 @@ if (isset($modal_opened) and $modal_opened == true) {
 
                                             <label class="control-label col-lg-2 required">Contact Phone</label>
                                             <div class="col-lg-4  <?php echo(form_error('contact_phone') != '' ? 'has-error' : '');?>">
-                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Contact Phone Number" name="contact_phone" value="<?php echo (isset($current_agency) ? $current_agency->contact_phone: set_value('contact_phone'));?>" required=""/>
+                                                <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Contact Phone Number" name="contact_phone" value="<?php echo (isset($current_agency) ? $current_agency->contact_phone: set_value('contact_phone'));?>" id="phone" /> <!--required="" />-->
                                                 <span class="help-block">(999) 999-9999</span>
-                                                <?php echo form_error('contact_phone', '<div class="">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('contact_phone', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
-
-                                    </div>
-
-
                                         <?php
-                                        echo validation_errors();
+                                        if(validation_errors() != '') {
+                                            ?>
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    <?php echo validation_errors('<li>', '</li>') ?>
+                                                </ul>
+                                            </div>
+                                        <?php
+                                        }
                                         ?>
+                                    </div>
                                     <div class="modal-footer">
                                         <a href="<?php echo site_url('agency')?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
@@ -185,3 +190,16 @@ if (isset($modal_opened) and $modal_opened == true) {
         </div>
     </div>
 </div>
+<script>
+    $('#phone').inputmask({
+        mask: '?(999) 999-9999',
+        autoclear: true
+    });
+    $('#phone').change(function () {
+        if($(this).val().length < 14) {
+            $('#data_phone').addClass('has-error');
+        }else{
+            $('#data_phone').removeClass('has-error');
+        }
+    });
+</script>

@@ -96,53 +96,55 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 </div>
                             </div>
                             <div class="ibox-content">
-                                <table class="table table-striped table-bordered table-hover dataTables-single-agency-user">
-                                    <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Id</th>
-                                        <th>last Name</th>
-                                        <th>First Name</th>
-                                        <th>Status</th>
-                                        <th>Profile</th>
-                                        <th>Discipline</th>
-                                        <th>Phone</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    if (isset($agency->user_agency) and $agency->user_agency != FALSE) {
-                                        $i = 1;
-                                        foreach ($agency->user_agency as $user_agency) {
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $i; ?></td>
-                                                <td><?php echo $user_agency->us_agy_id; ?></td>
-                                                <td><?php echo($user_agency->users != FALSE ? $user_agency->users->last_name : ''); ?></td>
-                                                <td><?php echo($user_agency->users != FALSE ? $user_agency->users->first_name : ''); ?></td>
-                                                <td><?php echo $user_agency->tab_021_user_status->tab_description; ?></td>
-                                                <td><?php echo $user_agency->profile->profile_name; ?></td>
-                                                <td><?php echo $user_agency->discipline->description; ?></td>
-                                                <td><?php echo($user_agency->users != FALSE ? $user_agency->users->phone_home : ''); ?></td>
-                                                <td class="center">
-                                                    <div  class="btn-group btn-group-xs" role="group">
-                                                        <a class="btn btn-info" href="<?php echo current_url() . '/edit/' . $user_agency->us_agy_id;?>">
-                                                            <i class="fa fa-pencil"></i>
-                                                        </a>
-                                                        <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo current_url() . '/delete/' . $user_agency->us_agy_id;?>">
-                                                            <i class="fa fa-trash-o"></i>
-                                                        </a>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                            <?php
-                                            $i++;
+                                <div class="table table-responsive">
+                                    <table class="table table-striped table-bordered table-hover dataTables-single-agency-user">
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Id</th>
+                                            <th>last Name</th>
+                                            <th>First Name</th>
+                                            <th>Status</th>
+                                            <th>Profile</th>
+                                            <th>Discipline</th>
+                                            <th>Phone</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        if (isset($agency->user_agency) and $agency->user_agency != FALSE) {
+                                            $i = 1;
+                                            foreach ($agency->user_agency as $user_agency) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $i; ?></td>
+                                                    <td><?php echo $user_agency->us_agy_id; ?></td>
+                                                    <td><?php echo($user_agency->users != FALSE ? $user_agency->users->last_name : ''); ?></td>
+                                                    <td><?php echo($user_agency->users != FALSE ? $user_agency->users->first_name : ''); ?></td>
+                                                    <td><?php echo $user_agency->tab_021_user_status->tab_description; ?></td>
+                                                    <td><?php echo $user_agency->profile->profile_name; ?></td>
+                                                    <td><?php echo $user_agency->discipline->description; ?></td>
+                                                    <td><?php echo($user_agency->users != FALSE ? $user_agency->users->phone_home : ''); ?></td>
+                                                    <td class="center">
+                                                        <div  class="btn-group btn-group-xs" role="group">
+                                                            <a class="btn btn-info" href="<?php echo current_url() . '/edit/' . $user_agency->us_agy_id;?>">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                            <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo current_url() . '/delete/' . $user_agency->us_agy_id;?>">
+                                                                <i class="fa fa-trash-o"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <?php
+                                                $i++;
+                                            }
                                         }
-                                    }
-                                    ?>
-                                    </tbody>
-                                </table>
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -187,13 +189,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             <label class="control-label col-lg-2 required">First Name</label>
                                             <div class="col-lg-4">
                                                 <input class="form-control" type="text" name="first_name" id="first_name" placeholder="First Name" value="<?php echo(isset($crnt_agy_usr) ? $crnt_agy_usr->first_name : set_value('first_name'));?>" required/>
-                                                <?php echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
                                             <label class="control-label col-lg-2">Last Name</label>
                                             <div class="col-lg-4">
                                                 <input class="form-control" type="text" name="last_name" id="last_name" placeholder="Last Name" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->last_name: set_value('last_name'));?>"/>
-                                                <?php echo form_error('last_name', '<div class="">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('last_name', '<div class="">', '</div>'); ?>
                                             </div>
                                         </div>
 
@@ -202,32 +204,27 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             <label class="control-label col-lg-2">Middle Name</label>
                                             <div class="col-lg-4">
                                                 <input class="form-control" type="text" name="middle_name" id="middle_name" placeholder="Middle name" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->middle_initial: set_value('middle_initial'));?>"/>
-                                                <?php echo form_error('middle_name', '<div class="">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('middle_name', '<div class="">', '</div>'); ?>
                                             </div>
 
-                                            <label class="control-label col-lg-2">Email</label>
+                                            <label class="control-label col-lg-2 required">Email</label>
                                             <div class="col-lg-4 <?php echo(form_error('email') != '' ? 'has-error' : '');?>">
                                                 <input class="form-control" type="email" name="email" id="email" placeholder="Email" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->user_email: set_value('email'));?>" <?php echo (isset($crnt_agy_usr) ? 'disabled': '');?>/>
-                                                <?php echo form_error('email', '<div class="">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('email', '<div class="">', '</div>'); ?>
                                             </div>
 
                                         </div>
 
-                                        <div class="form-group <?php echo(form_error('phone') != '' ? 'has-error' : '');?>" id="data_3">
+                                        <div class="form-group " id="data_3">
                                             <label class="control-label col-lg-2">Phone</label>
-                                            <div class="col-lg-4">
+                                            <div class="col-lg-4 <?php echo(form_error('phone') != '' ? 'has-error' : '');?>" id="data_phone">
                                                 <input type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Phone home" name="phone" id="phone" value="<?php echo (isset($crnt_agy_usr) ? $crnt_agy_usr->phone_home : set_value('phone'));?>">
                                                 <span class="help-block">(999) 999-9999</span>
-                                                <?php echo form_error('phone', '<div class="help-block">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('phone', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
-<!--                                            <label class="control-label col-lg-2">Date Of Birth</label>-->
-<!--                                            <div class="col-lg-4">-->
-<!--                                                <input class="form-control" type="text" name="dob" id="dob" placeholder="Date Of Birth" value="--><?php //echo (isset($crnt_agy_usr) ? $crnt_agy_usr->date_birth: set_value('dob'));?><!--"/>-->
-<!--                                                --><?php //echo form_error('dob', '<div class="">', '</div>'); ?>
-<!--                                            </div>-->
-                                            <label class="font-noraml col-lg-2">Date of birth</label>
-                                            <div class="col-lg-4">
+                                            <label class="control-label col-lg-2">Date of birth</label>
+                                            <div class="col-lg-4 <?php echo(form_error('dob') != '' ? 'has-error' : '');?>">
                                                 <div class="input-group date">
                                                     <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
                                                     <input type="text" class="form-control" value="<?php echo(isset($crnt_agy_usr)) ? date('m-d-Y',strtotime($crnt_agy_usr->date_birth)) : ((set_value('dob') != "") ? set_value('dob') : '01-01-1990');?>" name="dob" id="dob" >
@@ -255,7 +252,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     }
                                                     ?>
                                                 </select>
-                                                <?php echo form_error('status', '<div class="help-block">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('status', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
 
@@ -278,7 +275,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     }
                                                     ?>
                                                 </select>
-                                                <?php echo form_error('profile', '<div class="help-block">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('profile', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
 
@@ -304,7 +301,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     }
                                                     ?>
                                                 </select>
-                                                <?php echo form_error('discipline', '<div class="help-block">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('discipline', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
                                             <label class="control-label col-lg-2 required">Employee type</label>
@@ -324,9 +321,20 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     }
                                                     ?>
                                                 </select>
-                                                <?php echo form_error('employee_type', '<div class="help-block">', '</div>'); ?>
+<!--                                                --><?php //echo form_error('employee_type', '<div class="help-block">', '</div>'); ?>
                                             </div>
                                         </div>
+                                        <?php
+                                        if(validation_errors() != '') {
+                                            ?>
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    <?php echo validation_errors('<li>', '</li>') ?>
+                                                </ul>
+                                            </div>
+                                        <?php
+                                        }
+                                        ?>
                                     </div>
                                     <div class="modal-footer">
 
@@ -337,40 +345,12 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
-
         </div>
     </div>
 </div>
 <script>
-    function getUser(e) {
-        if (e.value == "") {
-//            $('#first_name').val("").prop('disabled', false);
-            $('#first_name').val("");
-            $('#last_name').val("");
-            $('#middle_name').val("");
-            $('#email').val("");
-            $('#phone').val("");
-            $('#dob').val("");
-        }else{
-            $.get('get-user/' + e.value)
-                .done(function (response) {
-                    $('#first_name').val(response.first_name);
-                    $('#last_name').val(response.last_name);
-                    $('#middle_name').val(response.middle_name);
-                    $('#email').val(response.user_email);
-                    $('#phone').val(response.phone_home);
-                    $('#dob').val(response.birth_date);
-                })
-                .fail(function () {
-                    console.log("error");
-                });
-        }
-    }
 
     $('#data_3 .input-group.date').datepicker({
         startView: 2,
@@ -379,4 +359,16 @@ if (isset($modal_opened) and $modal_opened == true) {
         forceParse: false,
         autoclose: true
     });
+    $('#phone').inputmask({
+        mask: '?(999) 999-9999',
+        autoclear: true
+    });
+    $('#phone').change(function () {
+        if($(this).val().length < 14) {
+            $('#data_phone').addClass('has-error');
+        }else{
+            $('#data_phone').removeClass('has-error');
+        }
+    });
+
 </script>

@@ -181,6 +181,11 @@ class Agency extends CI_Controller {
              * validation
              * */
             $this->form_validation->set_rules('first_name', 'First name', 'required');
+            $this->form_validation->set_rules('status', 'Status', 'required');
+            $this->form_validation->set_rules('profile', 'Profile', 'required');
+            $this->form_validation->set_rules('discipline', 'Discipline', 'required');
+            $this->form_validation->set_rules('employee_type', 'Employee Type', 'required');
+            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
             if ($param2 != 'edit') {
                 $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
             }
