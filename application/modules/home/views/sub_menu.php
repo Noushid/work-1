@@ -35,31 +35,8 @@ if (isset($modal_opened) and $modal_opened == true) {
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
                     <h5>List All Sub Menu</h5>
-                    <div class="ibox-tools">
-                        <a class="collapse-link">
-                            <i class="fa fa-chevron-up"></i>
-                        </a>
-                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="fa fa-wrench"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-user">
-                            <li><a href="#">Config option 1</a>
-                            </li>
-                            <li><a href="#">Config option 2</a>
-                            </li>
-                        </ul>
-                        <a class="close-link">
-                            <i class="fa fa-times"></i>
-                        </a>
-                    </div>
                 </div>
                 <div class="ibox-content">
-                    <div class="">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">
-                            Add a new Menu
-                        </button>
-                    </div>
-
                     <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content animated fadeIn">
@@ -129,7 +106,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                         </div>
                     </div>
                     <div class="table table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example table-responsive">
+                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-sub-menu">
                             <thead>
                             <tr>
                                 <th>#</th>

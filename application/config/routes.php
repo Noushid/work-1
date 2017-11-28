@@ -94,8 +94,12 @@ $route['agency/get-user/(:num)'] = "agency/get_user/$1";
 
 $route['user-list'] = "user";
 
-
 $route['login/submit-agency'] = "auth/select_agency";
+
+
+$route['x-profile'] = "profile/index";
+$route['x-profile/(edit)/(:num)'] = "profile/index/$1/$2";
+$route['x-profile/(delete)/(:num)'] = "profile/index/$1/$2";
 
 
 

@@ -29,6 +29,7 @@ $(document).ready(function () {
 
     });
 
+     /********Data table for agency**/
 
     $('.dataTables-agency').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
@@ -60,6 +61,9 @@ $(document).ready(function () {
         }
     });
 
+
+
+    /********Data table for user agency**/
     $('.dataTables-single-agency-user').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
@@ -88,6 +92,8 @@ $(document).ready(function () {
         }
     });
 
+
+    /********Data table for group**/
     $('.dataTables-group').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
@@ -115,6 +121,98 @@ $(document).ready(function () {
         ],
         "fnInitComplete": function(oSettings, json) {
             $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Add New Group</button></div>');
+        }
+    });
+
+
+    /********Data table for x-profile**/
+    $('.dataTables-x-profile').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        //dom: '<"html5buttons"B>lTfgitp',lfrtip
+        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
+        buttons: [
+            {extend: 'copy'},
+            {extend: 'copy'},
+            {extend: 'csv'},
+            {extend: 'excel', title: 'X-Profile'},
+            {extend: 'pdf', title: 'X-Profile'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        "fnInitComplete": function(oSettings, json) {
+            $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ProfileModel">Add a new profile</button></div>');
+        }
+    });
+
+    /********Data table for Menu**/
+    $('.dataTables-menu').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
+        buttons: [
+            {extend: 'copy'},
+            {extend: 'copy'},
+            {extend: 'csv'},
+            {extend: 'excel', title: 'Menu'},
+            {extend: 'pdf', title: 'Menu'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        "fnInitComplete": function(oSettings, json) {
+            $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Add a new Menu</button></div>');
+        }
+    });
+
+    /********Data table for Menu**/
+    $('.dataTables-sub-menu').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
+        buttons: [
+            {extend: 'copy'},
+            {extend: 'copy'},
+            {extend: 'csv'},
+            {extend: 'excel', title: 'SubMenu'},
+            {extend: 'pdf', title: 'SubMenu'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        "fnInitComplete": function(oSettings, json) {
+            $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Add a new sub Menu</button></div>');
         }
     });
 
