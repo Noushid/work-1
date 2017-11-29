@@ -10,6 +10,8 @@ class Home extends CI_Controller {
         $this->load->model('home/Sub_menu_model', 'sub_menu');
         $this->load->model('home/Group_menu_model', 'group_menu');
         $this->load->model('home/Group_model', 'group');
+        $this->load->model('agency/User_agency_model', 'user_agency');
+        $this->load->model('home/User_group_model', 'user_group');
 
         $this->load->library(['ion_auth']);
 
@@ -368,6 +370,21 @@ class Home extends CI_Controller {
     }
 
 
+    public function user_group()
+    {
+        $user_agy = $this->user_agency->get_all();
+        foreach ($user_agy as $user) {
+            $data = [];
+            $data['user_id'] = $user->user_id;
+            $data['group_id'] = $user->profile_id;
+            $data['us_agy_id'] = $user->us_agy_id;
+            if ($this->user_group->where('us_agy_id', $user->us_agy_id)->count_rows() == 0) {
+                $this->user_group->insert($data);
+            }
+        }
+
+    }
+
     public function test1()
     {
         $array = [
@@ -403,7 +420,6 @@ class Home extends CI_Controller {
                 'updated_at' => null
             ]
         ];
-
 
     }
 }

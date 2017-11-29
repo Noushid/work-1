@@ -102,6 +102,9 @@ $route['x-profile/(edit)/(:num)'] = "profile/index/$1/$2";
 $route['x-profile/(delete)/(:num)'] = "profile/index/$1/$2";
 
 
+$route['create-user-group'] = "home/user_group";
+
+
 
 
 //$route['(:any)'] = "home/test/$1";

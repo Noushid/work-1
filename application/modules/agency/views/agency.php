@@ -170,7 +170,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $agency->agency_id);?>">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo site_url('agency/delete/' . $agency->agency_id);?>">
+                                                <a class="btn btn-danger" onclick="return alertConfirm(this);" href="<?php echo site_url('agency/delete/' . $agency->agency_id);?>">
                                                     <i class="fa fa-trash-o"></i>
                                                 </a>
                                             </div>

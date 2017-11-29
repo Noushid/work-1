@@ -33,6 +33,9 @@
     <!--Date Picker-->
     <link href="<?php echo asset('css/plugins/datapicker/datepicker3.css');?>" rel="stylesheet">
 
+    <!-- Sweet Alert -->
+    <link href="<?php echo asset('css/plugins/sweetalert/sweetalert.css');?>" rel="stylesheet">
+
     <!-- Mainly scripts -->
     <script src="<?php echo asset('js/jquery-3.1.1.min.js');?>"></script>
     <script src="<?php echo asset('js/bootstrap.min.js');?>"></script>
@@ -71,6 +74,9 @@
     <!-- Data picker -->
     <script src="<?php echo asset('js/plugins/datapicker/bootstrap-datepicker.js');?>"></script>
 
+    <!-- Sweet alert -->
+    <script src="<?php echo asset('js/plugins/sweetalert/sweetalert.min.js');?>"></script>
+
     <!-- Custom -->
     <script src="<?php echo asset('js/custom.js');?>"></script>
 
@@ -101,6 +107,9 @@
         <?php
         }
         ?>
+
+
+
     </script>
 
 
@@ -245,6 +254,23 @@
             <?php $this->load->view($page); ?>
             <!--Content End -->
         </div>
+
+        <!--Confirmation modal start -->
+        <div class="modal fade" id="delConfirm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h3>Do you want to delete this?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <a href="#" id="delConfirmBtn" class="btn btn-danger"><i class="icon-trash"></i> Delete</a>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!--Confirmation modal start -->
+
         <div class="footer fixed">
             <div class="footer-group">
                 <div class="pull-right">10GB of <strong>250GB</strong> Free.</div>

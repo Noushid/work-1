@@ -217,3 +217,9 @@ $(document).ready(function () {
     });
 
 });
+
+function alertConfirm(e) {
+    $("#delConfirmBtn").attr("href", $(e).attr("href"));
+    $("#delConfirm").modal('toggle');
+    return false;
+}
