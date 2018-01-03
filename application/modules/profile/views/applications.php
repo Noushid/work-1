@@ -1,23 +1,18 @@
-<?php
-if (isset($modal_opened) and $modal_opened == true) {
-    ?>
-    <script type="text/javascript">
-        $(window).on('load', function () {
-            $('#ProfileModel').modal('show');
-        });
-    </script>
-<?php
-}
-?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Profile</h2>
+        <h2>Group List</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
             </li>
+            <li>
+                <a href="<?php echo site_url('x-profile');?>">x-profile</a>
+            </li>
+            <li>
+                <a href="<?php echo site_url('x-profile/' . $profile_group_id);?>">group</a>
+            </li>
             <li class="active">
-                <strong>x-profile</strong>
+                <strong>application</strong>
             </li>
         </ol>
     </div>
@@ -28,15 +23,7 @@ if (isset($modal_opened) and $modal_opened == true) {
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Profile List</h5>
-<!--                    <div class="ibox-tools">-->
-<!--                        <a class="collapse-link">-->
-<!--                            <i class="fa fa-chevron-up"></i>-->
-<!--                        </a>-->
-<!--                        <a class="close-link">-->
-<!--                            <i class="fa fa-times"></i>-->
-<!--                        </a>-->
-<!--                    </div>-->
+                    <h5>Application List</h5>
                 </div>
                 <div class="ibox-content">
                     <div class="modal inmodal" id="ProfileModel" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -144,49 +131,26 @@ if (isset($modal_opened) and $modal_opened == true) {
                     </div>
                     <div class="table-responsive">
 
-                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-x-profile ">
+                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-x-application ">
                             <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Profile Id</th>
-                                <th>Profile Name</th>
-                                <th>Profile Desc</th>
-                                <th>Show Manager</th>
-                                <th>Show Independ</th>
-                                <th>Profile agency</th>
-                                <th>Profile contractor</th>
+                                <th>Id</th>
+                                <th>Application name</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
-                            if (isset($profiles) and $profiles != FALSE) {
+                            if (isset($applications) and $applications != FALSE) {
                                 $i = 1;
-                                foreach ($profiles as $profile) {
+                                foreach ($applications as $application) {
                                     ?>
                                     <tr>
                                         <td><?php echo $i; ?></td>
-                                        <td><?php echo $profile->profile_id; ?></td>
-                                        <td><?php echo $profile->profile_name; ?></td>
-                                        <td><?php echo $profile->profile_desc; ?></td>
-                                        <td><?php echo $profile->show_manager; ?></td>
-                                        <td><?php echo $profile->show_independ; ?></td>
-                                        <td><?php echo $profile->show_manager; ?></td>
-                                        <td><?php echo $profile->profile_contractor; ?></td>
-                                        <td class="center">
-                                            <div  class="btn-group btn-group-xs" role="group">
-                                                <a href="<?php echo site_url('x-profile/' . $profile->profile_id);?>" class="btn btn-primary btn-xs">menu</a>
-                                                <a class="btn btn-info" href="<?php echo site_url('x-profile/edit/' . $profile->profile_id);?>">
-                                                    <i class="fa fa-pencil"></i>
-                                                </a>
-<!--                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="--><?php //echo site_url('x-profile/delete/' . $profile->profile_id);?><!--">-->
-<!--                                                    <i class="fa fa-trash-o"></i>-->
-<!--                                                </a>-->
-
-                                            </div>
-                                        </td>
-
-                                        <td class="center"></td>
+                                        <td><?php echo $application->profile_group_applica_id; ?></td>
+                                        <td><?php echo $application->x_application->application_name; ?></td>
+                                        <td class="center"><a onclick="return alertConfirm(this);" href="<?php echo current_url() . '/delete/' . $application->profile_group_applica_id;?>" class="btn btn-danger btn-xs">delete</a></td>
                                     </tr>
                                     <?php
                                     $i++;

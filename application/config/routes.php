@@ -101,6 +101,10 @@ $route['x-profile'] = "profile/index";
 $route['x-profile/(edit)/(:num)'] = "profile/index/$1/$2";
 $route['x-profile/(delete)/(:num)'] = "profile/index/$1/$2";
 
+$route['x-profile/(:num)'] = "profile/menu/$1";
+$route['x-profile/(:num)/application/(:num)'] = "profile/application/$2";
+$route['x-profile/(:num)/application/(:num)/(delete)/(:num)'] = "profile/delete_application/$4";
+
 
 $route['create-user-group'] = "home/user_group";
 

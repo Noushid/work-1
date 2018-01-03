@@ -14,6 +14,9 @@ class Profile extends CI_Controller {
         parent::__construct();
 
         $this->load->model('agency/Profile_model', 'profile');
+        $this->load->model('X_Profile_Group_model', 'profile_group');
+        $this->load->model('X_profile_group_applic_model', 'profile_group_applica');
+        $this->load->model('application/X_application_model', 'x_application');
 
         $this->load->library(['ion_auth']);
         /*
@@ -120,6 +123,43 @@ class Profile extends CI_Controller {
         $this->load->view('home/template', $data);
     }
 
+
+    public function menu($profile_id)
+    {
+        $profile_group = $this->profile_group->with_x_group()->where('profile_id', $profile_id)->get_all();
+//        var_dump($profile_group);
+//        exit;
+        if ($profile_group) {
+            $data['profile_group'] = $profile_group;
+        }
+        $data['title'] = "x-profile";
+        $data['page'] = "profile_group";
+        $data['current'] = "x-profile";
+
+        $this->load->view('home/template', $data);
+    }
+
+    public function application($profile_group_id)
+    {
+        $applications = $this->profile_group_applica->with_x_application()->where('profile_group_id', $profile_group_id)->get_all();
+        if ($applications) {
+            $data['applications'] = $applications;
+        }
+        $data['title'] = "x-profile";
+        $data['profile_group_id'] = $profile_group_id;
+        $data['page'] = "applications";
+        $data['current'] = "application";
+
+        $this->load->view('home/template', $data);
+    }
+
+    public function delete_application($x_application_id)
+    {
+        $this->load->library('user_agent');
+        if ($this->profile_group_applica->delete($x_application_id)) {
+            redirect($this->agent->referrer(), 'refresh');
+        }
+    }
     public function test()
     {
         var_dump($this->user_agency->where('user_id' , 22)->get_all());
