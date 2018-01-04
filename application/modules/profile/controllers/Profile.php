@@ -17,6 +17,7 @@ class Profile extends CI_Controller {
         $this->load->model('X_Profile_Group_model', 'profile_group');
         $this->load->model('X_profile_group_applic_model', 'profile_group_applica');
         $this->load->model('application/X_application_model', 'x_application');
+        $this->load->model('X_group_model', 'x_group');
 
         $this->load->library(['ion_auth']);
         /*
@@ -124,29 +125,90 @@ class Profile extends CI_Controller {
     }
 
 
-    public function menu($profile_id)
+    public function menu($profile_id,$param="")
     {
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('group_name', 'Group Name', 'required');
+            if ($this->form_validation->run() == TRUE) {
+
+                /*Insert to X_group table*/
+                $group_data['group_name'] = $this->input->post('group_name');
+                $group_data['orientation'] = $this->input->post('orientation');
+                $group_id = $this->x_group->insert($group_data);
+
+                /*Insert to X_profile_group table*/
+                $profile_group_data['group_id'] = $group_id;
+                $profile_group_data['profile_id'] = $profile_id;
+                $this->profile_group->insert($profile_group_data);
+                redirect($this->agent->referrer(), 'refresh');
+            }else{
+                $data['modal_opened'] = true;
+            }
+            exit;
+        }
         $profile_group = $this->profile_group->with_x_group()->where('profile_id', $profile_id)->get_all();
-//        var_dump($profile_group);
-//        exit;
         if ($profile_group) {
             $data['profile_group'] = $profile_group;
         }
         $data['title'] = "x-profile";
         $data['page'] = "profile_group";
+        $data['profile_id'] = $profile_id;
         $data['current'] = "x-profile";
 
         $this->load->view('home/template', $data);
     }
 
-    public function application($profile_group_id)
+    public function profile_action($param="",$param1 = "", $param2="")
     {
+        if ($param1 == 'edit') {
+            $data['modal_opened'] = true;
+            $data['current_profile_group'] = $this->profile_group->where('profile_group_id', $param2)->with_x_group()->get();
+            if ($this->input->post()) {
+                $this->form_validation->set_rules('group_name', 'Group Name', 'required');
+                if ($this->form_validation->run() == TRUE) {
+                    $group_id = $data['current_profile_group']->group_id;
+                    $group_data['group_name'] = $this->input->post('group_name');
+                    $group_data['orientation'] = $this->input->post('orientation');
+                    if ($this->x_group->update($group_data, $group_id)) {
+                        redirect(site_url('x-profile/' . $param), 'refresh');
+                    }
+                }
+            }
+        }
+
+        $data['title'] = "x-profile";
+        $data['page'] = "profile_group";
+        $data['profile_id'] = $param;
+        $data['current'] = "x-profile";
+        $this->load->view('home/template', $data);
+    }
+
+    public function application($param="",$profile_group_id)
+    {
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('application_name', 'Application Name', 'required');
+            if ($this->form_validation->run() == TRUE) {
+                /*Insert to x_application*/
+                $application_data['application_name'] = $this->input->post('application_name');
+                $x_application_id = $this->x_application->insert($application_data);
+
+                /*Insert to x_profile_group_applica*/
+                $x_prfl_application_data['profile_group_id'] = $profile_group_id;
+                $x_prfl_application_data['application_id'] = $x_application_id;
+                $this->profile_group_applica->insert($x_prfl_application_data);
+
+                redirect($this->agent->referrer(), 'refresh');
+            }else{
+                $data['modal_opened'] = true;
+            }
+            exit;
+        }
         $applications = $this->profile_group_applica->with_x_application()->where('profile_group_id', $profile_group_id)->get_all();
         if ($applications) {
             $data['applications'] = $applications;
         }
         $data['title'] = "x-profile";
-        $data['profile_group_id'] = $profile_group_id;
+        $data['profile_id'] = $param;
         $data['page'] = "applications";
         $data['current'] = "application";
 
@@ -155,11 +217,22 @@ class Profile extends CI_Controller {
 
     public function delete_application($x_application_id)
     {
-        $this->load->library('user_agent');
         if ($this->profile_group_applica->delete($x_application_id)) {
             redirect($this->agent->referrer(), 'refresh');
         }
     }
+
+    /*
+     * To delete profile group data (from x_profile_group)
+     * */
+    public function delete_profile_group ($profile_group_id)
+    {
+        if ($this->profile_group->where('profile_group_id', $profile_group_id)->delete()) {
+            redirect($this->agent->referrer(), 'refresh');
+        }
+    }
+
+
     public function test()
     {
         var_dump($this->user_agency->where('user_id' , 22)->get_all());

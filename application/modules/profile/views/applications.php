@@ -9,7 +9,7 @@
                 <a href="<?php echo site_url('x-profile');?>">x-profile</a>
             </li>
             <li>
-                <a href="<?php echo site_url('x-profile/' . $profile_group_id);?>">group</a>
+                <a href="<?php echo site_url('x-profile/' . $profile_id);?>">group</a>
             </li>
             <li class="active">
                 <strong>application</strong>
@@ -26,11 +26,11 @@
                     <h5>Application List</h5>
                 </div>
                 <div class="ibox-content">
-                    <div class="modal inmodal" id="ProfileModel" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
+                    <div class="modal inmodal" id="applicationModal" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
                         <div class="modal-dialog  modal-lg">
                             <div class="modal-content animated fadeIn">
                                 <div class="modal-header">
-                                    <a href="<?php echo site_url('x-profile');?>" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+                                    <a href="<?php echo current_url();?>" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
                                     <?php
                                     if (isset($current_profile)) { ?>
                                         <h4 class="modal-title">Edit Profile</h4>
@@ -45,69 +45,14 @@
                                 <form action="<?php echo site_url(uri_string())?>" class="form-horizontal" method="post">
                                     <div class="modal-body">
                                         <div class="form-group ">
-                                            <label class="control-label col-lg-2 required">Profile Name</label>
-                                            <div class="col-lg-4 <?php echo(form_error('profile_name') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="profile_name" placeholder="Profile Name" value="<?php echo(isset($current_profile) ? $current_profile->profile_name : set_value('profile_name'));?>" /><!--required=""/>-->
-                                                <!--                                                --><?php //echo form_error('profile_name', '<div class="help-block">', '</div>'); ?>
+                                            <label class="control-label col-lg-3 required">Application Name</label>
+                                            <div class="col-lg-8 <?php echo(form_error('application_name') != '' ? 'has-error' : '');?>">
+                                                <input class="form-control" type="text" name="application_name" placeholder="Application Name" value="<?php echo(isset($current_profile) ? $current_profile->application_name : set_value('application_name'));?>" /><!--required=""/>-->
+<!--                                                    --><?php //echo form_error('application_name', '<div class="help-block">', '</div>'); ?>
                                             </div>
 
-                                            <label class="control-label col-lg-2 required">Profile Desc</label>
-                                            <div class="col-lg-4 <?php echo(form_error('profile_desc') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="profile_desc" placeholder="Profile Desc" value="<?php echo(isset($current_profile) ? $current_profile->profile_desc : set_value('profile_desc'));?>" /><!--required=""/>-->
-                                                <!--                                                --><?php //echo form_error('profile_desc', '<div class="help-block">', '</div>'); ?>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-2 required">Show Manager</label>
-                                            <div class="col-lg-4 <?php echo(form_error('show_manager') != '' ? 'has-error' : '');?>">
-                                                <select name="show_manager" class="form-control" <?php echo set_select('show_manager');?> ><!--required="">-->
-                                                    <option value="" selected disabled>Select</option>
-                                                    <option value="1" <?php echo((isset($current_profile) && $current_profile->show_manager == "1") ? 'selected' : '');
-                                                    echo set_select('show_manager', '1');?>>Yes</option>
-                                                    <option value="0" <?php echo((isset($current_profile) && $current_profile->show_manager == "0") ? 'selected' : '');
-                                                    echo set_select('show_manager', '0');?>>No</option>
-                                                </select>
-                                                <!--                                                --><?php //echo form_error('show_manager', '<div class="">', '</div>'); ?>
-                                            </div>
-
-                                            <label class="control-label col-lg-2 required">Show Independ</label>
-                                            <div class="col-lg-4 <?php echo(form_error('show_independ') != '' ? 'has-error' : '');?>">
-                                                <select name="show_independ" class="form-control" <?php echo set_select('show_independ');?> ><!--required="">-->
-                                                    <option value="" selected disabled>Select</option>
-                                                    <option value="1" <?php echo((isset($current_profile) && $current_profile->show_independ == "1") ? 'selected' : '');
-                                                    echo set_select('show_independ', '1');?>>Yes</option>
-                                                    <option value="0" <?php echo((isset($current_profile) && $current_profile->show_independ == "0") ? 'selected' : '');
-                                                    echo set_select('show_independ', '0');?>>No</option>
-                                                </select>
-                                                <!--                                                --><?php //echo form_error('show_independ', '<div class="">', '</div>'); ?>
-                                            </div>
                                         </div>
 
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-2 required">Profile Agency</label>
-                                            <div class="col-lg-4  <?php echo(form_error('profile_agency') != '' ? 'has-error' : '');?>">
-                                                <select name="profile_agency" class="form-control" <?php echo set_select('profile_agency');?> ><!--required="">-->
-                                                    <option value="" selected disabled>Select</option>
-                                                    <option value="1" <?php echo((isset($current_profile) && $current_profile->profile_agency == "1") ? 'selected' : '');
-                                                    echo set_select('profile_agency', '1');?>>Yes</option>
-                                                    <option value="0" <?php echo((isset($current_profile) && $current_profile->profile_agency == "0") ? 'selected' : '');
-                                                    echo set_select('profile_agency', '0');?>>No</option>
-                                                </select>
-                                                <!--                                                --><?php //echo form_error('profile_agency', '<div class="">', '</div>'); ?>
-                                            </div>
-
-                                            <label class="control-label col-lg-2 required">Profile Contractor</label>
-                                            <div class="col-lg-4  <?php echo(form_error('profile_contractor') != '' ? 'has-error' : '');?>">
-                                                <select name="profile_contractor" class="form-control" <?php echo set_select('profile_contractor');?> ><!--required="">-->
-                                                    <option value="" selected disabled>Select</option>
-                                                    <option value="1" <?php echo((isset($current_profile) && $current_profile->profile_contractor == "1") ? 'selected' : '');
-                                                    echo set_select('profile_contractor', '1');?>>Yes</option>
-                                                    <option value="0" <?php echo((isset($current_profile) && $current_profile->profile_contractor == "0") ? 'selected' : '');
-                                                    echo set_select('profile_contractor', '0');?>>No</option>
-                                                </select>
-                                                <!--                                                --><?php //echo form_error('profile_contractor', '<div class="">', '</div>'); ?>
-                                            </div>
-                                        </div>
                                         <?php
                                         if(validation_errors() != '') {
                                             ?>
@@ -121,7 +66,7 @@
                                         ?>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="<?php echo site_url('x-profile')?>" class="btn btn-white">Close</a>
+                                        <a href="<?php echo current_url()?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
 
@@ -131,7 +76,7 @@
                     </div>
                     <div class="table-responsive">
 
-                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-x-application ">
+                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-x-application">
                             <thead>
                             <tr>
                                 <th>#</th>

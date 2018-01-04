@@ -11,10 +11,11 @@ class X_group_model extends MY_Model
 {
 
     public $table = 'x_group';
+    public $primary_key = 'group_id';
     function __construct()
     {
+        $this->timestamps = FALSE;
         parent::__construct();
-        $this->timestamps = TRUE;
     }
 
 }

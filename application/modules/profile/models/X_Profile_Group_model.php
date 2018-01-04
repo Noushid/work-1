@@ -13,9 +13,9 @@ class X_Profile_Group_model extends MY_Model
     public $table = 'x_profile_group';
     function __construct()
     {
+        $this->timestamps = FALSE;
         $this->has_one['x_group'] = array('foreign_model' => 'profile/X_Group_model', 'foreign_table' => 'x_group', 'foreign_key' => 'group_id', 'local_key' => 'group_id');
         parent::__construct();
-        $this->timestamps = TRUE;
     }
 
 }

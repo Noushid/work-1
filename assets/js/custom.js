@@ -243,7 +243,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            //$('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Add a new sub Menu</button></div>');
+            $('#addBtn').append('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationModal">Add a new application</button>');
         }
     });
 
@@ -274,7 +274,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            //$('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Add a new sub Menu</button></div>');
+            $('#addBtn').append('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileGroupModal">Add a new Group</button>');
         }
     });
 

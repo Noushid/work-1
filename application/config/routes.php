@@ -102,8 +102,16 @@ $route['x-profile/(edit)/(:num)'] = "profile/index/$1/$2";
 $route['x-profile/(delete)/(:num)'] = "profile/index/$1/$2";
 
 $route['x-profile/(:num)'] = "profile/menu/$1";
-$route['x-profile/(:num)/application/(:num)'] = "profile/application/$2";
+/*Edit profile group*/
+$route['x-profile/(:num)/(edit)/(:num)'] = "profile/profile_action/$1/$2/$3";
+
+$route['x-profile/(:num)/application/(:num)'] = "profile/application/$1/$2";
 $route['x-profile/(:num)/application/(:num)/(delete)/(:num)'] = "profile/delete_application/$4";
+
+
+/*To delete profile group*/
+$route['x-profile/(:num)/delete/(:num)'] = "profile/delete_profile_group/$2";
+
 
 
 $route['create-user-group'] = "home/user_group";

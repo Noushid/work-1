@@ -14,9 +14,9 @@ class X_profile_group_applic_model extends MY_Model
     public $primary_key = 'profile_group_applica_id';
     function __construct()
     {
+        $this->timestamps = FALSE;
         $this->has_one['x_application'] = array('foreign_model' => 'application/X_application_model', 'foreign_table' => 'x_application', 'foreign_key' => 'application_id', 'local_key' => 'application_id');
         parent::__construct();
-        $this->timestamps = TRUE;
     }
 
 }
