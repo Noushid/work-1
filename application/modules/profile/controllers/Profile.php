@@ -209,6 +209,7 @@ class Profile extends CI_Controller {
         }
         $data['title'] = "x-profile";
         $data['profile_id'] = $param;
+        $data['profile_group_id'] = $profile_group_id;
         $data['page'] = "applications";
         $data['current'] = "application";
 

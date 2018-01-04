@@ -32,7 +32,7 @@ if (isset($modal_opened) and $modal_opened == true) {
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Group List</h5>
+                    <h5><?php echo $this->profile->where('profile_id', $profile_id)->get()->profile_name;?></h5>
                 </div>
                 <div class="ibox-content">
                     <div class="modal inmodal" id="profileGroupModal" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">

@@ -23,7 +23,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Application List</h5>
+                    <h5><?php echo $this->profile_group->where('profile_group_id', $profile_group_id)->with_x_group()->get()->x_group->group_name;?></h5>
                 </div>
                 <div class="ibox-content">
                     <div class="modal inmodal" id="applicationModal" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
