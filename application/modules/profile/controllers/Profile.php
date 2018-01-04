@@ -128,16 +128,15 @@ class Profile extends CI_Controller {
     public function menu($profile_id,$param="")
     {
         if ($this->input->post()) {
-            $this->form_validation->set_rules('group_name', 'Group Name', 'required');
+            $this->form_validation->set_rules('group', 'Group Name', 'required');
             if ($this->form_validation->run() == TRUE) {
-
-                /*Insert to X_group table*/
-                $group_data['group_name'] = $this->input->post('group_name');
-                $group_data['orientation'] = $this->input->post('orientation');
-                $group_id = $this->x_group->insert($group_data);
+//                /*Insert to X_group table*/
+//                $group_data['group_name'] = $this->input->post('group_name');
+//                $group_data['orientation'] = $this->input->post('orientation');
+//                $group_id = $this->x_group->insert($group_data);
 
                 /*Insert to X_profile_group table*/
-                $profile_group_data['group_id'] = $group_id;
+                $profile_group_data['group_id'] = $this->input->post('group');
                 $profile_group_data['profile_id'] = $profile_id;
                 $this->profile_group->insert($profile_group_data);
                 redirect($this->agent->referrer(), 'refresh');
@@ -150,6 +149,7 @@ class Profile extends CI_Controller {
         if ($profile_group) {
             $data['profile_group'] = $profile_group;
         }
+        $data['groups'] = $this->x_group->get_all();
         $data['title'] = "x-profile";
         $data['page'] = "profile_group";
         $data['profile_id'] = $profile_id;

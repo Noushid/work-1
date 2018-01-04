@@ -55,17 +55,17 @@ if (isset($modal_opened) and $modal_opened == true) {
                                     <div class="modal-body">
                                         <div class="form-group ">
                                             <label class="control-label col-lg-2 required">Group Name</label>
-                                            <div class="col-lg-8 <?php echo(form_error('group_name') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="group_name" placeholder="Group Name" value="<?php echo(isset($current_profile_group) ? $current_profile_group->x_group->group_name : set_value('group_name'));?>" /><!--required=""/>-->
-<!--                                                --><?php //echo form_error('group_name', '<div class="help-block">', '</div>'); ?>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label class="control-label col-lg-2 required">Orientation</label>
-                                            <div class="col-lg-8 <?php echo(form_error('orientation') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="orientation" placeholder="Orientation" value="<?php echo(isset($current_profile_group) ? $current_profile_group->x_group->orientation : set_value('orientation'));?>" /><!--required=""/>-->
-<!--                                                --><?php //echo form_error('orientation', '<div class="help-block">', '</div>'); ?>
+                                            <div class="col-lg-8 <?php echo(form_error('group') != '' ? 'has-error' : '');?>">
+                                                <select name="group" class="form-control" <?php echo set_select('group');?> ><!--required="">-->
+                                                    <option value="" selected disabled>Select</option>
+                                                    <?php
+                                                    foreach ($groups as $group) {
+                                                        ?>
+                                                        <option value="<?php echo $group->group_id?>" ><?php echo $group->group_name?></option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
                                             </div>
                                         </div>
 
