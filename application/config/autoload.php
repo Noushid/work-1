@@ -138,4 +138,5 @@ $autoload['model'] = [
     'home/Sub_menu_model' => 'sub_menu',
     'home/Group_menu_model' => 'group_menu',
     'home/Group_model' => 'group',
+    'agency/Profile_model' => 'profile',
 ];

@@ -7,7 +7,7 @@
  */
 
 defined('BASEPATH') or exit('No direct Script access allowed');
-class X_Profile_Group_model extends MY_Model
+class X_profile_group_model extends MY_Model
 {
 
     public $table = 'x_profile_group';

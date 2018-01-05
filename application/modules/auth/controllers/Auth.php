@@ -18,6 +18,7 @@ class Auth extends CI_Controller {
         $this->load->model('agency/User_agency_model', 'user_agency');
         $this->load->model('agency/Agency_model', 'agency');
         $this->load->model('agency/Profile_model', 'profile');
+        $this->load->model('profile/X_profile_group_model', 'profile_group');
 
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
@@ -171,6 +172,7 @@ class Auth extends CI_Controller {
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{
                 $user_id = $this->ion_auth->user()->row()->user_id;
+
                 $user_agency = $this->user_agency->where('user_id', $user_id)->get_all();
 
 //                $group = $this->ion_auth->get_users_groups($_SESSION['user_id'])->result();
@@ -191,6 +193,11 @@ class Auth extends CI_Controller {
                     /*
                      *  IF user exists in only one agency,
                      * */
+                    $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
+                    $profile_group = $this->profile_group->where('profile_id', $profile->profile_id)->with_x_group()->get();
+                    var_dump($profile_group);
+                    exit;
+
                     if (!$user_agency) {
                         $this->session->set_flashdata('message', ' <p class="alert alert-danger">You haven\'t any agency</p>');
                         redirect('login', 'refresh');
