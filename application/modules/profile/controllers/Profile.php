@@ -149,7 +149,16 @@ class Profile extends CI_Controller {
         if ($profile_group) {
             $data['profile_group'] = $profile_group;
         }
-        $data['groups'] = $this->x_group->get_all();
+        $groups=$this->x_group->get_all();
+        foreach ($groups as $group) {
+            foreach ($profile_group as $key => $value) {
+                if ($group->group_id == $value->group_id) {
+                    unset($groups[$key]);
+                }
+            }
+        }
+
+        $data['groups'] = $groups;
         $data['title'] = "x-profile";
         $data['page'] = "profile_group";
         $data['profile_id'] = $profile_id;
@@ -186,27 +195,36 @@ class Profile extends CI_Controller {
     public function application($param="",$profile_group_id)
     {
         if ($this->input->post()) {
-            $this->form_validation->set_rules('application_name', 'Application Name', 'required');
+            $this->form_validation->set_rules('application', 'Application', 'required');
             if ($this->form_validation->run() == TRUE) {
-                /*Insert to x_application*/
-                $application_data['application_name'] = $this->input->post('application_name');
-                $x_application_id = $this->x_application->insert($application_data);
 
                 /*Insert to x_profile_group_applica*/
                 $x_prfl_application_data['profile_group_id'] = $profile_group_id;
-                $x_prfl_application_data['application_id'] = $x_application_id;
+                $x_prfl_application_data['application_id'] = $this->input->post('application');
                 $this->profile_group_applica->insert($x_prfl_application_data);
 
                 redirect($this->agent->referrer(), 'refresh');
+                exit;
             }else{
                 $data['modal_opened'] = true;
             }
-            exit;
         }
         $applications = $this->profile_group_applica->with_x_application()->where('profile_group_id', $profile_group_id)->get_all();
         if ($applications) {
             $data['applications'] = $applications;
         }
+
+        $applications_all = $this->x_application->get_all();
+
+        foreach ($applications_all as $application) {
+            foreach ($applications as $key => $value) {
+                if ($application->application_id == $value->application_id) {
+                    unset($applications_all[$key]);
+                }
+            }
+        }
+
+        $data['applications_all'] = $applications_all;
         $data['title'] = "x-profile";
         $data['profile_id'] = $param;
         $data['profile_group_id'] = $profile_group_id;
@@ -216,6 +234,11 @@ class Profile extends CI_Controller {
         $this->load->view('home/template', $data);
     }
 
+
+
+    /*
+     * To delete profile_group_application (from profile_group_applica)
+     * */
     public function delete_application($x_application_id)
     {
         if ($this->profile_group_applica->delete($x_application_id)) {

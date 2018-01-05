@@ -59,10 +59,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 <select name="group" class="form-control" <?php echo set_select('group');?> ><!--required="">-->
                                                     <option value="" selected disabled>Select</option>
                                                     <?php
-                                                    foreach ($groups as $group) {
-                                                        ?>
-                                                        <option value="<?php echo $group->group_id?>" ><?php echo $group->group_name?></option>
-                                                    <?php
+                                                    if (isset($groups) and $groups) {
+                                                        foreach ($groups as $group) {
+                                                            ?>
+                                                            <option
+                                                                value="<?php echo $group->group_id ?>"><?php echo $group->group_name ?></option>
+                                                        <?php
+                                                        }
                                                     }
                                                     ?>
                                                 </select>

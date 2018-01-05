@@ -1,3 +1,14 @@
+<?php
+if (isset($modal_opened) and $modal_opened == true) {
+    ?>
+    <script type="text/javascript">
+        $(window).on('load', function () {
+            $('#applicationModal').modal('show');
+        });
+    </script>
+<?php
+}
+?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>Group List</h2>
@@ -47,8 +58,18 @@
                                         <div class="form-group ">
                                             <label class="control-label col-lg-3 required">Application Name</label>
                                             <div class="col-lg-8 <?php echo(form_error('application_name') != '' ? 'has-error' : '');?>">
-                                                <input class="form-control" type="text" name="application_name" placeholder="Application Name" value="<?php echo(isset($current_profile) ? $current_profile->application_name : set_value('application_name'));?>" /><!--required=""/>-->
-<!--                                                    --><?php //echo form_error('application_name', '<div class="help-block">', '</div>'); ?>
+                                                <select name="application" class="form-control" <?php echo set_select('group');?> ><!--required="">-->
+                                                    <option value="" selected disabled>Select</option>
+                                                    <?php
+                                                    if (isset($applications_all) and $applications_all) {
+                                                        foreach ($applications_all as $application) {
+                                                            ?>
+                                                            <option value="<?php echo $application->application_id?>" ><?php echo $application->application_name?></option>
+                                                        <?php
+                                                        }
+                                                    }
+                                                    ?>
+                                                </select>
                                             </div>
 
                                         </div>

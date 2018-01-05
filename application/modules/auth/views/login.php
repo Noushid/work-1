@@ -62,7 +62,6 @@ if (isset($agencies) and $agencies > 1) {
 <?php
 }else{
 ?>
-
 <div class="middle-box text-center loginscreen animated fadeInDown">
     <div>
         <div>
@@ -71,7 +70,9 @@ if (isset($agencies) and $agencies > 1) {
         <h3>Login Area</h3>
         <p>Login to access administrator section</p>
 
-        <?php echo $message; ?>
+        <div class="help-block bg-info">
+            <?php echo $message; ?>
+        </div>
         <form class="m-t" role="form" method="POST" action="<?php echo site_url('login'); ?>">
             <div class="form-group">
 <!--                --><?php //echo lang('login_identity_label', 'identity');?>

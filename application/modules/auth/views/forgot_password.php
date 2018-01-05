@@ -39,7 +39,7 @@
                                 <?php echo form_input($identity);?>
                             </div>
 
-                            <button type="submit" class="btn btn-primary block full-width m-b">Send new password</button>
+                            <button type="submit" class="btn btn-primary block full-width m-b">Submit</button>
                         </form>
                     </div>
                 </div>
