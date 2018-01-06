@@ -116,7 +116,8 @@ $route['x-profile/(:num)/delete/(:num)'] = "profile/delete_profile_group/$2";
 
 $route['create-user-group'] = "home/user_group";
 
-
+/*admin -> User login*/
+$route['user-dash/(:num)'] = "home/user_login/$1";
 
 
 //$route['(:any)'] = "home/test/$1";

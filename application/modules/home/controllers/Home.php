@@ -12,6 +12,7 @@ class Home extends CI_Controller {
         $this->load->model('home/Group_model', 'group');
         $this->load->model('agency/User_agency_model', 'user_agency');
         $this->load->model('home/User_group_model', 'user_group');
+        $this->load->model('profile/X_profile_group_model', 'profile_group');
 
         $this->load->library(['ion_auth']);
 
@@ -382,6 +383,23 @@ class Home extends CI_Controller {
                 $this->user_group->insert($data);
             }
         }
+
+    }
+
+
+    /**
+     *
+     * login with each users in admin dashboard
+     * @param $user_id
+     * */
+    public function user_login($user_id)
+    {
+        $user_agency = $this->user_agency->where('user_id', $user_id)->get_all();
+        $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
+        $profile_group = $this->profile_group->where('profile_id', $_SESSION['profile_id'])->with_group()->get();
+
+        $data['profile_group'] = $profile_group;
+        $this->load->view('user_login', $data);
 
     }
 

@@ -194,15 +194,14 @@ class Auth extends CI_Controller {
                      *  IF user exists in only one agency,
                      * */
                     $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
-                    $profile_group = $this->profile_group->where('profile_id', $profile->profile_id)->with_x_group()->get();
-                    var_dump($profile_group);
-                    exit;
+
 
                     if (!$user_agency) {
                         $this->session->set_flashdata('message', ' <p class="alert alert-danger">You haven\'t any agency</p>');
                         redirect('login', 'refresh');
                     }
                     $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
+                    $this->session->set_userdata('profile_id', $profile->profile_id);
                     $this->session->set_userdata('group_id', $user_group->group->id);
                     $this->session->set_userdata('group_name', $user_group->group->name);
                     //if the login is successful
