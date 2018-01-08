@@ -34,7 +34,7 @@ if (isset($modal_opened) and $modal_opened == true) {
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5><?php echo $this->profile_group->where('profile_group_id', $profile_group_id)->with_x_group()->get()->x_group->group_name;?></h5>
+                    <h5><bold>Group : </bold><?php echo $this->profile_group->where('profile_group_id', $profile_group_id)->with_x_group()->get()->x_group->group_name;?></h5>
                 </div>
                 <div class="ibox-content">
                     <div class="modal inmodal" id="applicationModal" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -44,11 +44,11 @@ if (isset($modal_opened) and $modal_opened == true) {
                                     <a href="<?php echo current_url();?>" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
                                     <?php
                                     if (isset($current_profile)) { ?>
-                                        <h4 class="modal-title">Edit Profile</h4>
-                                        <small>Edit the given X-profile.</small>
+                                        <h4 class="modal-title">Edit Application</h4>
+                                        <small>Edit the given application.</small>
                                     <?php }else{ ?>
-                                        <h4 class="modal-title">Create Profile</h4>
-                                        <small>Create a new X-profile.</small>
+                                        <h4 class="modal-title">Add Application</h4>
+                                        <small>Add a new application.</small>
                                     <?php }
                                     ?>
 

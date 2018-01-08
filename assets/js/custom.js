@@ -222,9 +222,8 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
-        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
+        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtip',
         buttons: [
-            {extend: 'copy'},
             {extend: 'copy'},
             {extend: 'csv'},
             {extend: 'excel', title: 'SubMenu'},
@@ -243,7 +242,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            $('#addBtn').append('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationModal">Add a new application</button>');
+            $('#addBtn').append('<div class="col-md-5"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationModal">Add New Application</button></div><div class="col-md-5"><a onclick="window.history.back();" class="btn btn-default">Back</a></div>');
         }
     });
 
@@ -253,9 +252,8 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
-        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
+        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtip',
         buttons: [
-            {extend: 'copy'},
             {extend: 'copy'},
             {extend: 'csv'},
             {extend: 'excel', title: 'SubMenu'},
@@ -274,7 +272,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            $('#addBtn').append('<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileGroupModal">Add a new Group</button>');
+            $('#addBtn').append('<div class="col-md-4"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileGroupModal">Add New Group</button></div><div class="col-md-5"><a onclick="window.history.back();" class="btn btn-default">Back</a></div>');
         }
     });
 

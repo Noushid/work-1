@@ -159,10 +159,10 @@ class Profile extends CI_Controller {
         }
 
         $data['groups'] = $groups;
-        $data['title'] = "x-profile";
+        $data['title'] = "profile group";
         $data['page'] = "profile_group";
         $data['profile_id'] = $profile_id;
-        $data['current'] = "x-profile";
+        $data['current'] = "profile group";
 
         $this->load->view('home/template', $data);
     }
@@ -185,10 +185,10 @@ class Profile extends CI_Controller {
             }
         }
 
-        $data['title'] = "x-profile";
+        $data['title'] = "Profile group";
         $data['page'] = "profile_group";
         $data['profile_id'] = $param;
-        $data['current'] = "x-profile";
+        $data['current'] = "Profile group";
         $this->load->view('home/template', $data);
     }
 
@@ -225,7 +225,7 @@ class Profile extends CI_Controller {
         }
 
         $data['applications_all'] = $applications_all;
-        $data['title'] = "x-profile";
+        $data['title'] = "application";
         $data['profile_id'] = $param;
         $data['profile_group_id'] = $profile_group_id;
         $data['page'] = "applications";

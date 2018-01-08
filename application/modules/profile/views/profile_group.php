@@ -12,7 +12,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Group List</h2>
+        <h2>Application List</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
@@ -32,7 +32,7 @@ if (isset($modal_opened) and $modal_opened == true) {
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5><?php echo $this->profile->where('profile_id', $profile_id)->get()->profile_name;?></h5>
+                    <h5><bold>Profile : </bold><?php echo $this->profile->where('profile_id', $profile_id)->get()->profile_name;?></h5>
                 </div>
                 <div class="ibox-content">
                     <div class="modal inmodal" id="profileGroupModal" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">
@@ -45,7 +45,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <h4 class="modal-title">Edit Profile Group</h4>
                                         <small>Edit the given profile group.</small>
                                     <?php }else{ ?>
-                                        <h4 class="modal-title">Create Profile Group</h4>
+                                        <h4 class="modal-title">Create Group</h4>
                                         <small>Create a new profile Group.</small>
                                     <?php }
                                     ?>
@@ -98,7 +98,6 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <table class="table table-striped table-bordered table-hover table-responsive dataTables-x-profile-group ">
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Id</th>
                                 <th>Group name</th>
                                 <th>Action</th>
@@ -111,9 +110,8 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 foreach ($profile_group as $group) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $i; ?></td>
                                         <td><?php echo $group->group_id; ?></td>
-                                        <td><?php echo (isset($group->x_group) ? $group->x_group->group_name : '')?></td>
+                                        <td><a href="<?php echo current_url() . '/application/' . $group->profile_group_id;?>"><?php echo (isset($group->x_group) ? $group->x_group->group_name : '')?></a></td>
                                         <td class="center">
                                             <a href="<?php echo current_url() . '/application/' . $group->profile_group_id;?>" class="btn btn-primary btn-xs">application</a>
 

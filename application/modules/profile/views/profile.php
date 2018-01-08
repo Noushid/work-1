@@ -97,7 +97,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         </div>
 
                                         <div class="form-group">
-                                            <label class="control-label col-lg-2 required">Profile Agency</label>
+                                            <label class="control-label col-lg-2 required">Agency profile </label>
                                             <div class="col-lg-4  <?php echo(form_error('profile_agency') != '' ? 'has-error' : '');?>">
                                                 <select name="profile_agency" class="form-control" <?php echo set_select('profile_agency');?> ><!--required="">-->
                                                     <option value="" selected disabled>Select</option>
@@ -147,14 +147,11 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <table class="table table-striped table-bordered table-hover table-responsive dataTables-x-profile ">
                             <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Profile Id</th>
                                 <th>Profile Name</th>
                                 <th>Profile Desc</th>
-                                <th>Show Manager</th>
-                                <th>Show Independ</th>
-                                <th>Profile agency</th>
-                                <th>Profile contractor</th>
+                                <th>Agency Profile</th>
+                                <th>Contractor profile</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -165,14 +162,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 foreach ($profiles as $profile) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $i; ?></td>
                                         <td><?php echo $profile->profile_id; ?></td>
-                                        <td><?php echo $profile->profile_name; ?></td>
+                                        <td><a href="<?php echo site_url('x-profile/' . $profile->profile_id);?>"><?php echo $profile->profile_name; ?></a></td>
                                         <td><?php echo $profile->profile_desc; ?></td>
-                                        <td><?php echo $profile->show_manager; ?></td>
-                                        <td><?php echo $profile->show_independ; ?></td>
-                                        <td><?php echo $profile->show_manager; ?></td>
-                                        <td><?php echo $profile->profile_contractor; ?></td>
+                                        <td><?php echo ($profile->profile_agency == 1 ? '<i class="fa fa-check-circle" style="color: #5bc0de"></i>' : '<i class="fa fa-times-circle" style="color: #ff0011"></i>')?></td>
+                                        <td><?php echo ($profile->profile_contractor == 1 ? '<i class="fa fa-check-circle" style="color: #5bc0de"></i>' : '<i class="fa fa-times-circle" style="color: #ff0011"></i>')?></td>
+<!--                                        <td>--><?php //echo $profile->show_manager; ?><!--</td>-->
+<!--                                        <td>--><?php //echo $profile->profile_contractor; ?><!--</td>-->
                                         <td class="center">
                                             <div  class="btn-group btn-group-xs" role="group">
                                                 <a href="<?php echo site_url('x-profile/' . $profile->profile_id);?>" class="btn btn-primary btn-xs">menu</a>
