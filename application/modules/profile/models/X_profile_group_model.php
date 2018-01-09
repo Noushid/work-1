@@ -15,7 +15,8 @@ class X_profile_group_model extends MY_Model
     {
         $this->timestamps = FALSE;
         $this->has_one['x_group'] = array('foreign_model' => 'profile/X_Group_model', 'foreign_table' => 'x_group', 'foreign_key' => 'group_id', 'local_key' => 'group_id');
-        $this->has_many['group'] = array('foreign_model' => 'profile/X_Group_model', 'foreign_table' => 'x_group', 'foreign_key' => 'group_id', 'local_key' => 'group_id');
+//        $this->has_many['group'] = array('foreign_model' => 'profile/X_Group_model', 'foreign_table' => 'x_group', 'foreign_key' => 'group_id', 'local_key' => 'group_id');
+        $this->has_one['group'] = array('foreign_model' => 'profile/X_Group_model', 'foreign_table' => 'x_group', 'foreign_key' => 'group_id', 'local_key' => 'group_id');
         parent::__construct();
     }
 

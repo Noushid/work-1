@@ -202,8 +202,8 @@ class Auth extends CI_Controller {
                     }
                     $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
                     $this->session->set_userdata('profile_id', $profile->profile_id);
-                    $this->session->set_userdata('group_id', $user_group->group->id);
-                    $this->session->set_userdata('group_name', $user_group->group->name);
+//                    $this->session->set_userdata('group_id', $user_group->group->id);
+//                    $this->session->set_userdata('group_name', $user_group->group->name);
                     //if the login is successful
                     //redirect them back to the home page
                     $this->session->set_flashdata('message', $this->ion_auth->messages());

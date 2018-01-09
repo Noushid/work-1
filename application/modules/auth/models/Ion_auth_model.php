@@ -1002,7 +1002,7 @@ class Ion_auth_model extends CI_Model
 
             if ($xx_password === TRUE)
 			{
-				if ($user->active == 0)
+				if ($this->config->item('check_activation', 'ion_auth') == TRUE && $user->active == 0)
 				{
 					$this->trigger_events('post_login_unsuccessful');
 					$this->set_error('login_unsuccessful_not_active');

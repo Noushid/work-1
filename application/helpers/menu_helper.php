@@ -14,25 +14,29 @@
 if (!function_exists('render_menu')) {
     function render_menu($current = "")
     {
-        $group_id = $_SESSION['group_id'];
+//        $group_id = $_SESSION['group_id'];
         $CI = get_instance();
         $CI->load->model('home/Menu_model', 'menu');
         $CI->load->model('home/Menu_model', 'menu');
         $CI->load->model('home/Group_model', 'group');
         $CI->load->model('home/Group_model', 'group');
         $CI->load->model('profile/X_profile_group_model', 'profile_group');
+        $CI->load->model('profile/X_profile_group_applic_model', 'profile_group_applica');
 
+        /*Get profile_group with profile_id(profiled_id get from session ,the value added from Auth)*/
+        $profile_group = $CI->profile_group->where('profile_id', $_SESSION['profile_id'])->with_group()->get_all();
 
-        $profile_group = $CI->profile_group->where('profile_id', $_SESSION['profile_id'])->with_group()->get();
-
-        $group_name = $CI->group->where('id', $group_id)->get()->name;
-//        $menu = $CI->group->select_where(['id' => $group_id]);
-        $html = '';
-        /*NEw Menu System*/
-        $html = '<li>
+        /**
+         * New Menu System
+         * each profile group has main menu and associated applications has their sub menu.
+         */
+        /*Check user is admin or public user */
+        if ($CI->ion_auth->user()->row()->tab_005_user_type == 4) {
+            //admin menu part
+            $html = '<li>
                         <a href="' . site_url('users') . '"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>
                     </li>
-            <li ' . (is_int(array_search($current, ['users', 'main menu', 'sub menu', 'user menu','groups'])) ? 'class="active"' : '') . '>
+            <li ' . (is_int(array_search($current, ['users', 'main menu', 'sub menu', 'user menu', 'groups'])) ? 'class="active"' : '') . '>
                     <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Groups and menu</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li ' . ($current == 'x-profile' ? 'class="active"' : '') . ' ><a href="' . site_url('x-profile') . '">X-profile</a></li>
@@ -43,13 +47,25 @@ if (!function_exists('render_menu')) {
                             <li ' . ($current == 'user menu' ? 'class="active"' : '') . ' ><a href="' . site_url('user-menu') . '">User menu</a></li>
                         </ul>
                     </li>';
-        if (isset($profile_group->group) and $profile_group->group != FALSE) {
-            foreach ($profile_group->group as $group) {
-                $html .= '<li ' . ($current == $group->group_name ? 'class="active"' : '') . '>
-                        <a href="' . site_url($group->group_name) . '"><i class="fa ' . $group->group_name . '"></i> <span class="nav-label">' . $group->group_name . '</span></a>
-                    </li>';
-            }
+        }else {
+            $html = '';
+            if (isset($profile_group) and $profile_group != FALSE) {
+                foreach ($profile_group as $prf_grp) {
+                    /*get applications with profile_group_id*/
+                    $applications = $CI->profile_group_applica->where('profile_group_id', $prf_grp->profile_group_id)->with_x_application()->get_all();
+                    $html .= '<li class="" >
+                                <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">' . $prf_grp->group->group_name . '</span> <span class="fa arrow"></span></a>';
+                    if ($applications != false) {
+                        $html .= '<ul class="nav nav-second-level">';
+                        foreach ($applications as $apl) {
+                            $html .= '<li><a href="' . site_url($apl->x_application->application_name) . '">' . $apl->x_application->application_name . '</a></li>';
+                        }
+                        $html .= '</ul>
+                            </li>';
 
+                    }
+                }
+            }
         }
 
 
