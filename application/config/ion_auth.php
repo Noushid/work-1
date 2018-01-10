@@ -66,7 +66,7 @@ $config['join']['groups'] = 'group_id';
  | salt_prefix: Used for bcrypt. Versions of PHP before 5.3.7 only support "$2a$" as the salt prefix
  | Versions 5.3.7 or greater should use the default of "$2y$".
  */
-$config['hash_method']    = 'bcrypt';	// sha1 or bcrypt, bcrypt is STRONGLY recommended
+$config['hash_method']    = 'md5';	// sha1 or bcrypt, bcrypt is STRONGLY recommended
 $config['default_rounds'] = 8;		// This does not apply if random_rounds is set to true
 $config['random_rounds']  = FALSE;
 $config['min_rounds']     = 5;
@@ -87,7 +87,7 @@ $config['admin_email']                = "noushid@psybotechnologies.com"; // Admi
 $config['default_group']              = 'members';           // Default group, use name
 $config['admin_group']                = 'admin';             // Default administrators group, use name
 $config['identity']                   = 'user_email';             // You can use any unique column in your table as identity column. The values in this column, alongside password, will be used for login purposes
-$config['min_password_length']        = 6;                   // Minimum Required Length of Password
+$config['min_password_length']        = 4;                   // Minimum Required Length of Password
 $config['max_password_length']        = 12;                  // Maximum Allowed Length of Password
 $config['email_activation']           = FALSE;               // Email Activation for registration
 $config['manual_activation']          = FALSE;               // Manual Activation for registration

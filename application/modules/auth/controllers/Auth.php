@@ -9,12 +9,13 @@ class Auth extends CI_Controller {
 		$this->load->library(array('ion_auth','form_validation'));
 		$this->load->helper(array('url','language'));
 
-        $this->load->model('user/User_model');
-        $this->load->model('home/Menu_model', 'menu');
-        $this->load->model('home/Sub_menu_model', 'sub_menu');
-        $this->load->model('home/Group_menu_model', 'group_menu');
-        $this->load->model('home/Group_model', 'group');
-        $this->load->model('home/user_group_model', 'user_group');
+//        $this->load->model('user/User_model');
+//        $this->load->model('home/Menu_model', 'menu');
+//        $this->load->model('home/Sub_menu_model', 'sub_menu');
+//        $this->load->model('home/Group_menu_model', 'group_menu');
+//        $this->load->model('home/Group_model', 'group');
+//        $this->load->model('home/user_group_model', 'user_group');
+
         $this->load->model('agency/User_agency_model', 'user_agency');
         $this->load->model('agency/Agency_model', 'agency');
         $this->load->model('agency/Profile_model', 'profile');
@@ -103,7 +104,7 @@ class Auth extends CI_Controller {
                         $data['phone'] = $this->input->post('phone');
                         $data['active'] = 1;
                         if ($this->input->post('reset_password') != null) {
-                            $data['xx_password'] = 'password';
+                            $data['password'] = 'password';
                         }
 
                         if ($this->ion_auth->update($param2, $data)) {
@@ -141,9 +142,9 @@ class Auth extends CI_Controller {
 
                 //list the users
                 $this->data['users'] = $this->ion_auth->users()->result();
-                foreach ($this->data['users'] as $k => $user) {
-                    $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-                }
+//                foreach ($this->data['users'] as $k => $user) {
+//                    $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+//                }
             }
 
             $this->data['current'] = "users";
@@ -193,18 +194,23 @@ class Auth extends CI_Controller {
                     /*
                      *  IF user exists in only one agency,
                      * */
-                    $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
+
 
 
                     if (!$user_agency) {
                         $this->session->set_flashdata('message', ' <p class="alert alert-danger">You haven\'t any agency</p>');
                         redirect('login', 'refresh');
+                    }else{
+                        $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
                     }
-                    $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
-                    $this->session->set_userdata('profile_id', $profile->profile_id);
+
+//                    $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
 //                    $this->session->set_userdata('group_id', $user_group->group->id);
 //                    $this->session->set_userdata('group_name', $user_group->group->name);
+
+                    $this->session->set_userdata('profile_id', $profile->profile_id);
                     //if the login is successful
+
                     //redirect them back to the home page
                     $this->session->set_flashdata('message', $this->ion_auth->messages());
                     redirect('/', 'refresh');
@@ -255,10 +261,18 @@ class Auth extends CI_Controller {
             ->where('user_id', $this->session->user_id)
             ->with_user_group(['with' => ['relation' => 'group']])
             ->with('profile')->get();
-        $this->session->set_userdata('profile_id', $user_agency->profile->profile_id);
-        $this->session->set_userdata('profile_name', $user_agency->profile->profile_name);
-        $this->session->set_userdata('group_id', $user_agency->user_group->group->id);
-        $this->session->set_userdata('group_name', $user_agency->user_group->group->name);
+
+        $profile = $this->profile->where('profile_id', $user_agency->profile_id)->get();
+
+//        $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
+
+        $this->session->set_userdata('profile_id', $profile->profile_id);
+
+
+//        $this->session->set_userdata('profile_id', $user_agency->profile->profile_id);
+//        $this->session->set_userdata('profile_name', $user_agency->profile->profile_name);
+//        $this->session->set_userdata('group_id', $user_agency->user_group->group->id);
+//        $this->session->set_userdata('group_name', $user_agency->user_group->group->name);
 //        //if the login is successful
 //        //redirect them back to the home page
         $this->session->set_flashdata('message', $this->ion_auth->messages());
@@ -1123,7 +1137,7 @@ class Auth extends CI_Controller {
                 // update the password if it was posted
                 if ($this->input->post('password'))
                 {
-                    $data['xx_password'] = $this->input->post('password');
+                    $data['password'] = $this->input->post('password');
                 }
 
                 // check to see if we are updating the user

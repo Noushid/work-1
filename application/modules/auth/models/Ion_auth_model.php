@@ -36,18 +36,18 @@ class Ion_auth_model extends CI_Model
 	public $activation_code;
 
 	/**
-	 * forgotten xx_password key
+	 * forgotten password key
 	 *
 	 * @var string
 	 **/
 	public $forgotten_password_code;
 
 	/**
-	 * new xx_password
+	 * new password
 	 *
 	 * @var string
 	 **/
-	public $new_xx_password;
+	public $_xx_password;
 
 	/**
 	 * Identity
@@ -246,8 +246,8 @@ class Ion_auth_model extends CI_Model
 	/**
 	 * Misc functions
 	 *
-	 * Hash xx_password : Hashes the xx_password to be stored in the database.
-	 * Hash xx_password db : This function takes a xx_password and validates it
+	 * Hash password : Hashes the password to be stored in the database.
+	 * Hash password db : This function takes a password and validates it
 	 * against an entry in the users table.
 	 * Salt : Generates a random salt value.
 	 *
@@ -255,55 +255,59 @@ class Ion_auth_model extends CI_Model
 	 */
 
 	/**
-	 * Hashes the xx_password to be stored in the database.
+	 * Hashes the password to be stored in the database.
 	 *
 	 * @return void
 	 * @author Mathew
 	 **/
-	public function hash_password($xx_password, $salt=false, $use_sha1_override=FALSE)
+	public function hash_password($password, $salt=false, $use_sha1_override=FALSE)
 	{
-		if (empty($xx_password))
+		if (empty($password))
 		{
 			return FALSE;
 		}
 
+        if ($this->hash_method == 'md5') {
+            return md5($password);
+        }
+
 		// bcrypt
 		if ($use_sha1_override === FALSE && $this->hash_method == 'bcrypt')
 		{
-			return $this->bcrypt->hash($xx_password);
+			return $this->bcrypt->hash($password);
 		}
 
 
 		if ($this->store_salt && $salt)
 		{
-			return  sha1($xx_password . $salt);
+			return  sha1($password . $salt);
 		}
 		else
 		{
 			$salt = $this->salt();
-			return  $salt . substr(sha1($salt . $xx_password), 0, -$this->salt_length);
+			return  $salt . substr(sha1($salt . $password), 0, -$this->salt_length);
 		}
 	}
 
 	/**
-	 * This function takes a xx_password and validates it
+	 * This function takes a password and validates it
 	 * against an entry in the users table.
 	 *
 	 * @return void
 	 * @author Mathew
 	 **/
-	public function hash_password_db($id, $xx_password, $use_sha1_override=FALSE)
+	public function hash_password_db($id, $password, $use_sha1_override=FALSE)
 	{
-//		if (empty($id) || empty($xx_password))
+//		if (empty($id) || empty($password))
         /*Changed for id == '0' */
-		if (!isset($id) || empty($xx_password))
+		if (!isset($id) || empty($password))
 		{
 			return FALSE;
 		}
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select('xx_password, salt')
+		$query = $this->db->select('password, salt')
 		                  ->where('user_id', $id)
 		                  ->limit(1)
 		                  ->order_by('user_id', 'desc')
@@ -317,10 +321,16 @@ class Ion_auth_model extends CI_Model
 			return FALSE;
 		}
 
+        if ($this->hash_method == 'md5') {
+            if (md5($password) == $hash_password_db->password) {
+                return TRUE;
+            }
+        }
+
 		// bcrypt
 		if ($use_sha1_override === FALSE && $this->hash_method == 'bcrypt')
 		{
-			if ($this->bcrypt->verify($xx_password,$hash_password_db->xx_password))
+			if ($this->bcrypt->verify($password,$hash_password_db->password))
 			{
 				return TRUE;
 			}
@@ -331,16 +341,16 @@ class Ion_auth_model extends CI_Model
 		// sha1
 		if ($this->store_salt)
 		{
-			$db_xx_password = sha1($xx_password . $hash_password_db->salt);
+			$xx_password = sha1($password . $hash_password_db->salt);
 		}
 		else
 		{
-			$salt = substr($hash_password_db->xx_password, 0, $this->salt_length);
+			$salt = substr($hash_password_db->password, 0, $this->salt_length);
 
-			$db_xx_password =  $salt . substr(sha1($salt . $xx_password), 0, -$this->salt_length);
+			$xx_password =  $salt . substr(sha1($salt . $password), 0, -$this->salt_length);
 		}
 
-		if($db_xx_password == $hash_password_db->xx_password)
+		if($xx_password == $hash_password_db->password)
 		{
 			return TRUE;
 		}
@@ -351,20 +361,20 @@ class Ion_auth_model extends CI_Model
 	}
 
 	/**
-	 * Generates a random salt value for forgotten xx_passwords or any other keys. Uses SHA1.
+	 * Generates a random salt value for forgotten passwords or any other keys. Uses SHA1.
 	 *
 	 * @return void
 	 * @author Mathew
 	 **/
-	public function hash_code($xx_password)
+	public function hash_code($password)
 	{
-		return $this->hash_password($xx_password, FALSE, TRUE);
+		return $this->hash_password($password, FALSE, TRUE);
 	}
 
 	/**
 	 * Generates a random salt value.
 	 *
-	 * Salt generation code taken from https://github.com/ircmaxell/xx_password_compat/blob/master/lib/xx_password.php
+	 * Salt generation code taken from https://github.com/ircmaxell/password_compat/blob/master/lib/password.php
 	 *
 	 * @return void
 	 * @author Anthony Ferrera
@@ -578,22 +588,22 @@ class Ion_auth_model extends CI_Model
 	}
 
 	/**
-	 * reset xx_password
+	 * reset password
 	 *
 	 * @return bool
 	 * @author Mathew
 	 **/
 	public function reset_password($identity, $new) {
-		$this->trigger_events('pre_change_xx_password');
+		$this->trigger_events('pchange_xx_password');
 
 		if (!$this->identity_check($identity)) {
-			$this->trigger_events(array('post_change_xx_password', 'post_change_xx_password_unsuccessful'));
+			$this->trigger_events(array('p_change_xx_password', 'p_change_xx_password_unsuccessful'));
 			return FALSE;
 		}
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select('id, xx_password, salt')
+		$query = $this->db->select('id, password, salt')
 		                  ->where($this->identity_column, $identity)
 		                  ->limit(1)
 		    			  ->order_by('user_id', 'desc')
@@ -601,8 +611,8 @@ class Ion_auth_model extends CI_Model
 
 		if ($query->num_rows() !== 1)
 		{
-			$this->trigger_events(array('post_change_xx_password', 'post_change_xx_password_unsuccessful'));
-			$this->set_error('xx_password_change_unsuccessful');
+			$this->trigger_events(array('p_change_xx_password', 'p_change_xx_password_unsuccessful'));
+			$this->set_error('password_change_unsuccessful');
 			return FALSE;
 		}
 
@@ -610,10 +620,10 @@ class Ion_auth_model extends CI_Model
 
 		$new = $this->hash_password($new, $result->salt);
 
-		// store the new xx_password and reset the remember code so all remembered instances have to re-login
-		// also clear the forgotten xx_password code
+		// store the new password and reset the remember code so all remembered instances have to re-login
+		// also clear the forgotten password code
 		$data = array(
-		    'xx_password' => $new,
+		    'password' => $new,
 		    'remember_code' => NULL,
 		    'forgotten_password_code' => NULL,
 		    'forgotten_password_time' => NULL,
@@ -625,31 +635,31 @@ class Ion_auth_model extends CI_Model
 		$return = $this->db->affected_rows() == 1;
 		if ($return)
 		{
-			$this->trigger_events(array('post_change_xx_password', 'post_change_xx_password_successful'));
-			$this->set_message('xx_password_change_successful');
+			$this->trigger_events(array('p_change_xx_password', 'p_change_xx_password_successful'));
+			$this->set_message('password_change_successful');
 		}
 		else
 		{
-			$this->trigger_events(array('post_change_xx_password', 'post_change_xx_password_unsuccessful'));
-			$this->set_error('xx_password_change_unsuccessful');
+			$this->trigger_events(array('p_change_xx_password', 'p_change_xx_password_unsuccessful'));
+			$this->set_error('password_change_unsuccessful');
 		}
 
 		return $return;
 	}
 
 	/**
-	 * change xx_password
+	 * change password
 	 *
 	 * @return bool
 	 * @author Mathew
 	 **/
-	public function change_xx_password($identity, $old, $new)
+	public function cge_xx_password($identity, $old, $new)
 	{
-		$this->trigger_events('pre_change_xx_password');
+		$this->trigger_events('pchange_xx_password');
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select('id, xx_password, salt')
+		$query = $this->db->select('id, password, salt')
 		                  ->where($this->identity_column, $identity)
 		                  ->limit(1)
 		    			  ->order_by('user_id', 'desc')
@@ -657,42 +667,42 @@ class Ion_auth_model extends CI_Model
 
 		if ($query->num_rows() !== 1)
 		{
-			$this->trigger_events(array('post_change_xx_password', 'post_change_xx_password_unsuccessful'));
-			$this->set_error('xx_password_change_unsuccessful');
+			$this->trigger_events(array('p_change_xx_password', 'p_change_xx_password_unsuccessful'));
+			$this->set_error('password_change_unsuccessful');
 			return FALSE;
 		}
 
 		$user = $query->row();
 
-		$old_xx_password_matches = $this->hash_password_db($user->user_id, $old);
+		$_xx_password_matches = $this->hash_password_db($user->user_id, $old);
 
-		if ($old_xx_password_matches === TRUE)
+		if ($_xx_password_matches === TRUE)
 		{
-			// store the new xx_password and reset the remember code so all remembered instances have to re-login
-			$hashed_new_xx_password  = $this->hash_password($new, $user->salt);
+			// store the new password and reset the remember code so all remembered instances have to re-login
+			$hed_new_xx_password  = $this->hash_password($new, $user->salt);
 			$data = array(
-			    'xx_password' => $hashed_new_xx_password,
+			    'password' => $hed_new_xx_password,
 			    'remember_code' => NULL,
 			);
 
 			$this->trigger_events('extra_where');
 
-			$successfully_changed_xx_password_in_db = $this->db->update($this->tables['users'], $data, array($this->identity_column => $identity));
-			if ($successfully_changed_xx_password_in_db)
+			$cessfully_changed_xx_password_in_db = $this->db->update($this->tables['users'], $data, array($this->identity_column => $identity));
+			if ($cessfully_changed_xx_password_in_db)
 			{
-				$this->trigger_events(array('post_change_xx_password', 'post_change_xx_password_successful'));
-				$this->set_message('xx_password_change_successful');
+				$this->trigger_events(array('p_change_xx_password', 'p_change_xx_password_successful'));
+				$this->set_message('password_change_successful');
 			}
 			else
 			{
-				$this->trigger_events(array('post_change_xx_password', 'post_change_xx_password_unsuccessful'));
-				$this->set_error('xx_password_change_unsuccessful');
+				$this->trigger_events(array('p_change_xx_password', 'p_change_xx_password_unsuccessful'));
+				$this->set_error('password_change_unsuccessful');
 			}
 
-			return $successfully_changed_xx_password_in_db;
+			return $cessfully_changed_xx_password_in_db;
 		}
 
-		$this->set_error('xx_password_change_unsuccessful');
+		$this->set_error('password_change_unsuccessful');
 		return FALSE;
 	}
 
@@ -764,7 +774,7 @@ class Ion_auth_model extends CI_Model
 	}
 
 	/**
-	 * Insert a forgotten xx_password key.
+	 * Insert a forgotten password key.
 	 *
 	 * @return bool
 	 * @author Mathew
@@ -825,7 +835,7 @@ class Ion_auth_model extends CI_Model
 	}
 
 	/**
-	 * Forgotten xx_password Complete
+	 * Forgotten password Complete
 	 *
 	 * @return string
 	 * @author Mathew
@@ -844,21 +854,21 @@ class Ion_auth_model extends CI_Model
 
 		if ($profile) {
 
-			if ($this->config->item('forgot_xx_password_expiration', 'ion_auth') > 0) {
+			if ($this->config->item('fot_xx_password_expiration', 'ion_auth') > 0) {
 				//Make sure it isn't expired
-				$expiration = $this->config->item('forgot_xx_password_expiration', 'ion_auth');
+				$expiration = $this->config->item('fot_xx_password_expiration', 'ion_auth');
 				if (time() - $profile->forgotten_password_time > $expiration) {
 					//it has expired
-					$this->set_error('forgot_xx_password_expired');
+					$this->set_error('fot_xx_password_expired');
 					$this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_unsuccessful'));
 					return FALSE;
 				}
 			}
 
-			$xx_password = $this->salt();
+			$password = $this->salt();
 
 			$data = array(
-			    'xx_password'                => $this->hash_password($xx_password, $salt),
+			    'password'                => $this->hash_password($password, $salt),
 			    'forgotten_password_code' => NULL,
 			    'active'                  => 1,
 			 );
@@ -866,7 +876,7 @@ class Ion_auth_model extends CI_Model
 			$this->db->update($this->tables['users'], $data, array('forgotten_password_code' => $code));
 
 			$this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_successful'));
-			return $xx_password;
+			return $password;
 		}
 
 		$this->trigger_events(array('post_forgotten_password_complete', 'post_forgotten_password_complete_unsuccessful'));
@@ -879,7 +889,7 @@ class Ion_auth_model extends CI_Model
 	 * @return bool
 	 * @author Mathew
 	 **/
-	public function register($identity, $xx_password, $email, $additional_data = array(), $groups = array())
+	public function register($identity, $password, $email, $additional_data = array(), $groups = array())
 	{
 		$this->trigger_events('pre_register');
 
@@ -910,13 +920,13 @@ class Ion_auth_model extends CI_Model
 		// IP Address
 		$ip_address = $this->_prepare_ip($this->input->ip_address());
 		$salt       = $this->store_salt ? $this->salt() : FALSE;
-		$xx_password   = $this->hash_password($xx_password, $salt);
+		$password   = $this->hash_password($password, $salt);
 
 		// Users table.
 		$data = array(
 		    $this->identity_column   => $identity,
 		    'username'   => $identity,
-		    'xx_password'   => $xx_password,
+		    'password'   => $password,
 		    'user_email'      => $email,
 		    'ip_address' => $ip_address,
 		    'creation_datetime' => date('Y-m-d h:m:s',time()),
@@ -964,11 +974,11 @@ class Ion_auth_model extends CI_Model
 	 * @return bool
 	 * @author Mathew
 	 **/
-	public function login($identity, $xx_password, $remember=FALSE)
+	public function login($identity, $password, $remember=FALSE)
 	{
 		$this->trigger_events('pre_login');
 
-		if (empty($identity) || empty($xx_password))
+		if (empty($identity) || empty($password))
 		{
 			$this->set_error('login_unsuccessful');
 			return FALSE;
@@ -976,7 +986,7 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', user_email, user_id, xx_password, active, last_login')
+		$query = $this->db->select($this->identity_column . ', user_email, user_id, password, active, last_login')
 		                  ->where($this->identity_column, $identity)
 		                  ->or_where('user_nick', $identity)
 		                  ->limit(1)
@@ -986,7 +996,7 @@ class Ion_auth_model extends CI_Model
 		if($this->is_max_login_attempts_exceeded($identity))
 		{
 			// Hash something anyway, just to take up time
-			$this->hash_password($xx_password);
+			$this->hash_password($password);
 
 			$this->trigger_events('post_login_unsuccessful');
 			$this->set_error('login_timeout');
@@ -998,9 +1008,9 @@ class Ion_auth_model extends CI_Model
 		{
 			$user = $query->row();
 
-            $xx_password = $this->hash_password_db($user->user_id, $xx_password);
+            $password = $this->hash_password_db($user->user_id, $password);
 
-            if ($xx_password === TRUE)
+            if ($password === TRUE)
 			{
 				if ($this->config->item('check_activation', 'ion_auth') == TRUE && $user->active == 0)
 				{
@@ -1029,7 +1039,7 @@ class Ion_auth_model extends CI_Model
 		}
 
 		// Hash something anyway, just to take up time
-		$this->hash_password($xx_password);
+		$this->hash_password($password);
 
 		$this->increase_login_attempts($identity);
 
@@ -1712,18 +1722,18 @@ class Ion_auth_model extends CI_Model
 		// Filter the data passed
 		$data = $this->_filter_data($this->tables['users'], $data);
 
-		if (array_key_exists($this->identity_column, $data) || array_key_exists('xx_password', $data) || array_key_exists('user_email', $data))
+		if (array_key_exists($this->identity_column, $data) || array_key_exists('password', $data) || array_key_exists('user_email', $data))
 		{
-			if (array_key_exists('xx_password', $data))
+			if (array_key_exists('password', $data))
 			{
-				if( ! empty($data['xx_password']))
+				if( ! empty($data['password']))
 				{
-					$data['xx_password'] = $this->hash_password($data['xx_password'], $user->salt);
+					$data['password'] = $this->hash_password($data['password'], $user->salt);
 				}
 				else
 				{
-					// unset xx_password so it doesn't effect database entry if no xx_password passed
-					unset($data['xx_password']);
+					// unset password so it doesn't effect database entry if no password passed
+					unset($data['password']);
 				}
 			}
 		}

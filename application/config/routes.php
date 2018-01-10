@@ -60,7 +60,7 @@ $route['forgot-password'] = "auth/forgot_password";
 $route['reset-password/(:any)'] = "auth/reset_password/$1";
 $route['profile'] = "auth/edit_profile";
 
-$route['users'] = "auth";
+$route['x-users'] = "auth";
 $route['users/(edit)/(:num)'] = "auth/index/$1/$2";
 $route['users/(delete)/(:num)'] = "auth/index/$1/$2";
 

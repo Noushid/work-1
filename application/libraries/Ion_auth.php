@@ -473,6 +473,10 @@ class Ion_auth
 	 **/
 	public function is_admin($id=false)
 	{
+        /*custom start*/
+        return ($this->user()->row()->tab_005_user_type == 4 ? TRUE : FALSE);
+        /*custom end*/
+
 		$this->ion_auth_model->trigger_events('is_admin');
 
 		$admin_group = $this->config->item('admin_group', 'ion_auth');

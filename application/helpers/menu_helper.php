@@ -36,15 +36,11 @@ if (!function_exists('render_menu')) {
             $html = '<li>
                         <a href="' . site_url('users') . '"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>
                     </li>
-            <li ' . (is_int(array_search($current, ['users', 'main menu', 'sub menu', 'user menu', 'groups'])) ? 'class="active"' : '') . '>
+            <li ' . (is_int(array_search($current, ['users', 'profile'])) ? 'class="active"' : '') . '>
                     <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Groups and menu</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
-                            <li ' . ($current == 'x-profile' ? 'class="active"' : '') . ' ><a href="' . site_url('x-profile') . '">X-profile</a></li>
-                            <li ' . ($current == 'groups' ? 'class="active"' : '') . ' ><a href="' . site_url('group') . '">Groups</a></li>
-                            <li ' . ($current == 'users' ? 'class="active"' : '') . ' ><a href="' . site_url('users') . '">Users</a></li>
-                            <li ' . ($current == 'main menu' ? 'class="active"' : '') . ' ><a href="' . site_url('menu') . '">Main Menu</a></li>
-                            <li ' . ($current == 'sub menu' ? 'class="active"' : '') . ' ><a href="' . site_url('sub-menu') . '">Sub Menu</a></li>
-                            <li ' . ($current == 'user menu' ? 'class="active"' : '') . ' ><a href="' . site_url('user-menu') . '">User menu</a></li>
+                            <li ' . ($current == 'users' ? 'class="active"' : '') . ' ><a href="' . site_url('x-users') . '">Users</a></li>
+                            <li ' . ($current == 'profile' ? 'class="active"' : '') . ' ><a href="' . site_url('x-profile') . '">X-profile</a></li>
                         </ul>
                     </li>';
         }else {

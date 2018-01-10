@@ -172,7 +172,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 <th>Last Name</th>
 <!--                                <th>Username</th>-->
                                 <th>Email</th>
-                                <th>Groups</th>
+<!--                                <th>Groups</th>-->
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -186,15 +186,14 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <td><?php echo $i; ?></td>
                                         <td><?php echo $value->first_name; ?></td>
                                         <td><?php echo $value->last_name; ?></td>
-<!--                                        <td>--><?php //echo $value->username; ?><!--</td>-->
                                         <td><?php echo $value->user_email; ?></td>
-                                        <td>
-                                            <?php foreach ($value->groups as $group) { ?>
-                                                <a href=""><?php echo $group->name;?></a>,
-                                            <?php
-                                            }
-                                            ?>
-                                        </td>
+<!--                                        <td>-->
+<!--                                            --><?php //foreach ($value->groups as $group) { ?>
+<!--                                                <a href="">--><?php //echo $group->name;?><!--</a>,-->
+<!--                                            --><?php
+//                                            }
+//                                            ?>
+<!--                                        </td>-->
                                         <td>
                                             <a href="<?php echo site_url('user-dash/' . $value->user_id);?>" target="_blank" class="btn btn-primary btn-xs">Login</a>
                                             <div  class="btn-group btn-group-xs" role="group">
