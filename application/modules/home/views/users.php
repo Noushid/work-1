@@ -156,7 +156,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         ?>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="<?php echo site_url('x-users')?>" class="btn btn-white">Close</a>
+                                        <a href="<?php echo site_url('users')?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
                                 </form>

@@ -122,37 +122,50 @@
             <ul class="nav metismenu" id="side-menu">
                 <?php $user = $this->ion_auth->user()->row();?>
                 <li class="nav-header">
-                    <div class="dropdown profile-element"> <span>
-    <img alt="image" class="img-circle" src="<?php echo asset('img/profile_small.jpg'); ?>" />
-        </span>
+                    <div class="dropdown profile-element">
+                        <span>
+                            <img alt="image" class="img-circle" src="<?php echo asset('img/profile_small.jpg'); ?>" />
+                        </span>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo profile('first_name'); ?></strong>
-        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Profile name</strong>
-        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">Group name</strong>
-        </span> <span class="text-muted text-xs block">first and last name<b class="caret"></b></span> </span>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo profile('first_name'); ?></strong></span></span>
+                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo (isset($profile_name) ? $profile_name : '');?></strong></span></span>
+<!--                            <span class="text-muted text-xs block">first and last name<b class="caret"></b></span>-->
                         </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="<?php echo site_url('profile')?>">Profile</a></li>
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li><a href="mailbox.html">Mailbox</a></li>
-                            <li class="divider"></li>
-                            <li><a href="login.html">Logout</a></li>
-                        </ul>
+<!--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">-->
+<!--                            <li><a href="--><?php //echo site_url('profile')?><!--">Profile</a></li>-->
+<!--                            <li><a href="contacts.html">Contacts</a></li>-->
+<!--                            <li><a href="mailbox.html">Mailbox</a></li>-->
+<!--                            <li class="divider"></li>-->
+<!--                            <li><a href="login.html">Logout</a></li>-->
+<!--                        </ul>-->
                     </div>
                     <div class="logo-element">
                         IN+
                     </div>
                 </li>
-
+                <li>
+                    <a href="<?php echo current_url();?>"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>
+                </li>
 
                 <?php
-                if (isset($profile_group->group) and $profile_group->group != FALSE) {
-                    foreach ($profile_group->group as $group) { ?>
-<!--//                        $html .= '<li ' . ($current == $group->group_name ? 'class="active"' : '') . '>-->
-                        <li class="active">
-                            <a href="<?php echo current_url() . '/' . $group->group_name;?> "><i class="fa <?php echo $group->group_name; ?>"></i> <span class="nav-label"><?php echo $group->group_name;?></span></a>
+                if (isset($profile_group) and $profile_group != FALSE) {
+                    foreach ($profile_group as $prf_grp) {
+                        /*get applications with profile_group_id*/
+                        $applications = $this->profile_group_applica->where('profile_group_id', $prf_grp->profile_group_id)->with_x_application()->get_all(); ?>
+                        <li class="" >
+                                <a href=""><i class="fa fa-th-large"></i> <span class="nav-label"><?php echo $prf_grp->group->group_name;?></span> <span class="fa arrow"></span></a>
+                            <?php if ($applications != false) { ?>
+                            <ul class="nav nav-second-level">
+                            <?php foreach ($applications as $apl) { ?>
+                                <li><a href="<?php echo current_url() . '/' . $apl->x_application->application_name;?>">
+                                        <?php echo $apl->x_application->application_name;?></a></li>
+                            <?php
+                            }
+                            ?>
+                            </ul>
                         </li>
-                    <?php
+                        <?php
+                        }
                     }
                 }
                ?>
@@ -287,7 +300,7 @@
         </div>
         <div class="">
             <!-- Content Start -->
-<!--            --><?php //$this->load->view($page); ?>
+            <?php $this->load->view($page); ?>
             <!--Content End -->
         </div>
 

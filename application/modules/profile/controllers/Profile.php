@@ -118,7 +118,7 @@ class Profile extends CI_Controller {
             }
 
         }
-        $data['title'] = "x-profile";
+        $data['title'] = "profile";
         $data['page'] = "profile";
         $data['current'] = "profile";
         $this->load->view('home/template', $data);

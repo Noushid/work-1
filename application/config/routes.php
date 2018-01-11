@@ -58,9 +58,9 @@ $route['login'] = "auth/login";
 $route['logout'] = "auth/logout";
 $route['forgot-password'] = "auth/forgot_password";
 $route['reset-password/(:any)'] = "auth/reset_password/$1";
-$route['profile'] = "auth/edit_profile";
+$route['my-profile'] = "auth/edit_profile";
 
-$route['x-users'] = "auth";
+$route['users'] = "auth";
 $route['users/(edit)/(:num)'] = "auth/index/$1/$2";
 $route['users/(delete)/(:num)'] = "auth/index/$1/$2";
 
@@ -97,20 +97,20 @@ $route['user-list'] = "user";
 $route['login/submit-agency'] = "auth/select_agency";
 
 
-$route['x-profile'] = "profile/index";
-$route['x-profile/(edit)/(:num)'] = "profile/index/$1/$2";
-$route['x-profile/(delete)/(:num)'] = "profile/index/$1/$2";
+$route['profile'] = "profile/index";
+$route['profile/(edit)/(:num)'] = "profile/index/$1/$2";
+$route['profile/(delete)/(:num)'] = "profile/index/$1/$2";
 
-$route['x-profile/(:num)'] = "profile/menu/$1";
+$route['profile/(:num)'] = "profile/menu/$1";
 /*Edit profile group*/
-$route['x-profile/(:num)/(edit)/(:num)'] = "profile/profile_action/$1/$2/$3";
+$route['profile/(:num)/(edit)/(:num)'] = "profile/profile_action/$1/$2/$3";
 
-$route['x-profile/(:num)/application/(:num)'] = "profile/application/$1/$2";
-$route['x-profile/(:num)/application/(:num)/(delete)/(:num)'] = "profile/delete_application/$4";
+$route['profile/(:num)/application/(:num)'] = "profile/application/$1/$2";
+$route['profile/(:num)/application/(:num)/(delete)/(:num)'] = "profile/delete_application/$4";
 
 
 /*To delete profile group*/
-$route['x-profile/(:num)/delete/(:num)'] = "profile/delete_profile_group/$2";
+$route['profile/(:num)/delete/(:num)'] = "profile/delete_profile_group/$2";
 
 
 

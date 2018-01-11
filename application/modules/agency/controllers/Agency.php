@@ -130,7 +130,7 @@ class Agency extends CI_Controller {
         }
 
 
-        $data['current'] = "Agency";
+        $data['current'] = "agency";
         $this->load->view('home/template', $data);
     }
 

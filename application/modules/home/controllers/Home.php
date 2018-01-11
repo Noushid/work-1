@@ -14,6 +14,8 @@ class Home extends CI_Controller {
         $this->load->model('home/User_group_model', 'user_group');
         $this->load->model('profile/X_profile_group_model', 'profile_group');
 
+        $this->load->model('profile/X_profile_group_applic_model', 'profile_group_applica');
+
         $this->load->library(['ion_auth']);
 
         if (!$this->ion_auth->logged_in())
@@ -395,10 +397,20 @@ class Home extends CI_Controller {
     public function user_login($user_id)
     {
         $user_agency = $this->user_agency->where('user_id', $user_id)->get_all();
-        $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
-        $profile_group = $this->profile_group->where('profile_id', $_SESSION['profile_id'])->with_group()->get();
-
-        $data['profile_group'] = $profile_group;
+        if ($user_agency != false) {
+            if (count($user_agency) == 1) {
+                $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
+                $profile_group = $this->profile_group->where('profile_id', $profile->profile_id)->with_group()->get_all();
+                $data['profile_name'] = $profile->profile_name;
+                $data['profile_group'] = $profile_group;
+            }else{
+                //multiple agency here
+            }
+        }else{
+//            No more agency here
+        }
+        $data['page'] = 'dashboard';
+        $data['title'] = 'dashboard';
         $this->load->view('user_login', $data);
 
     }

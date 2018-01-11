@@ -33,7 +33,7 @@
                 </div>
                 <div class="ibox-content">
                     <div class="row">
-                        <form action="<?php echo site_url('profile')?>" class="form-horizontal" method="post">
+                        <form action="<?php echo current_url()?>" class="form-horizontal" method="post">
                             <div class="form-group">
                                 <label class="control-label col-md-2 required">First Name</label>
                                 <div class="col-lg-4 <?php echo(form_error('first_name') != '' ? 'has-error' : '');?>">

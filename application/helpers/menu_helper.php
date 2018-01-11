@@ -34,15 +34,18 @@ if (!function_exists('render_menu')) {
         if ($CI->ion_auth->user()->row()->tab_005_user_type == 4) {
             //admin menu part
             $html = '<li>
-                        <a href="' . site_url('users') . '"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>
+                        <a href="' . site_url() . '"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>
                     </li>
-            <li ' . (is_int(array_search($current, ['users', 'profile'])) ? 'class="active"' : '') . '>
-                    <a href=""><i class="fa fa-th-large"></i> <span class="nav-label">Groups and menu</span> <span class="fa arrow"></span></a>
-                        <ul class="nav nav-second-level">
-                            <li ' . ($current == 'users' ? 'class="active"' : '') . ' ><a href="' . site_url('x-users') . '">Users</a></li>
-                            <li ' . ($current == 'profile' ? 'class="active"' : '') . ' ><a href="' . site_url('x-profile') . '">X-profile</a></li>
-                        </ul>
-                    </li>';
+                    <li  ' . ($current == 'agency' ? 'class="active"' : '') . ' >
+                        <a href="' . site_url('agency') . '"><i class="fa fa-list"></i> <span class="nav-label">Agency list</span></a>
+                    </li>
+                    <li  ' . ($current == 'users' ? 'class="active"' : '') . ' >
+                        <a href="' . site_url('users') . '"><i class="fa fa-group"></i> <span class="nav-label">User list</span></a>
+                    </li>
+                    <li  ' . ($current == 'profile' ? 'class="active"' : '') . ' >
+                        <a href="' . site_url('profile') . '"><i class="fa fa-user"></i> <span class="nav-label">Profile</span></a>
+                    </li>
+                    ';
         }else {
             $html = '';
             if (isset($profile_group) and $profile_group != FALSE) {

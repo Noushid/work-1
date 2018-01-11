@@ -11,7 +11,7 @@
         </span> <span class="text-muted text-xs block"><?php echo $user->first_name . ' ' . $user->last_name;?><b class="caret"></b></span> </span>
     </a>
     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-        <li><a href="<?php echo site_url('profile')?>">Profile</a></li>
+        <li><a href="<?php echo site_url('my-profile')?>">Profile</a></li>
         <li><a href="contacts.html">Contacts</a></li>
         <li><a href="mailbox.html">Mailbox</a></li>
         <li class="divider"></li>

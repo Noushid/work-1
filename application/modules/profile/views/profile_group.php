@@ -18,10 +18,10 @@ if (isset($modal_opened) and $modal_opened == true) {
                 <a href="<?php echo site_url();?>">Home</a>
             </li>
             <li>
-                <a href="<?php echo site_url('x-profile');?>">x-profile</a>
+                <a href="<?php echo site_url('profile');?>">Profile</a>
             </li>
             <li class="active">
-                <strong>group</strong>
+                <strong>Group</strong>
             </li>
         </ol>
     </div>
@@ -85,7 +85,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         ?>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="<?php echo site_url('x-profile/' . $profile_id);?>" class="btn btn-white">Close</a>
+                                        <a href="<?php echo site_url('profile/' . $profile_id);?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
 

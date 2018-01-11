@@ -17,7 +17,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                 <a href="<?php echo site_url();?>">Home</a>
             </li>
             <li class="active">
-                <strong>x-profile</strong>
+                <strong>profile</strong>
             </li>
         </ol>
     </div>
@@ -43,7 +43,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <div class="modal-dialog  modal-lg">
                             <div class="modal-content animated fadeIn">
                                 <div class="modal-header">
-                                    <a href="<?php echo site_url('x-profile');?>" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
+                                    <a href="<?php echo site_url('profile');?>" class="close"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></a>
                                     <?php
                                     if (isset($current_profile)) { ?>
                                         <h4 class="modal-title">Edit Profile</h4>
@@ -134,7 +134,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         ?>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="<?php echo site_url('x-profile')?>" class="btn btn-white">Close</a>
+                                        <a href="<?php echo site_url('profile')?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
 
@@ -144,7 +144,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                     </div>
                     <div class="table-responsive">
 
-                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-x-profile ">
+                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-profile ">
                             <thead>
                             <tr>
                                 <th>Profile Id</th>
@@ -163,7 +163,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                     ?>
                                     <tr>
                                         <td><?php echo $profile->profile_id; ?></td>
-                                        <td><a href="<?php echo site_url('x-profile/' . $profile->profile_id);?>"><?php echo $profile->profile_name; ?></a></td>
+                                        <td><a href="<?php echo current_url() . '/' . $profile->profile_id;?>"><?php echo $profile->profile_name; ?></a></td>
                                         <td><?php echo $profile->profile_desc; ?></td>
                                         <td><?php echo ($profile->profile_agency == 1 ? '<i class="fa fa-check-circle" style="color: #5bc0de"></i>' : '<i class="fa fa-times-circle" style="color: #ff0011"></i>')?></td>
                                         <td><?php echo ($profile->profile_contractor == 1 ? '<i class="fa fa-check-circle" style="color: #5bc0de"></i>' : '<i class="fa fa-times-circle" style="color: #ff0011"></i>')?></td>
@@ -171,11 +171,11 @@ if (isset($modal_opened) and $modal_opened == true) {
 <!--                                        <td>--><?php //echo $profile->profile_contractor; ?><!--</td>-->
                                         <td class="center">
                                             <div  class="btn-group btn-group-xs" role="group">
-                                                <a href="<?php echo site_url('x-profile/' . $profile->profile_id);?>" class="btn btn-primary btn-xs">menu</a>
-                                                <a class="btn btn-info" href="<?php echo site_url('x-profile/edit/' . $profile->profile_id);?>">
+                                                <a href="<?php echo current_url() . '/' . $profile->profile_id;?>" class="btn btn-primary btn-xs">menu</a>
+                                                <a class="btn btn-info" href="<?php echo current_url().'/edit/' . $profile->profile_id;?>">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-<!--                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="--><?php //echo site_url('x-profile/delete/' . $profile->profile_id);?><!--">-->
+<!--                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="--><?php //echo site_url('profile/delete/' . $profile->profile_id);?><!--">-->
 <!--                                                    <i class="fa fa-trash-o"></i>-->
 <!--                                                </a>-->
 
