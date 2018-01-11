@@ -57,8 +57,8 @@ if (isset($modal_opened) and $modal_opened == true) {
                         </button>
                     </div>
 
-                    <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true">
-                        <div class="modal-dialog">
+                    <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content animated fadeIn">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
@@ -156,7 +156,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         ?>
                                     </div>
                                     <div class="modal-footer">
-                                        <a href="<?php echo site_url('users')?>" class="btn btn-white">Close</a>
+                                        <a href="<?php echo site_url('x-users')?>" class="btn btn-white">Close</a>
                                         <button type="submit" class="btn btn-primary">Save changes</button>
                                     </div>
                                 </form>
