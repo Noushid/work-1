@@ -11,7 +11,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Group List</h2>
+        <h2>Application List</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
@@ -34,7 +34,16 @@ if (isset($modal_opened) and $modal_opened == true) {
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5><bold>Group : </bold><?php echo $this->profile_group->where('profile_group_id', $profile_group_id)->with_x_group()->get()->x_group->group_name;?></h5>
+                    <?php $profile_group=$this->profile_group->where('profile_group_id', $profile_group_id)->with_x_group()->with_profile()->get()?>
+                    <div class="col-md-3">
+                        <h5>Profile</h5>
+                        <span class="label label-primary"><?php echo $profile_group->profile->profile_name;?></span>
+                    </div>
+
+                    <div class="col-md-2">
+                        <h5>Group</h5>
+                        <span class="label label-primary"><?php echo $profile_group->x_group->group_name;?></span>
+                    </div>
                 </div>
                 <div class="ibox-content">
                     <div class="modal inmodal" id="applicationModal" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false" data-backdrop="static">

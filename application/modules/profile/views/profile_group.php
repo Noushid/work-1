@@ -12,7 +12,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Application List</h2>
+        <h2>Group List</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>

@@ -11,7 +11,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 ?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Basic Form</h2>
+        <h2>User List</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
@@ -195,7 +195,7 @@ if (isset($modal_opened) and $modal_opened == true) {
 //                                            ?>
 <!--                                        </td>-->
                                         <td>
-                                            <a href="<?php echo site_url('user-dash/' . $value->user_id);?>" target="_blank" class="btn btn-primary btn-xs">Login</a>
+                                            <a href="<?php echo site_url('user-dash/' . $value->user_id);?>" class="btn btn-primary btn-xs">Login</a>
                                             <div  class="btn-group btn-group-xs" role="group">
                                                 <a class="btn btn-info" href="<?php echo site_url('users/edit/' . $value->id);?>">
                                                     <i class="fa fa-pencil"></i>

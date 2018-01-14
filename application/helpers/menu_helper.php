@@ -33,10 +33,7 @@ if (!function_exists('render_menu')) {
         /*Check user is admin or public user */
         if ($CI->ion_auth->user()->row()->tab_005_user_type == 4) {
             //admin menu part
-            $html = '<li>
-                        <a href="' . site_url() . '"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>
-                    </li>
-                    <li  ' . ($current == 'agency' ? 'class="active"' : '') . ' >
+            $html = '<li  ' . ($current == 'agency' ? 'class="active"' : '') . ' >
                         <a href="' . site_url('agency') . '"><i class="fa fa-list"></i> <span class="nav-label">Agency list</span></a>
                     </li>
                     <li  ' . ($current == 'users' ? 'class="active"' : '') . ' >

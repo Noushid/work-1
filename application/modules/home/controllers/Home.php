@@ -396,7 +396,9 @@ class Home extends CI_Controller {
      * */
     public function user_login($user_id)
     {
-        $user_agency = $this->user_agency->where('user_id', $user_id)->get_all();
+        $user_agency = $this->user_agency->where('user_id', $user_id)->with_profile()->get_all();
+//        var_dump($user_agency);
+//        exit;
         if ($user_agency != false) {
             if (count($user_agency) == 1) {
                 $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
@@ -409,7 +411,8 @@ class Home extends CI_Controller {
         }else{
 //            No more agency here
         }
-        $data['page'] = 'dashboard';
+        $data['user'] = $user_agency[0];
+        $data['page'] = 'user-dash';
         $data['title'] = 'dashboard';
         $this->load->view('user_login', $data);
 

@@ -135,4 +135,5 @@ $autoload['language'] = array();
 $autoload['model'] = [
     'user/User_model',
     'agency/Profile_model' => 'profile',
+    'agency/Tab_parameter_model' => 'tab_parameter',
 ];

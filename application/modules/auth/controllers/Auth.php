@@ -172,7 +172,8 @@ class Auth extends CI_Controller {
 
 			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember))
 			{
-                $user_id = $this->ion_auth->user()->row()->user_id;
+                $user = $this->ion_auth->user()->row();
+                $user_id = $user->user_id;
 
                 $user_agency = $this->user_agency->where('user_id', $user_id)->get_all();
 
@@ -206,9 +207,9 @@ class Auth extends CI_Controller {
 
 //                    $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
 //                    $this->session->set_userdata('group_id', $user_group->group->id);
-//                    $this->session->set_userdata('group_name', $user_group->group->name);
 
                     $this->session->set_userdata('profile_id', $profile->profile_id);
+                    $this->session->set_userdata('profile_name', $profile->profile_name);
                     //if the login is successful
 
                     //redirect them back to the home page

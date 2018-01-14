@@ -120,7 +120,6 @@
     <nav class="navbar-default navbar-static-side" role="navigation">
         <div class="sidebar-collapse">
             <ul class="nav metismenu" id="side-menu">
-                <?php $user = $this->ion_auth->user()->row();?>
                 <li class="nav-header">
                     <div class="dropdown profile-element">
                         <span>
@@ -129,6 +128,8 @@
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo profile('first_name'); ?></strong></span></span>
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo (isset($profile_name) ? $profile_name : '');?></strong></span></span>
+<!--                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">--><?php //echo (isset($user) ? $user->first_name.' '.$user->last_name : '');?><!--</strong></span></span>-->
+                            </span> <span class="text-muted text-xs block"><?php echo (isset($user) ? $user->first_name.' '.$user->last_name : '');?></b></span> </span>
 <!--                            <span class="text-muted text-xs block">first and last name<b class="caret"></b></span>-->
                         </a>
 <!--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">-->

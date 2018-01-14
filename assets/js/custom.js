@@ -35,8 +35,9 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
-        //dom: '<"html5buttons"B>lTfgitp',lfrtip
-        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
+        //dom: '<"html5buttons"B>lTfgitp',lfrtip //normal
+        //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
+        dom: '<"html5buttons"B>g<"col-sm-3"f><"#addBtn.col-md-6">rtipl',//add btn right and search left
         buttons: [
             {extend: 'copy'},
             {extend: 'copy'},
@@ -57,7 +58,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add new Agency</button></div>');
+            $('#addBtn').append('<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add new Agency</button>');
         }
     });
 
