@@ -133,7 +133,8 @@ $autoload['language'] = array();
 |	$autoload['model'] = array('first_model' => 'first');
 */
 $autoload['model'] = [
-    'user/User_model',
+    'home/User_model' => 'user',
     'agency/Profile_model' => 'profile',
     'agency/Tab_parameter_model' => 'tab_parameter',
+    'home/State_model' => 'state',
 ];

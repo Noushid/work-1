@@ -36,6 +36,11 @@
     <!-- Sweet Alert -->
     <link href="<?php echo asset('css/plugins/sweetalert/sweetalert.css');?>" rel="stylesheet">
 
+    <link href="<?php echo asset('css/plugins/iCheck/custom.css');?>" rel="stylesheet">
+
+    <link href="<?php echo asset('css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css');?>" rel="stylesheet">
+
+
     <!-- Mainly scripts -->
     <script src="<?php echo asset('js/jquery-3.1.1.min.js');?>"></script>
     <script src="<?php echo asset('js/bootstrap.min.js');?>"></script>
@@ -77,19 +82,13 @@
     <!-- Sweet alert -->
     <script src="<?php echo asset('js/plugins/sweetalert/sweetalert.min.js');?>"></script>
 
+    <!-- I check -->
+    <script src="<?php echo asset('js/plugins/iCheck/icheck.min.js');?>"></script>
+
     <!-- Custom -->
     <script src="<?php echo asset('js/custom.js');?>"></script>
 
     <script>
-        function fnClickAddRow() {
-            $('#editable').dataTable().fnAddData( [
-                "Custom row",
-                "New row",
-                "New row",
-                "New row",
-                "New row" ] );
-
-        }
 
         <?php if(isset($_SESSION['message']) or isset($_SESSION['error'])){ ?>
         $(document).ready(function () {
@@ -107,10 +106,9 @@
         <?php
         }
         ?>
-
-
-
     </script>
+
+
 
 
 </head>
@@ -280,7 +278,7 @@
     </div>
 </div>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.dataTables-example').dataTable({
             responsive: true,
             destroy: true,
@@ -289,39 +287,8 @@
                 "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
             }
         });
-
-        /* Init DataTables */
-        var oTable = $('#editable').dataTable();
-
-        /* Apply the jEditable handlers to the table */
-        oTable.$('td').editable( '../example_ajax.php', {
-            "callback": function( sValue, y ) {
-                var aPos = oTable.fnGetPosition( this );
-                oTable.fnUpdate( sValue, aPos[0], aPos[1] );
-            },
-            "submitdata": function ( value, settings ) {
-                return {
-                    "row_id": this.parentNode.getAttribute('id'),
-                    "column": oTable.fnGetPosition( this )[2]
-                };
-            },
-
-            "width": "90%",
-            "height": "100%"
-        } );
-
-
     });
 
-    function fnClickAddRow() {
-        $('#editable').dataTable().fnAddData( [
-            "Custom row",
-            "New row",
-            "New row",
-            "New row",
-            "New row" ] );
-
-    }
 </script>
 <style>
     body.DTTT_Print {
