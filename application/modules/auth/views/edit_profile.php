@@ -34,11 +34,11 @@
                 <div class="ibox-content">
                     <div class="row"><div class="tabs-container">
                             <ul class="nav nav-tabs" id="my-profile-tab">
-                                <li class="<?php echo(!isset($active_tab) ? 'active' :  (isset($active_tab) && $active_tab == 'tab-profile') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-profile"> Profile</a></li>
-                                <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-preference') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-preference">Preference</a></li>
-                                <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-change-password') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-change-password">Change Password</a></li>
-                                <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-electronic-password') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-electronic-password">Electronic Password</a></li>
-                                <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-credential') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-credential">My Credential</a></li>
+                                <li class="<?php echo(!isset($active_tab) ? 'active' :  (isset($active_tab) && $active_tab == 'tab-profile') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-profile"><i class="fa fa-user"></i> Profile</a></li>
+                                <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-preference') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-preference"><i class="fa fa-cogs"></i> Preference</a></li>
+                                <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-change-password') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-change-password"><i class="fa fa-key"></i> Change Password</a></li>
+                                <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-electronic-signature') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-electronic-signature"><i class="fa fa-key"></i> Electronic Signature</a></li>
+                                <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-credential') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-credential"><i class="fa fa-sitemap"></i> My Credential</a></li>
                             </ul>
                             <div class="tab-content">
                                 <div id="tab-profile" class="tab-pane <?php echo(!isset($active_tab) ? 'active' : (isset($active_tab) && $active_tab == 'tab-profile') ? 'active' : '');?>">
@@ -189,19 +189,6 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Start on page</label>
                                                 <div class="col-lg-4  <?php echo(form_error('state') != '' ? 'has-error' : '');?>">
-                                                    <select name="state_id" class="form-control">
-                                                        <option value="" selected disabled>Select</option>
-                                                        <?php
-                                                        if (isset($state) and $state != NULL) {
-                                                            foreach ($state as $st) {
-                                                                ?>
-                                                                <option
-                                                                    value="<?php echo $st->state_id; ?>" <?php echo set_select('state_id', $st->state_id); echo((isset($user) && $user->user_id == $st->state_id) ? 'selected' : '');?>><?php echo $st->state_name_long; ?></option>
-                                                            <?php
-                                                            }
-                                                        }
-                                                        ?>
-                                                    </select>
                                                     <?php echo form_error('state', '<div class="">', '</div>'); ?>
                                                 </div>
                                             </div>
@@ -209,7 +196,7 @@
 
                                             <div class="form-group">
                                                 <div class="col-lg-8 text-center">
-                                                    <button class="btn btn-success">Submit</button>
+<!--                                                    <button class="btn btn-success">Submit</button>-->
                                                 </div>
                                             </div>
                                         </form>
@@ -223,7 +210,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Password</label>
                                                 <div class="col-lg-5">
-                                                    <input class="form-control" type="password" name="password" pattern="^.{<?php echo $min_length . ',' . $max_length;?>}.*$" />
+                                                    <input class="form-control" type="password" name="password" placeholder="New password here" pattern="^.{<?php echo $min_length . ',' . $max_length;?>}.*$" />
                                                     Must be <?php echo $min_length . '-' . $max_length;?> characters long.
                                                     <?php echo form_error('password', '<div class="">', '</div>'); ?>
                                                 </div>
@@ -233,7 +220,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-md-2">Confirm Password</label>
                                                 <div class="col-lg-5">
-                                                    <input class="form-control" type="password" name="confirm_password" pattern="^.{<?php echo $min_length . ',' . $max_length;?>}.*$"/>
+                                                    <input class="form-control" type="password" name="confirm_password" placeholder="Confirm New password here" pattern="^.{<?php echo $min_length . ',' . $max_length;?>}.*$"/>
                                                     <?php echo form_error('confirm_password', '<div class="">', '</div>'); ?>
                                                 </div>
                                             </div>
@@ -247,27 +234,26 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div id="tab-electronic-password" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'tab-electronic-password') ? 'active' : '');?>">
+                                <div id="tab-electronic-signature" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'tab-electronic-signature') ? 'active' : '');?>">
                                     <div class="panel-body">
                                         <form action="<?php echo current_url()?>" class="form-horizontal" method="post">
-                                            <input type="hidden" name="tab" value="electronic_password"/>
+                                            <input type="hidden" name="tab" value="electronic_signature"/>
 
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Electronic Password</label>
+                                                <label class="control-label col-md-3 required">New Electronic Signature</label>
                                                 <div class="col-lg-5 <?php echo(form_error('electronic_signature') != '' ? 'has-error' : '');?>">
-                                                    <input class="form-control" type="text" name="electronic_signature" placeholder="Electronic password" value="<?php echo(isset($user) ? $user->electronic_signature : set_value('electronic_signature'));?>"/>
+                                                    <input class="form-control" type="text" name="electronic_signature" placeholder="Electronic password" value=""/>
                                                     <?php echo form_error('electronic_signature', '<div class="">', '</div>'); ?>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="control-label col-md-2">Electronic Password</label>
-                                                <div class="col-lg-5 <?php echo(form_error('electronic_signature') != '' ? 'has-error' : '');?>">
-                                                    <input class="form-control" type="text" name="electronic_signature" placeholder="Electronic Password" value="<?php echo(isset($user) ? $user->electronic_signature : set_value('electronic_signature'));?>"/>
-                                                    <?php echo form_error('electronic_signature', '<div class="">', '</div>'); ?>
+                                                <label class="control-label col-md-3 required">Confirm New Electronic Signature</label>
+                                                <div class="col-lg-5 <?php echo(form_error('confirm_electronic_signature') != '' ? 'has-error' : '');?>">
+                                                    <input class="form-control" type="text" name="confirm_electronic_signature" placeholder="Confirm Electronic Signature" value=""/>
+                                                    <?php echo form_error('confirm_electronic_signature', '<div class="">', '</div>'); ?>
                                                 </div>
 
                                             </div>
-
                                             <?php echo form_hidden($csrf); ?>
 
                                             <div class="form-group">
@@ -280,99 +266,56 @@
                                 </div>
                                 <div id="tab-credential" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'tab-credential') ? 'active' : '');?>">
                                     <div class="panel-body">
-                                        <strong>Donec quam felis</strong>
+                                        <div class="table-responsive">
 
-                                        <p>Thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects
-                                            and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath </p>
-
-                                        <p>I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine. I am so happy, my dear friend, so absorbed in the exquisite
-                                            sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet.</p>
+                                            <table class="table table-striped table-bordered table-hover table-responsive dataTables-credential">
+                                                <thead>
+                                                <tr>
+                                                    <th>Credential Type</th>
+                                                    <th>Credential id</th>
+                                                    <th>Expiration Date</th>
+                                                    <th>Days left</th>
+                                                    <th>Attachment</th>
+                                                    <th>Notes</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php
+                                                if (isset($agencies) and $agencies != FALSE) {
+                                                    $i = 1;
+                                                    foreach ($agencies as $agency) {
+                                                        ?>
+                                                        <tr>
+                                                            <td><?php echo $i; ?></td>
+                                                            <td><a href="<?php echo site_url('agency/' . $agency->agency_id);?>"><?php echo $agency->agency_name; ?></a></td>
+                                                            <td><?php echo $agency->agency_type; ?></td>
+                                                            <td><?php echo $agency->agency_status; ?></td>
+                                                            <td><?php echo $agency->contact_name; ?></td>
+                                                            <td><?php echo $agency->contact_phone; ?></td>
+                                                            <td class="center">
+                                                                <div  class="btn-group btn-group-xs" role="group">
+                                                                    <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $agency->agency_id);?>">
+                                                                        <i class="fa fa-pencil"></i>
+                                                                    </a>
+                                                                    <a class="btn btn-danger" onclick="return alertConfirm(this);" href="<?php echo site_url('agency/delete/' . $agency->agency_id);?>">
+                                                                        <i class="fa fa-trash-o"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                        <?php
+                                                        $i++;
+                                                    }
+                                                }
+                                                ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
-
                         </div>
-                        <form action="<?php echo current_url()?>" class="form-horizontal" method="post">
-                            <div class="form-group">
-                                <label class="control-label col-md-2 required">First Name</label>
-                                <div class="col-lg-4 <?php echo(form_error('first_name') != '' ? 'has-error' : '');?>">
-                                    <input class="form-control" type="text" name="first_name" placeholder="Your First Name" value="<?php echo(isset($user) ? $user->first_name : set_value('first_name'));?>"/>
-                                    <?php echo form_error('first_name', '<div class="help-block">', '</div>'); ?>
-                                </div>
-
-                                <label class="control-label col-md-2">last Name</label>
-                                <div class="col-lg-4 <?php echo(form_error('last_name') != '' ? 'has-error' : '');?>">
-                                    <input class="form-control" type="text" name="last_name" placeholder="Your Last Name" value="<?php echo(isset($user) ? $user->last_name : set_value('last_name'));?>"/>
-                                    <?php echo form_error('last_name', '<div class="">', '</div>'); ?>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Nick Name</label>
-                                <div class="col-lg-4  <?php echo(form_error('user_nick') != '' ? 'has-error' : '');?>">
-                                    <input class="form-control" type="text" name="user_nick" placeholder="Your Last Name" value="<?php echo(isset($user) ? $user->user_nick : set_value('user_nick'));?>"/>
-                                    <?php echo form_error('user_nick', '<div class="">', '</div>'); ?>
-                                </div>
-
-                                <label class="control-label col-md-2 required">Email</label>
-                                <div class="col-lg-4  <?php echo(form_error('user_email') != '' ? 'has-error' : '');?>">
-                                    <input class="form-control" type="email" name="user_email" placeholder="example@example.com" value="<?php echo(isset($user) ? $user->user_email : set_value('user_email'));?>"/>
-                                    <?php echo form_error('user_email', '<div class="">', '</div>'); ?>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2 required">Phone</label>
-                                <div class="col-lg-4  <?php echo(form_error('phone_home') != '' ? 'has-error' : '');?>">
-                                    <input class="form-control" type="text" name="phone_home" placeholder="Your phone Number" value="<?php echo(isset($user) ? $user->phone_home : set_value('phone_home'));?>"/>
-                                    <?php echo form_error('phone_home', '<div class="">', '</div>'); ?>
-                                </div>
-
-                                <label class="control-label col-md-2">Electronic Signature</label>
-                                <div class="col-lg-4 <?php echo(form_error('electronic_signature') != '' ? 'has-error' : '');?>">
-                                    <input class="form-control" type="text" name="electronic_signature" placeholder="Electronic signature" value="<?php echo(isset($user) ? $user->electronic_signature : set_value('electronic_signature'));?>"/>
-                                    <?php echo form_error('electronic_signature', '<div class="">', '</div>'); ?>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">City</label>
-                                <div class="col-lg-4 <?php echo(form_error('city') != '' ? 'has-error' : '');?>">
-                                    <input class="form-control" type="text" name="city" placeholder="City" value="<?php echo(isset($user) ? $user->city : set_value('city'));?>"/>
-                                    <?php echo form_error('city', '<div class="">', '</div>'); ?>
-                                </div>
-
-                                <label class="control-label col-md-2">Address</label>
-                                <div class="col-lg-4 <?php echo(form_error('address') != '' ? 'has-error' : '');?>">
-                                    <textarea
-                                        class="form-control" name="address"><?php echo(isset($user) ? $user->address : set_value('address'));?> </textarea>
-                                    <?php echo form_error('address', '<div class="">', '</div>'); ?>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="control-label col-md-2">Password (If Change)</label>
-                                <div class="col-lg-4">
-                                    <input class="form-control" type="password" name="password" placeholder="******" pattern="^.{<?php echo $min_length . ',' . $max_length;?>}.*$" />
-                                    Must be <?php echo $min_length . '-' . $max_length;?> characters long.
-                                    <?php echo form_error('password', '<div class="">', '</div>'); ?>
-                                </div>
-
-                                <label class="control-label col-md-2">Confirm Password</label>
-                                <div class="col-lg-4">
-                                    <input class="form-control" type="password" name="confirm_password" placeholder="******" pattern="^.{<?php echo $min_length . ',' . $max_length;?>}.*$"/>
-                                    <?php echo form_error('confirm_password', '<div class="">', '</div>'); ?>
-                                </div>
-                            </div>
-                            <?php echo form_hidden($csrf); ?>
-
-                            <div class="form-group">
-                                <div class="col-lg-8 text-center">
-                                    <button class="btn btn-success">Submit</button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
                 </div>
 
@@ -419,17 +362,36 @@
         });
 
 
-//        var hash = window.location.hash;
-//        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
-//
-//        $('.nav-tabs a').click(function (e) {
-//            $(this).tab('show');
-//            var scrollmem = $('body').scrollTop();
-//            window.location.hash = this.hash;
-//            $('html,body').scrollTop(scrollmem);
-//        });
 
-//        $('#my-profile-tab a[href="#tab-change-password"]').tab('show'); // Select tab by name
+        /********Data table for profile credential**/
+        $('.dataTables-credential').DataTable({
+            "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+            "pageLength": 300,
+            responsive: true,
+            dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtip',
+            buttons: [
+                {extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'SubMenu'},
+                {extend: 'pdf', title: 'SubMenu'},
+
+                {
+                    extend: 'print',
+                    customize: function (win) {
+                        $(win.document.body).addClass('white-bg');
+                        $(win.document.body).css('font-size', '10px');
+
+                        $(win.document.body).find('table')
+                            .addClass('compact')
+                            .css('font-size', 'inherit');
+                    }
+                }
+            ],
+            "fnInitComplete": function(oSettings, json) {
+                $('#addBtn').append('<div class="col-md-4"><a class="btn btn-primary" href="<?php echo current_url().'/add-credential';?>">Add Credential</a></div>');
+            }
+        });
+
 
     });
 

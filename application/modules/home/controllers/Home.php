@@ -418,6 +418,12 @@ class Home extends CI_Controller {
 
     }
 
+
+    public function add_credential()
+    {
+        var_dump('add credential');
+    }
+
     public function test1()
     {
         $array = [

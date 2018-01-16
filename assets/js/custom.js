@@ -248,8 +248,8 @@ $(document).ready(function () {
     });
 
 
-    /********Data table for x-profile-group**/
-    $('.dataTables-x-profile-group').DataTable({
+    /********Data table for x_application**/
+    $('.dataTables-x-application').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
@@ -273,9 +273,10 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            $('#addBtn').append('<div class="col-md-4"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#profileGroupModal">Add New Group</button></div><div class="col-md-5"><a onclick="window.history.back();" class="btn btn-default">Back</a></div>');
+            $('#addBtn').append('<div class="col-md-5"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationModal">Add New Application</button></div><div class="col-md-5"><a onclick="window.history.back();" class="btn btn-default">Back</a></div>');
         }
     });
+
 
 });
 
