@@ -1110,6 +1110,10 @@ class Auth extends CI_Controller {
             redirect('login', 'refresh');
         }
 
+        if ($this->input->get('tab')) {
+            $this->data['active_tab'] = $this->input->get('tab');
+        }
+
         $user_id = $this->session->user_id;
         $this->data['user'] = $this->user->where('user_id', $user_id)->with_state()->get();
         $this->data['state'] = $this->state->get_all();
@@ -1118,12 +1122,15 @@ class Auth extends CI_Controller {
 //            print_r($this->input->post());
 //            print_r('</pre>');
 //            exit;
+
             if ($this->input->post('tab') == 'myaccount') {
+                $this->data['active_tab'] = 'tab-profile';
                 $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
                 $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_phone_label'), 'required');
 
 
                 if ($this->form_validation->run() === TRUE) {
+                    $data = [];
                     if ($this->input->post('user_email') != NULL) {
                         $data['user_email'] = $this->input->post('user_email');
                     }
@@ -1138,33 +1145,42 @@ class Auth extends CI_Controller {
                     $data['phone_home'] = $this->input->post('phone_home');
                     $data['phone_cell'] = $this->input->post('phone_cell');
 
-
-                    // check to see if we are updating the user
-                    if ($this->ion_auth->update($user_id, $data)) {
-                        // redirect them back to the admin page if admin, or to the base url if non admin
-                        $this->session->set_flashdata('message', $this->ion_auth->messages());
-                        redirect(current_url(), 'refresh');
-
-                    } else {
-                        // redirect them back to the admin page if admin, or to the base url if non admin
-                        $this->session->set_flashdata('message', $this->ion_auth->errors());
-                        redirect(current_url(), 'refresh');
-
-                    }
-                } else {
-                    unset($this->data['user']);
+                }else{
+                    redirect(current_url() . '?tab=' . $this->data['active_tab']);
                 }
-            } elseif ($this->input->post('tab') == 'dd') {
+//                else {
+//                    unset($this->data['user']);
+//                }
+            } elseif ($this->input->post('tab') == 'change_password') {
+                $this->data['active_tab'] = 'tab-change-password';
                 if ($this->input->post('password')) {
                     $this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[confirm_password]');
                     $this->form_validation->set_rules('confirm_password', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
                 }
-
-
-                // update the password if it was posted
-                if ($this->input->post('password')) {
+                if ($this->form_validation->run() === TRUE) {
+                    // update the password if it was posted
+                    $data = [];
                     $data['password'] = $this->input->post('password');
+
+                }else{
+                    redirect(current_url() . '?tab=' . $this->data['active_tab']);
                 }
+            } elseif ($this->input->post('tab') == 'change_password') {
+//                code here
+            }
+
+
+            // check to see if we are updating the user
+            if ($this->ion_auth->update($user_id, $data)) {
+                // redirect them back to the admin page if admin, or to the base url if non admin
+                $this->session->set_flashdata('message', $this->ion_auth->messages());
+                redirect(current_url() . '?tab=' . $this->data['active_tab'], 'refresh');
+
+            } else {
+                // redirect them back to the admin page if admin, or to the base url if non admin
+                $this->session->set_flashdata('message', $this->ion_auth->errors());
+                redirect(current_url() . '?tab=' . $this->data['active_tab'], 'refresh');
+
             }
         }
 

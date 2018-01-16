@@ -185,7 +185,9 @@ class Agency extends CI_Controller {
             $this->form_validation->set_rules('profile', 'Profile', 'required');
             $this->form_validation->set_rules('discipline', 'Discipline', 'required');
             $this->form_validation->set_rules('employee_type', 'Employee Type', 'required');
-            $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+            if ($this->input->post('email') != NULL) {
+                $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+            }
             if ($param2 != 'edit') {
                 $this->form_validation->set_rules('email', 'Email', 'required|valid_email');
             }
@@ -240,13 +242,13 @@ class Agency extends CI_Controller {
                     $form_data['user_email'] = $this->input->post('email');
                     $form_data['phone_home'] = $phone;
                     $form_data['creation_datetime'] = date('Y-m-d h:i:s', time());
-                    $form_data['xx_password'] = '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36';
+                    $form_data['password'] = '21232f297a57a5a743894a0e4a801fc3';
                     $form_data['active'] = 1;
                     $user_id = $this->us1_user->insert($form_data);
                     unset($form_data['creation_datetime']);
                     if ($user_id) {
                         unset($form_data['first_name']);
-                        unset($form_data['xx_password']);
+                        unset($form_data['password']);
                         unset($form_data['active']);
                         $form_data['first_name'] = $this->input->post('first_name');
                         $form_data['user_id'] = $user_id;
