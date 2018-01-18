@@ -48,7 +48,7 @@
                                 <label class="control-label col-lg-2 required">Expiration Date</label>
                                 <div class="col-lg-4 <?php echo(form_error('expiration_date') != '' ? 'has-error' : '');?>">
                                     <div class="input-group date">
-                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014" name="expiration_date">
+                                        <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="<?php echo set_value('expiration_date');?>" name="expiration_date">
                                     </div>
 <!--                                    --><?php //echo form_error('expiration_date', '<div class="">', '</div>'); ?>
                                 </div>
