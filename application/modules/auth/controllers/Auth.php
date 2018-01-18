@@ -1118,11 +1118,6 @@ class Auth extends CI_Controller {
         $this->data['user'] = $this->user->where('user_id', $user_id)->with_state()->get();
         $this->data['state'] = $this->state->get_all();
         if ($this->input->post()) {
-//            print_r('<pre>');
-//            print_r($this->input->post());
-//            print_r('</pre>');
-//            exit;
-
             if ($this->input->post('tab') == 'myaccount') {
                 $this->data['active_tab'] = 'tab-profile';
                 $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
@@ -1209,6 +1204,12 @@ class Auth extends CI_Controller {
 
         }
 
+        $this->data['credentials'] = $this->user_credential->with('attachment')->get_all();
+//        print_r('<pre>');
+//        print_r($this->data['credentials']);
+//        print_r('</pre>');
+//
+//        exit;
         $this->data['title'] = "Dashboard";
         $this->data['current'] = "dashboard";
         $this->data['page'] = "edit_profile";

@@ -16,7 +16,7 @@ class Home extends CI_Controller {
 
         $this->load->model('profile/X_profile_group_applic_model', 'profile_group_applica');
 
-        $this->load->library(['ion_auth']);
+        $this->load->library(['ion_auth', 'upload']);
 
         if (!$this->ion_auth->logged_in())
         {
@@ -421,44 +421,80 @@ class Home extends CI_Controller {
 
     public function add_credential()
     {
-        var_dump('add credential');
+        if ($this->input->post()) {
+
+
+
+            $this->form_validation->set_rules('tab_086_credential_type', 'Credential Type', 'required');
+            $this->form_validation->set_rules('credential_id', 'Credential_id', 'required');
+            $this->form_validation->set_rules('expiration_date', 'Expiration Date', 'required');
+            $this->form_validation->set_rules('alert_days', 'Alert Days', 'required|numeric');
+            $this->form_validation->set_rules('notes', 'Notes', 'required');
+
+            if (empty($_FILES['attachment']['name']))
+            {
+                $this->form_validation->set_rules('attachment', 'Document', 'required');
+            }
+
+            if ($this->form_validation->run() == TRUE) {
+
+                $config['upload_path'] = getcwd() . '/uploads/credential/';
+                $config['allowed_types'] = 'jpg|pdf|png';
+                $config['file_name'] = time() . '_' . $_FILES["attachment"]['name'];
+                $this->upload->initialize($config);
+
+                if ( ! $this->upload->do_upload('attachment'))
+                {
+//                    $this->user_credential->delete($user_credential_id);
+                    $data['upload_error'] = array('error' => $this->upload->display_errors());
+                }else{
+                    $upload_data = $this->upload->data();
+
+                    $attachment['attachment'] = $upload_data['file_name'];
+                    $attachment_id = $this->user_credential_attachment->insert($attachment);
+                    if ($attachment_id) {
+//
+                        $user_credential['tab_086_credential_type'] = $this->input->post('tab_086_credential_type');
+                        $user_credential['credential_id'] = $this->input->post('credential_id');
+                        $user_credential['expiration_date'] = date("Y-m-d", strtotime($this->input->post('expiration_date')));
+                        $user_credential['alert_days'] = $this->input->post('alert_days');
+                        $user_credential['notes'] = $this->input->post('notes');
+                        $user_credential['user_id'] = $this->ion_auth->user()->row()->id;
+                        $user_credential['attachment_id'] = $attachment_id;
+                        $user_credential['create_date_time'] = date('Y-m-d H:i:s a', time());
+
+                        $user_credential_id = $this->user_credential->insert($user_credential);
+                        if ($user_credential_id) {
+                            $attachment = [];
+                            $attachment['us1_user_credential_id'] = $user_credential_id;
+                            $this->user_credential_attachment->update($attachment, $attachment_id);
+
+                            redirect(site_url('my-profile?tab=tab-credential'));
+                        }else{
+                            $this->attachment->delete($attachment_id);
+                            if (file_exists(getcwd() . 'uploads/credential' . $upload_data['file_name'])) {
+                                unlink(getcwd() . 'uploads/credential' . $upload_data['file_name']);
+                            }
+                        }
+                    }else{
+                        if (file_exists(getcwd() . 'uploads/credential' . $upload_data['file_name'])) {
+                            unlink(getcwd() . 'uploads/credential' . $upload_data['file_name']);
+                        }
+                    }
+                }
+
+
+
+
+            }
+        }
+
+
+        $data['current'] = "groups";
+        $data['title'] = "Add Credential";
+        $data['page'] = "add_credential";
+        $this->load->view('template', $data);
     }
 
-    public function test1()
-    {
-        $array = [
-            [
-                'id' => '12',
-                'title' => 'sub1',
-                'link' => 'test',
-                'icon' => 'fa-bath',
-                'description' => '',
-                'menu_id' => '9',
-                'created_at' => '2017-10-28 20:19:03',
-                'updated_at' => '2017-10-30 20:01:08'
-            ],
-            [
 
-                'id' => '17',
-                'title' => 'edited',
-                'link' => 'edited',
-                'icon' => 'fa-bath',
-                'description' => 'fa-bath',
-                'menu_id' => '9',
-                'created_at' => '2017-10-28 20:20:02',
-                'updated_at' => '2017-10-30 20:12:07',
-            ],
-            [
-                'id' => '18',
-                'title' => 'sub7',
-                'link' => 'sub7',
-                'icon' => '',
-                'description' => '',
-                'menu_id' => '9',
-                'created_at' => '2017-10-28 20:20:11',
-                'updated_at' => null
-            ]
-        ];
-
-    }
 }

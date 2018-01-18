@@ -40,6 +40,12 @@
 
     <link href="<?php echo asset('css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css');?>" rel="stylesheet">
 
+<!--    <link href="--><?php //echo asset('css/plugins/dropzone/basic.css');?><!--" rel="stylesheet">-->
+
+    <link href="<?php echo asset('css/plugins/jasny/jasny-bootstrap.min.css');?>" rel="stylesheet">
+
+
+    <link href="<?php echo asset('css/plugins/dualListbox/bootstrap-duallistbox.min.css');?>" rel="stylesheet">
 
     <!-- Mainly scripts -->
     <script src="<?php echo asset('js/jquery-3.1.1.min.js');?>"></script>
@@ -87,6 +93,8 @@
 
     <!-- Custom -->
     <script src="<?php echo asset('js/custom.js');?>"></script>
+
+    <script src="<?php echo asset('js/plugins/fullcalendar/moment.min.js');?>"></script>
 
     <script>
 

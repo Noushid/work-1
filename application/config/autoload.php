@@ -137,4 +137,6 @@ $autoload['model'] = [
     'agency/Profile_model' => 'profile',
     'agency/Tab_parameter_model' => 'tab_parameter',
     'home/State_model' => 'state',
+    'home/Us1_user_credential_attachment_model' => 'user_credential_attachment',
+    'home/Us1_user_credential_model' => 'user_credential',
 ];

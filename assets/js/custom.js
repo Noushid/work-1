@@ -277,6 +277,48 @@ $(document).ready(function () {
         }
     });
 
+    ////////////Edit  profile/////////////
+    $('#change-user-email-check').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green'
+    });
+
+    $('#change-user-email-check').on('ifChecked', function(event){
+        $('#user_email').prop('disabled', false);
+    });
+
+    $('#change-user-email-check').on('ifUnchecked', function(event){
+        $('#user_email').prop('disabled', true);
+    });
+
+    $('#phone_home').inputmask({
+        mask: '?(999) 999-9999',
+        autoclear: true
+    });
+    $('#phone_home').change(function () {
+        if($(this).val().length < 14) {
+            $('#data_home_phone').addClass('has-error');
+        }else{
+            $('#data_home_phone').removeClass('has-error');
+        }
+    });
+
+    $('#phone_cell').inputmask({
+        mask: '?(999) 999-9999',
+        autoclear: true
+    });
+
+    $('#phone_cell').change(function () {
+        if($(this).val().length < 14) {
+            $('#data_phone_cell').addClass('has-error');
+        }else{
+            $('#data_phone_cell').removeClass('has-error');
+        }
+    });
+
+    ////////////Edit  profile/////////////
+
+
 
 });
 

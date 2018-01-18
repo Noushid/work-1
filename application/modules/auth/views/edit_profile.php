@@ -1,7 +1,7 @@
 <?php //var_dump($user);exit?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>Agency</h2>
+        <h2>My Profile</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
@@ -152,26 +152,6 @@
                                                     <?php echo form_error('phone_cell', '<div class="">', '</div>'); ?>
                                                 </div>
                                             </div>
-
-<!--                                            <div class="form-group">-->
-<!--                                                <label class="control-label col-md-2">Electronic Signature</label>-->
-<!--                                                <div class="col-lg-4 --><?php //echo(form_error('electronic_signature') != '' ? 'has-error' : '');?><!--">-->
-<!--                                                    <input class="form-control" type="text" name="electronic_signature" placeholder="Electronic signature" value="--><?php //echo(isset($user) ? $user->electronic_signature : set_value('electronic_signature'));?><!--"/>-->
-<!--                                                    --><?php //echo form_error('electronic_signature', '<div class="">', '</div>'); ?>
-<!--                                                </div>-->
-<!--                                                <label class="control-label col-md-2">Password (If Change)</label>-->
-<!--                                                <div class="col-lg-4">-->
-<!--                                                    <input class="form-control" type="password" name="password" placeholder="******" pattern="^.{--><?php //echo $min_length . ',' . $max_length;?><!--}.*$" />-->
-<!--                                                    Must be --><?php //echo $min_length . '-' . $max_length;?><!-- characters long.-->
-<!--                                                    --><?php //echo form_error('password', '<div class="">', '</div>'); ?>
-<!--                                                </div>-->
-<!---->
-<!--                                                <label class="control-label col-md-2">Confirm Password</label>-->
-<!--                                                <div class="col-lg-4">-->
-<!--                                                    <input class="form-control" type="password" name="confirm_password" placeholder="******" pattern="^.{--><?php //echo $min_length . ',' . $max_length;?><!--}.*$"/>-->
-<!--                                                    --><?php //echo form_error('confirm_password', '<div class="">', '</div>'); ?>
-<!--                                                </div>-->
-<!--                                            </div>-->
                                             <?php echo form_hidden($csrf); ?>
 
                                             <div class="form-group">
@@ -281,27 +261,18 @@
                                                 </thead>
                                                 <tbody>
                                                 <?php
-                                                if (isset($agencies) and $agencies != FALSE) {
+                                                if (isset($credentials) and $credentials != FALSE) {
                                                     $i = 1;
-                                                    foreach ($agencies as $agency) {
+                                                    foreach ($credentials as $credential) {
                                                         ?>
                                                         <tr>
-                                                            <td><?php echo $i; ?></td>
-                                                            <td><a href="<?php echo site_url('agency/' . $agency->agency_id);?>"><?php echo $agency->agency_name; ?></a></td>
-                                                            <td><?php echo $agency->agency_type; ?></td>
-                                                            <td><?php echo $agency->agency_status; ?></td>
-                                                            <td><?php echo $agency->contact_name; ?></td>
-                                                            <td><?php echo $agency->contact_phone; ?></td>
-                                                            <td class="center">
-                                                                <div  class="btn-group btn-group-xs" role="group">
-                                                                    <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $agency->agency_id);?>">
-                                                                        <i class="fa fa-pencil"></i>
-                                                                    </a>
-                                                                    <a class="btn btn-danger" onclick="return alertConfirm(this);" href="<?php echo site_url('agency/delete/' . $agency->agency_id);?>">
-                                                                        <i class="fa fa-trash-o"></i>
-                                                                    </a>
-                                                                </div>
-                                                            </td>
+                                                            <td><?php echo $credential->tab_086_credential_type; ?></td>
+                                                            <td><?php echo $credential->credential_id; ?></td>
+                                                            <td><?php echo $credential->expiration_date; ?></td>
+                                                            <td><?php echo $credential->alert_days; ?></td>
+                                                            <td><?php echo(isset($credential->attachment) ? '<a href="' . site_url().'uploads/credential/'.$credential->attachment->attachment . '" target="_blank">View attachments</a>' : '');?></td>
+                                                            <td><?php echo $credential->notes; ?></td>
+
                                                         </tr>
                                                         <?php
                                                         $i++;
@@ -326,42 +297,6 @@
 
 <script>
     $(document).ready(function () {
-        $('#change-user-email-check').iCheck({
-            checkboxClass: 'icheckbox_square-green',
-            radioClass: 'iradio_square-green',
-        });
-        $('#change-user-email-check').on('ifChecked', function(event){
-            $('#user_email').prop('disabled', false);
-        });
-        $('#change-user-email-check').on('ifUnchecked', function(event){
-            $('#user_email').prop('disabled', true);
-        });
-
-        $('#phone_home').inputmask({
-            mask: '?(999) 999-9999',
-            autoclear: true
-        });
-        $('#phone_home').change(function () {
-            if($(this).val().length < 14) {
-                $('#data_home_phone').addClass('has-error');
-            }else{
-                $('#data_home_phone').removeClass('has-error');
-            }
-        });
-
-        $('#phone_cell').inputmask({
-            mask: '?(999) 999-9999',
-            autoclear: true
-        });
-        $('#phone_cell').change(function () {
-            if($(this).val().length < 14) {
-                $('#data_phone_cell').addClass('has-error');
-            }else{
-                $('#data_phone_cell').removeClass('has-error');
-            }
-        });
-
-
 
         /********Data table for profile credential**/
         $('.dataTables-credential').DataTable({
@@ -387,7 +322,7 @@
                     }
                 }
             ],
-            "fnInitComplete": function(oSettings, json) {
+            "fnInitComplete": function (oSettings, json) {
                 $('#addBtn').append('<div class="col-md-4"><a class="btn btn-primary" href="<?php echo current_url().'/add-credential';?>">Add Credential</a></div>');
             }
         });
