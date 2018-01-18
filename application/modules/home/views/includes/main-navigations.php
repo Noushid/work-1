@@ -4,10 +4,14 @@
     <img alt="image" class="img-circle" src="<?php echo asset('img/profile_small.jpg'); ?>" />
         </span>
     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo profile('first_name'); ?></strong>
+<!--        <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">--><?php //echo profile('first_name'); ?><!--</strong>-->
         <?php
         if ($user->tab_005_user_type == 5) {
             $tab_value=$this->tab_parameter->where('tab_type',5)->where('tab_value',4)->get();
+        }
+//        $tab_value = $this->tab_parameter->where('tab_type', 5)->where('tab_value', 4)->get();
+        if (!$this->ion_auth->is_admin()) {
+            echo '<span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">' . $_SESSION['profile_name'] . '</strong>';
         }
         ?>
 

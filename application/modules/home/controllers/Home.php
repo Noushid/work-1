@@ -421,10 +421,8 @@ class Home extends CI_Controller {
 
     public function add_credential()
     {
+
         if ($this->input->post()) {
-
-
-
             $this->form_validation->set_rules('tab_086_credential_type', 'Credential Type', 'required');
             $this->form_validation->set_rules('credential_id', 'Credential_id', 'required');
             $this->form_validation->set_rules('expiration_date', 'Expiration Date', 'required');
@@ -472,13 +470,13 @@ class Home extends CI_Controller {
                             redirect(site_url('my-profile?tab=tab-credential'));
                         }else{
                             $this->attachment->delete($attachment_id);
-                            if (file_exists(getcwd() . 'uploads/credential' . $upload_data['file_name'])) {
-                                unlink(getcwd() . 'uploads/credential' . $upload_data['file_name']);
+                            if (file_exists(getcwd() . '/uploads/credential/' . $upload_data['file_name'])) {
+                                unlink(getcwd() . '/uploads/credential/' . $upload_data['file_name']);
                             }
                         }
                     }else{
-                        if (file_exists(getcwd() . 'uploads/credential' . $upload_data['file_name'])) {
-                            unlink(getcwd() . 'uploads/credential' . $upload_data['file_name']);
+                        if (file_exists(getcwd() . '/uploads/credential/' . $upload_data['file_name'])) {
+                            unlink(getcwd() . '/uploads/credential/' . $upload_data['file_name']);
                         }
                     }
                 }
@@ -489,10 +487,69 @@ class Home extends CI_Controller {
             }
         }
 
-
-        $data['current'] = "groups";
+        $data['credential_types'] = $this->tab_parameter->where('tab_type', 86)->get_all();
+        $data['current'] = "dashboard";
         $data['title'] = "Add Credential";
         $data['page'] = "add_credential";
+        $this->load->view('template', $data);
+    }
+
+    public function edit_credential($id)
+    {
+        $data['credential'] = $this->user_credential->with_attachment()->where('user_credential_id', $id)->get();
+        if ($this->input->post()) {
+            $this->form_validation->set_rules('tab_086_credential_type', 'Credential Type', 'required');
+            $this->form_validation->set_rules('credential_id', 'Credential_id', 'required');
+            $this->form_validation->set_rules('expiration_date', 'Expiration Date', 'required');
+            $this->form_validation->set_rules('alert_days', 'Alert Days', 'required|numeric');
+            $this->form_validation->set_rules('notes', 'Notes', 'required');
+
+
+            if ($this->form_validation->run() == TRUE) {
+                if (!empty($_FILES['attachment']['name'])) {
+                    $config['upload_path'] = getcwd() . '/uploads/credential/';
+                    $config['allowed_types'] = 'jpg|pdf|png';
+                    $config['file_name'] = time() . '_' . $_FILES["attachment"]['name'];
+                    $this->upload->initialize($config);
+
+                    if ( ! $this->upload->do_upload('attachment'))
+                    {
+//                    $this->user_credential->delete($user_credential_id);
+                        $data['upload_error'] = array('error' => $this->upload->display_errors());
+                    } else {
+                        $upload_data = $this->upload->data();
+                        $attachment['attachment'] = $upload_data['file_name'];
+                        if (!$this->user_credential_attachment->update($attachment, $data['credential']->attachment_id)) {
+                            $this->session->set_flashdata('error', 'Update Failed');
+                            redirect(site_url('my-profile?tab=tab-credential'));
+                        }
+                        if (file_exists(getcwd() . '/uploads/credential/' . $data['credential']->attachment->attachment)) {
+                            unlink(getcwd() . '/uploads/credential/' . $data['credential']->attachment->attachment);
+                        }
+                    }
+                    {
+                    }
+                }
+
+                $user_credential['tab_086_credential_type'] = $this->input->post('tab_086_credential_type');
+                $user_credential['credential_id'] = $this->input->post('credential_id');
+                $user_credential['expiration_date'] = date("Y-m-d", strtotime($this->input->post('expiration_date')));
+                $user_credential['alert_days'] = $this->input->post('alert_days');
+                $user_credential['notes'] = $this->input->post('notes');
+                $this->user_credential->update($user_credential, $id);
+                $this->session->set_flashdata('message', 'Success');
+                redirect(site_url('my-profile?tab=tab-credential'));
+//                if ($this->user_credential->update($user_credential,$id)) {
+//                    $this->session->set_flashdata('message', 'Success');
+//                    redirect(site_url('my-profile?tab=tab-credential'));
+//                }
+            }
+        }
+
+        $data['credential_types'] = $this->tab_parameter->where('tab_type', 86)->get_all();
+        $data['current'] = "dashboard";
+        $data['title'] = "Edit Credential";
+        $data['page'] = "edit_credential";
         $this->load->view('template', $data);
     }
 

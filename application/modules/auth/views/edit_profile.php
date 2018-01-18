@@ -257,6 +257,7 @@
                                                     <th>Days left</th>
                                                     <th>Attachment</th>
                                                     <th>Notes</th>
+                                                    <th>Action</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -272,7 +273,13 @@
                                                             <td><?php echo $credential->alert_days; ?></td>
                                                             <td><?php echo(isset($credential->attachment) ? '<a href="' . site_url().'uploads/credential/'.$credential->attachment->attachment . '" target="_blank">View attachments</a>' : '');?></td>
                                                             <td><?php echo $credential->notes; ?></td>
-
+                                                            <td class="center">
+                                                                <div  class="btn-group btn-group-xs" role="group">
+                                                                    <a class="btn btn-info" href="<?php echo site_url('my-profile/edit-credential/' . $credential->user_credential_id);?>">
+                                                                        <i class="fa fa-pencil"></i>
+                                                                    </a>
+                                                                </div>
+                                                            </td>
                                                         </tr>
                                                         <?php
                                                         $i++;

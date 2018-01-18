@@ -129,16 +129,16 @@
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo profile('first_name'); ?></strong></span></span>
                             <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo (isset($profile_name) ? $profile_name : '');?></strong></span></span>
 <!--                            <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold">--><?php //echo (isset($user) ? $user->first_name.' '.$user->last_name : '');?><!--</strong></span></span>-->
-                            </span> <span class="text-muted text-xs block"><?php echo (isset($user) ? $user->first_name.' '.$user->last_name : '');?></b></span> </span>
+                            </span> <span class="text-muted text-xs block"><?php echo (isset($user) ? $user->first_name.' '.$user->last_name : '');?><b class="caret"></b></span> </span>
 <!--                            <span class="text-muted text-xs block">first and last name<b class="caret"></b></span>-->
                         </a>
-<!--                        <ul class="dropdown-menu animated fadeInRight m-t-xs">-->
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
 <!--                            <li><a href="--><?php //echo site_url('profile')?><!--">Profile</a></li>-->
-<!--                            <li><a href="contacts.html">Contacts</a></li>-->
-<!--                            <li><a href="mailbox.html">Mailbox</a></li>-->
-<!--                            <li class="divider"></li>-->
-<!--                            <li><a href="login.html">Logout</a></li>-->
-<!--                        </ul>-->
+                            <li><a href="contacts.html">Contacts</a></li>
+                            <li><a href="mailbox.html">Mailbox</a></li>
+                            <li class="divider"></li>
+                            <li><a href="login.html">Logout</a></li>
+                        </ul>
                     </div>
                     <div class="logo-element">
                         IN+

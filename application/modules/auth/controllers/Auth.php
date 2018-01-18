@@ -192,11 +192,12 @@ class Auth extends CI_Controller {
                     $data['agencies'] = $this->agency->where('agency_id', $user_agency_id)->get_all();
                     $this->_render_page('auth/login', $data);
                 }else{
-                    /*
+
+                    /**
+                     *
                      *  IF user exists in only one agency,
-                     * */
-
-
+                     *
+                     **/
 
                     if (!$user_agency) {
                         $this->session->set_flashdata('message', ' <p class="alert alert-danger">You haven\'t any agency</p>');
@@ -260,14 +261,21 @@ class Auth extends CI_Controller {
         $user_agency = $this->user_agency
             ->where('agency_id', $agency_id)
             ->where('user_id', $this->session->user_id)
-            ->with_user_group(['with' => ['relation' => 'group']])
             ->with('profile')->get();
+
 
         $profile = $this->profile->where('profile_id', $user_agency->profile_id)->get();
 
 //        $user_group = $this->user_group->where('us_agy_id', $user_agency[0]->us_agy_id)->with('group')->get();
 
         $this->session->set_userdata('profile_id', $profile->profile_id);
+        $this->session->set_userdata('profile_name', $profile->profile_name);
+        //if the login is successful
+
+        //redirect them back to the home page
+        $this->session->set_flashdata('message', $this->ion_auth->messages());
+        redirect('/', 'refresh');
+
 
 
 //        $this->session->set_userdata('profile_id', $user_agency->profile->profile_id);
@@ -276,8 +284,6 @@ class Auth extends CI_Controller {
 //        $this->session->set_userdata('group_name', $user_agency->user_group->group->name);
 //        //if the login is successful
 //        //redirect them back to the home page
-        $this->session->set_flashdata('message', $this->ion_auth->messages());
-        redirect('/', 'refresh');
     }
 
 	// log the user out
@@ -1205,11 +1211,6 @@ class Auth extends CI_Controller {
         }
 
         $this->data['credentials'] = $this->user_credential->with('attachment')->get_all();
-//        print_r('<pre>');
-//        print_r($this->data['credentials']);
-//        print_r('</pre>');
-//
-//        exit;
         $this->data['title'] = "Dashboard";
         $this->data['current'] = "dashboard";
         $this->data['page'] = "edit_profile";

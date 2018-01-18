@@ -120,6 +120,7 @@ $route['create-user-group'] = "home/user_group";
 $route['user-dash/(:num)'] = "home/user_login/$1";
 
 $route['my-profile/add-credential'] = "home/add_credential";
+$route['my-profile/edit-credential/(:num)'] = "home/edit_credential/$1";
 
 
 //$route['(:any)'] = "home/test/$1";
