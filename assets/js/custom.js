@@ -35,13 +35,11 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
+        "order": [[ 1, 'asc' ]],
         //dom: '<"html5buttons"B>lTfgitp',lfrtip //normal
         //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
         dom: '<"html5buttons"B>g<"col-sm-3"f><"#addBtn.col-md-6">rtipl',//add btn right and search left
         buttons: [
-            {extend: 'copy'},
-            {extend: 'copy'},
-            {extend: 'csv'},
             {extend: 'excel', title: 'ExampleFile'},
             {extend: 'pdf', title: 'ExampleFile'},
 
@@ -58,7 +56,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            $('#addBtn').append('<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add new Agency</button>');
+            $('#addBtn').append('<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add Agency</button>');
         }
     });
 
@@ -69,12 +67,12 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
-        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
+        "order": [[ 2, 'asc' ]],
+        //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
+        dom: '<"html5buttons"B>g<"col-sm-3"f><"#addBtn.col-md-7">rtipl',//add btn right and search left
         buttons: [
-            {extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
+            {extend: 'excel', title: 'agencyUsers'},
+            {extend: 'pdf', title: 'agencyUsers'},
 
             {
                 extend: 'print',
@@ -89,7 +87,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function (oSettings, json) {
-            $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Add new user</button></div>');
+            $('#addBtn').append('<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add user</button>');
         }
     });
 
@@ -277,6 +275,54 @@ $(document).ready(function () {
         }
     });
 
+    /********Data table for Agency contractor**/
+    $('.dataTables-agency-contractor').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        //"pageLength": 300,
+        responsive: true,
+        dom: '<"html5buttons"B>gfrtip',
+        buttons: [
+            {extend: 'excel', title: 'AgencyContractor'},
+            {extend: 'pdf', title: 'AgencyContractor'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+
+
+    /********Data table for Agency contractor**/
+    $('.dataTables-agency-doctor').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        //"pageLength": 300,
+        responsive: true,
+        dom: '<"html5buttons"B>gfrtip',
+        buttons: [
+            {extend: 'excel', title: 'AgencyDoctor'},
+            {extend: 'pdf', title: 'AgencyDoctor'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
     ////////////Edit  profile/////////////
     $('#change-user-email-check').iCheck({
         checkboxClass: 'icheckbox_square-green',

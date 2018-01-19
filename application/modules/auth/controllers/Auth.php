@@ -177,11 +177,14 @@ class Auth extends CI_Controller {
 
                 $user_agency = $this->user_agency->where('user_id', $user_id)->get_all();
 
-//                $group = $this->ion_auth->get_users_groups($_SESSION['user_id'])->result();
-//                $this->session->set_userdata('group_id', $group[0]->id);
-//                $this->session->set_userdata('group_name', $group[0]->name);
+                $this->session->set_userdata('user_profile', $user);
 
-                if (count($user_agency) > 1) {
+                if ($user->tab_005_user_type == 5) {
+                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    redirect('/', 'refresh');
+                }
+
+                if ($user_agency and count($user_agency) > 1) {
                     /*
                      *  IF user exists in more than one agency,
                      * */

@@ -49,7 +49,8 @@ class User_agency_model extends MY_Model
 
     public function select_where($where)
     {
-        $agency = $this->agency->where($where)->get();
+        $agency = $this->agency->where($where)->with_state()->get();
+
         if ($agency) {
             $agency_user = $this->user_agency->where('agency_id', $agency->agency_id)->get_all();
             if ($agency_user) {

@@ -116,6 +116,23 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 <span class="help-block">(999) 999-9999</span>
 <!--                                                --><?php //echo form_error('contact_phone', '<div class="">', '</div>'); ?>
                                             </div>
+
+                                            <label class="control-label col-lg-2 required">State</label>
+                                            <div class="col-lg-4 <?php echo(form_error('state') != '' ? 'has-error' : '');?>">
+                                                <select name="state" class="form-control" <?php echo set_select('state');?> ><!--required="">-->
+                                                    <option value="" selected disabled>Select</option>
+                                                    <?php
+                                                    if (isset($states) and $states != false) {
+                                                        foreach ($states as $state) { ?>
+                                                            <option value="<?php echo $state->state_id;?>" <?php echo set_select('state', $state->state_id);?>><?php echo $state->state_name_long;?></option>
+                                                    <?php }
+
+                                                    }
+                                                    ?>
+
+                                                </select>
+<!--                                                --><?php //echo form_error('state', '<div class="">', '</div>'); ?>
+                                            </div>
                                         </div>
                                         <?php
                                         if(validation_errors() != '') {
@@ -143,41 +160,42 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <table class="table table-striped table-bordered table-hover table-responsive dataTables-agency ">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Id</th>
                                 <th>Name</th>
                                 <th>Type</th>
                                 <th>Status</th>
                                 <th>Contact Name</th>
                                 <th>Contact Phone</th>
+                                <th>State</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
                             <tbody>
                             <?php
+
                             if (isset($agencies) and $agencies != FALSE) {
-                                $i = 1;
                                 foreach ($agencies as $agency) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $i; ?></td>
+                                        <td><?php echo $agency->agency_id; ?></td>
                                         <td><a href="<?php echo site_url('agency/' . $agency->agency_id);?>"><?php echo $agency->agency_name; ?></a></td>
                                         <td><?php echo $agency->agency_type; ?></td>
                                         <td><?php echo $agency->agency_status; ?></td>
                                         <td><?php echo $agency->contact_name; ?></td>
                                         <td><?php echo $agency->contact_phone; ?></td>
+                                        <td><?php echo (isset($agency->state) ? $agency->state->state_name_long : ''); ?></td>
                                         <td class="center">
                                             <div  class="btn-group btn-group-xs" role="group">
-                                                <a class="btn btn-info" href="<?php echo site_url('agency/edit/' . $agency->agency_id);?>">
+                                                <a class="btn btn-info" href="<?php echo site_url('agency/' . $agency->agency_id);?>">
                                                     <i class="fa fa-pencil"></i>
                                                 </a>
-                                                <a class="btn btn-danger" onclick="return alertConfirm(this);" href="<?php echo site_url('agency/delete/' . $agency->agency_id);?>">
-                                                    <i class="fa fa-trash-o"></i>
-                                                </a>
+<!--                                                <a class="btn btn-danger" onclick="return alertConfirm(this);" href="--><?php //echo site_url('agency/delete/' . $agency->agency_id);?><!--">-->
+<!--                                                    <i class="fa fa-trash-o"></i>-->
+<!--                                                </a>-->
                                             </div>
                                         </td>
                                     </tr>
                                     <?php
-                                    $i++;
                                 }
                             }
                             ?>

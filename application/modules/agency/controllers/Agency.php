@@ -20,6 +20,8 @@ class Agency extends CI_Controller {
         $this->load->model('Tab_parameter_model', 'tab_parameter');
         $this->load->model('Dis_discipline_model', 'discipline');
         $this->load->model('home/User_group_model', 'user_group');
+        $this->load->model('agency/Agency_contractor_model', 'agency_contractor');
+        $this->load->model('agency/Agency_doctor_office_model', 'agency_doctor_ofc');
 
         $this->load->library(['ion_auth']);
         /*
@@ -45,7 +47,8 @@ class Agency extends CI_Controller {
      */
     public function index($param1="",$param2="",$param3="") {
 
-        $data['agencies'] = $this->agency->get_all();
+        $data['agencies'] = $this->agency->with_state()->get_all();
+        $data['states'] = $this->state->get_all();
         $data['title'] = "Agency";
         $data['page'] = "agency";
         /*
@@ -100,6 +103,7 @@ class Agency extends CI_Controller {
                 $form_data['agency_type'] = $this->input->post('agency_type');
                 $form_data['agency_status'] = $this->input->post('agency_status');
                 $form_data['contact_name'] = $this->input->post('contact_name');
+                $form_data['state_id'] = $this->input->post('state');
                 $phone = str_replace([' ', '(', ')','--'], '-', $this->input->post('contact_phone'));
                 $phone = ltrim($phone, '-');
                 $form_data['contact_phone'] = $phone;
@@ -107,12 +111,11 @@ class Agency extends CI_Controller {
                     $form_data['modify_datetime'] = now();
                     if ($this->agency->update($form_data ,$param2)) {
                         $this->session->set_flashdata('message', 'Updated');
-                        redirect(site_url('/agency'), 'refresh');
-                        exit;
+                        redirect($this->agent->referrer(), 'refresh');
                     } else {
-                        $this->session->set_flashdata('error', 'Does\'t Updated');
-                        redirect(site_url('/agency'), 'refresh');
-                        exit;
+//                        $this->session->set_flashdata('error', 'Does\'t Updated');
+                        $this->session->set_flashdata('message', 'Updated');
+                        redirect($this->agent->referrer(), 'refresh');
                     }
                 }
 
@@ -125,7 +128,13 @@ class Agency extends CI_Controller {
                     redirect(site_url('/agency'), 'refresh');
                 }
             }else{
-                $data['modal_opened'] = true;
+                if ($param1 == 'edit' and $param2 != "") {
+                    $data['agency'] = $this->user_agency->select_where(['agency_id' => $param2]);
+                    $data['page'] = "agency_single";
+                    $data['modal_opened'] = false;
+                }else{
+                    $data['modal_opened'] = true;
+                }
             }
         }
 
@@ -137,8 +146,11 @@ class Agency extends CI_Controller {
 
     public function agency_single($param1,$param2="",$param3="")
     {
-
         $data['agency'] = $this->user_agency->select_where(['agency_id' => $param1]);
+        $data['contractors'] = $this->agency_contractor->where('agency_id', $param1)->get_all();
+        $data['doctors'] = $this->agency_doctor_ofc->where('agency_id', $param1)->get_all();
+
+        $data['states'] = $this->state->get_all();
         $data['users'] = $this->us1_user->get_all();
         $data['user_status'] = $this->tab_parameter->where('tab_type', 21)->get_all();
         $data['profile'] = $this->profile->get_all();
@@ -156,6 +168,7 @@ class Agency extends CI_Controller {
             $data['crnt_agy_usr'] = $this->user_agency->with_user()->where('us_agy_id', $param3)->get();
             $data['modal_opened'] = true;
             $data['active_tab'] = 'tab-3';
+            $data['action'] = 'edit';
         }
 
         /*
@@ -177,9 +190,10 @@ class Agency extends CI_Controller {
          * If data posted form view
         */
         if ($this->input->post()) {
-            /*
-             * validation
-             * */
+            /**
+             *
+             * validation Post data
+             **/
             $this->form_validation->set_rules('first_name', 'First name', 'required');
             $this->form_validation->set_rules('status', 'Status', 'required');
             $this->form_validation->set_rules('profile', 'Profile', 'required');

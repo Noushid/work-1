@@ -145,7 +145,17 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <span class="m-r-sm text-muted welcome-message">Welcome <?php echo profile('first_name'); ?></span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="m-r-sm text-muted welcome-message text-xs block" style="font-weight: 400;">Welcome <?php echo profile('first_name') . '  ' . profile('last_name'); ?><b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                            <li><a href="<?php echo site_url('my-profile')?>">Profile</a></li>
+                            <li><a href="<?php echo site_url('my-profile?tab=tab-change-password');?>">Change Password</a></li>
+                            <li><a href="<?php echo site_url('my-profile?tab=tab-electronic-signature');?>">Electronic Signature</a></li>
+                            <li><a href="<?php echo site_url('my-profile?tab=tab-credential');?>">My Credential</a></li>
+                            <li class="divider"></li>
+                            <li><a href="<?php echo site_url('logout'); ?>">Logout</a></li>
+                        </ul>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
