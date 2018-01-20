@@ -1,4 +1,3 @@
-<?php //var_dump($user);exit?>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>My Profile</h2>
@@ -334,6 +333,28 @@
             }
         });
 
+
+
+        /*Show hash tag for tabs*/
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+        var scrollmem = $('body').scrollTop();
+        $('html,body').scrollTop(scrollmem);
+
+
+        $('.nav-tabs a').click(function (e) {
+            $(this).tab('show');
+            var scrollmem = $('body').scrollTop();
+            window.location.hash = this.hash;
+            $('html,body').scrollTop(scrollmem);
+        });
+
+        $('#my-profile-nav a').click(function (e) {
+            var hash = window.location.hash;
+            hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+            var scrollmem = $('body').scrollTop();
+            $('html,body').scrollTop(scrollmem);
+        });
 
     });
 

@@ -18,11 +18,11 @@
         <span class="clear"> <span class="block m-t-xs"> <strong class="font-bold"><?php echo (isset($tab_value) ? $tab_value->tab_description :'');?></strong>
         </span> <span class="text-muted text-xs block"><?php echo $user->first_name . ' ' . $user->last_name;?><b class="caret"></b></span> </span>
     </a>
-    <ul class="dropdown-menu animated fadeInRight m-t-xs">
-        <li><a href="<?php echo site_url('my-profile')?>">Profile</a></li>
-        <li><a href="<?php echo site_url('my-profile?tab=tab-change-password');?>">Change Password</a></li>
-        <li><a href="<?php echo site_url('my-profile?tab=tab-electronic-signature');?>">Electronic Signature</a></li>
-        <li><a href="<?php echo site_url('my-profile?tab=tab-credential');?>">My Credential</a></li>
+    <ul class="dropdown-menu animated fadeInRight m-t-xs" id="my-profile-nav">
+        <li><a href="<?php echo site_url('my-profile#tab-profile')?>">Profile</a></li>
+        <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-change-password');?>">Change Password</a></li>
+        <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-electronic-signature');?>">Electronic Signature</a></li>
+        <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-credential');?>">My Credential</a></li>
         <li class="divider"></li>
         <li><a href="<?php echo site_url('logout'); ?>">Logout</a></li>
     </ul>

@@ -21,7 +21,21 @@ if (isset($modal_opened) and $modal_opened == true) {
 <script>
     $(document).ready(function () {
         $('#myTab a[href="#tab2"]').tab('show'); // Select tab by name
+
+
+        var hash = window.location.hash;
+        hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+        $('.nav-tabs a').click(function (e) {
+            $(this).tab('show');
+            var scrollmem = $('body').scrollTop();
+            window.location.hash = this.hash;
+            $('html,body').scrollTop(scrollmem);
+        });
+
     });
+
+
 
 </script>
 <div class="row wrapper border-bottom white-bg page-heading">

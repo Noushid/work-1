@@ -149,12 +149,12 @@
                             <span class="m-r-sm text-muted welcome-message text-xs block" style="font-weight: 400;">Welcome <?php echo profile('first_name') . '  ' . profile('last_name'); ?><b class="caret"></b></span>
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="<?php echo site_url('my-profile')?>">Profile</a></li>
-                            <li><a href="<?php echo site_url('my-profile?tab=tab-change-password');?>">Change Password</a></li>
-                            <li><a href="<?php echo site_url('my-profile?tab=tab-electronic-signature');?>">Electronic Signature</a></li>
-                            <li><a href="<?php echo site_url('my-profile?tab=tab-credential');?>">My Credential</a></li>
+                            <li><a href="<?php echo site_url('my-profile#tabchange')?>">Profile</a></li>
+                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-change-password');?>">Change Password</a></li>
+                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-electronic-signature');?>">Electronic Signature</a></li>
+                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-credential');?>">My Credential</a></li>
                             <li class="divider"></li>
-                            <li><a href="<?php echo site_url('logout'); ?>">Logout</a></li>
+                            <li><a onclick="location.reload();" href="<?php echo site_url('logout'); ?>">Logout</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -295,19 +295,6 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $('.dataTables-example').dataTable({
-            responsive: true,
-            destroy: true,
-            "dom": 'T<"clear">lfrtip',
-            "tableTools": {
-                "sSwfPath": "js/plugins/dataTables/swf/copy_csv_xls_pdf.swf"
-            }
-        });
-    });
-
-</script>
 <style>
     body.DTTT_Print {
         background: #fff;
