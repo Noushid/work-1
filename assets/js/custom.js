@@ -87,7 +87,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function (oSettings, json) {
-            $('#addBtn').append('<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add user</button>');
+            $('#addBtn').append('<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add User</button>');
         }
     });
 

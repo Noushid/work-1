@@ -19,7 +19,7 @@
         </span> <span class="text-muted text-xs block"><?php echo $user->first_name . ' ' . $user->last_name;?><b class="caret"></b></span> </span>
     </a>
     <ul class="dropdown-menu animated fadeInRight m-t-xs" id="my-profile-nav">
-        <li><a href="<?php echo site_url('my-profile#tab-profile')?>">Profile</a></li>
+        <li><a href="<?php echo site_url('my-profile#tab-profile')?>">My Profile</a></li>
         <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-change-password');?>">Change Password</a></li>
         <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-electronic-signature');?>">Electronic Signature</a></li>
         <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-credential');?>">My Credential</a></li>
