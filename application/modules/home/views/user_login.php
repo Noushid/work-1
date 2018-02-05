@@ -133,11 +133,12 @@
 <!--                            <span class="text-muted text-xs block">first and last name<b class="caret"></b></span>-->
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
-<!--                            <li><a href="--><?php //echo site_url('profile')?><!--">Profile</a></li>-->
-                            <li><a href="contacts.html">Contacts</a></li>
-                            <li><a href="mailbox.html">Mailbox</a></li>
+                            <li><a href="<?php echo current_url().'/my-profile#tabchange'?>">My Profile</a></li>
+                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-change-password');?>">Change Password</a></li>
+                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-electronic-signature');?>">Electronic Signature</a></li>
+                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-credential');?>">My Credential</a></li>
                             <li class="divider"></li>
-                            <li><a href="login.html">Logout</a></li>
+                            <li><a onclick="location.reload();" href="<?php echo site_url('logout'); ?>">Logout</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">

@@ -151,7 +151,6 @@
                                                     <?php echo form_error('phone_cell', '<div class="">', '</div>'); ?>
                                                 </div>
                                             </div>
-                                            <?php echo form_hidden($csrf); ?>
 
                                             <div class="form-group">
                                                 <div class="col-lg-8 text-center">
@@ -171,7 +170,6 @@
                                                     <?php echo form_error('state', '<div class="">', '</div>'); ?>
                                                 </div>
                                             </div>
-                                            <?php echo form_hidden($csrf); ?>
 
                                             <div class="form-group">
                                                 <div class="col-lg-8 text-center">
@@ -203,7 +201,6 @@
                                                     <?php echo form_error('confirm_password', '<div class="">', '</div>'); ?>
                                                 </div>
                                             </div>
-                                            <?php echo form_hidden($csrf); ?>
 
                                             <div class="form-group">
                                                 <div class="col-lg-8 text-center">
@@ -233,7 +230,6 @@
                                                 </div>
 
                                             </div>
-                                            <?php echo form_hidden($csrf); ?>
 
                                             <div class="form-group">
                                                 <div class="col-lg-8 text-center">

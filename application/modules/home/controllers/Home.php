@@ -494,7 +494,7 @@ class Home extends CI_Controller {
         $this->load->view('template', $data);
     }
 
-    public function edit_credential($id)
+    public function edit_credential($id,$from="",$user_id="")
     {
         $data['credential'] = $this->user_credential->with_attachment()->where('user_credential_id', $id)->get();
         if ($this->input->post()) {
@@ -521,13 +521,15 @@ class Home extends CI_Controller {
                         $attachment['attachment'] = $upload_data['file_name'];
                         if (!$this->user_credential_attachment->update($attachment, $data['credential']->attachment_id)) {
                             $this->session->set_flashdata('error', 'Update Failed');
-                            redirect(site_url('my-profile?tab=tab-credential'));
+                            if ($from == 'admin_user') {
+                                redirect(site_url('user-dash/' . $user_id . '/my-profile?tab=tab-credential'));
+                            }else{
+                                redirect(site_url('my-profile?tab=tab-credential'));
+                            }
                         }
                         if (file_exists(getcwd() . '/uploads/credential/' . $data['credential']->attachment->attachment)) {
                             unlink(getcwd() . '/uploads/credential/' . $data['credential']->attachment->attachment);
                         }
-                    }
-                    {
                     }
                 }
 
@@ -538,7 +540,13 @@ class Home extends CI_Controller {
                 $user_credential['notes'] = $this->input->post('notes');
                 $this->user_credential->update($user_credential, $id);
                 $this->session->set_flashdata('message', 'Success');
-                redirect(site_url('my-profile?tab=tab-credential'));
+
+                if ($from == 'admin_user') {
+                    redirect(site_url('user-dash/' . $user_id . '/my-profile?tab=tab-credential'));
+                }else{
+                    redirect(site_url('my-profile?tab=tab-credential'));
+                }
+
 //                if ($this->user_credential->update($user_credential,$id)) {
 //                    $this->session->set_flashdata('message', 'Success');
 //                    redirect(site_url('my-profile?tab=tab-credential'));
@@ -550,6 +558,113 @@ class Home extends CI_Controller {
         $data['current'] = "dashboard";
         $data['title'] = "Edit Credential";
         $data['page'] = "edit_credential";
+        $this->load->view('template', $data);
+    }
+
+
+    public function edit_user_profile($user_id)
+    {
+
+        if ($this->input->get('tab')) {
+            $data['active_tab'] = $this->input->get('tab');
+        }
+
+        if ($this->input->post()) {
+            if ($this->input->post('tab') == 'myaccount') {
+                $this->data['active_tab'] = 'tab-profile';
+                $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
+                $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_phone_label'), 'required');
+
+
+                if ($this->form_validation->run() === TRUE) {
+                    $data = [];
+                    if ($this->input->post('user_email') != NULL) {
+                        $data['user_email'] = $this->input->post('user_email');
+                    }
+
+                    $data['user_nick'] = $this->input->post('user_nick');
+                    $data['first_name'] = $this->input->post('first_name');
+                    $data['last_name'] = $this->input->post('last_name');
+                    $data['address'] = $this->input->post('address');
+                    $data['city'] = $this->input->post('city');
+                    $data['state_id'] = $this->input->post('state_id');
+                    $data['zip_code'] = $this->input->post('zip_code');
+                    $data['phone_home'] = $this->input->post('phone_home');
+                    $data['phone_cell'] = $this->input->post('phone_cell');
+
+                    // check to see if we are updating the user
+                    if ($this->ion_auth->update($user_id, $data)) {
+                        // redirect them back to the admin page if admin, or to the base url if non admin
+                        $this->session->set_flashdata('message', $this->ion_auth->messages());
+                        redirect(current_url() . '?tab=' . $this->data['active_tab'], 'refresh');
+
+                    } else {
+                        // redirect them back to the admin page if admin, or to the base url if non admin
+                        $this->session->set_flashdata('message', $this->ion_auth->errors());
+                        redirect(current_url() . '?tab=' . $this->data['active_tab'], 'refresh');
+
+                    }
+
+                }
+            } elseif ($this->input->post('tab') == 'change_password') {
+                $this->data['active_tab'] = 'tab-change-password';
+                if ($this->input->post('password')) {
+                    $this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[confirm_password]');
+                    $this->form_validation->set_rules('confirm_password', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
+                }
+                if ($this->form_validation->run() === TRUE) {
+                    // update the password if it was posted
+                    $data = [];
+                    $data['password'] = $this->input->post('password');
+
+                    // check to see if we are updating the user
+                    if ($this->ion_auth->update($user_id, $data)) {
+                        // redirect them back to the admin page if admin, or to the base url if non admin
+                        $this->session->set_flashdata('message', $this->ion_auth->messages());
+                        redirect(current_url() . '?tab=' . $this->data['active_tab'], 'refresh');
+
+                    } else {
+                        // redirect them back to the admin page if admin, or to the base url if non admin
+                        $this->session->set_flashdata('message', $this->ion_auth->errors());
+                        redirect(current_url() . '?tab=' . $this->data['active_tab'], 'refresh');
+
+                    }
+
+                }
+            } elseif ($this->input->post('tab') == 'electronic_signature') {
+                $this->data['active_tab'] = 'tab-electronic-signature';
+                $this->form_validation->set_rules('electronic_signature', 'Electronic Password', 'required|matches[confirm_electronic_signature]');
+                $this->form_validation->set_rules('confirm_electronic_signature', 'Confirm Electronic Password', 'required');
+                if ($this->form_validation->run() == TRUE) {
+                    $data = [];
+                    $data['electronic_signature'] = $this->input->post('electronic_signature');
+
+                    // check to see if we are updating the user
+                    if ($this->ion_auth->update($user_id, $data)) {
+                        // redirect them back to the admin page if admin, or to the base url if non admin
+                        $this->session->set_flashdata('message', $this->ion_auth->messages());
+                        redirect(current_url() . '?tab=' . $this->data['active_tab'], 'refresh');
+
+                    } else {
+                        // redirect them back to the admin page if admin, or to the base url if non admin
+                        $this->session->set_flashdata('message', $this->ion_auth->errors());
+                        redirect(current_url() . '?tab=' . $this->data['active_tab'], 'refresh');
+
+                    }
+                }
+            }
+
+        }
+
+
+        $data['user'] = $this->user->where('user_id', $user_id)->with_state()->get();
+        $data['state'] = $this->state->get_all();
+        $data['credentials'] = $this->user_credential->with('attachment')->get_all();
+        $data['title'] = "Dashboard";
+        $data['current'] = "dashboard";
+        $data['page'] = "auth/edit_profile";
+        $data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
+        $data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
         $this->load->view('template', $data);
     }
 
