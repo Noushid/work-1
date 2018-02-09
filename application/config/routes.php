@@ -119,6 +119,8 @@ $route['create-user-group'] = "home/user_group";
 /*admin -> User login*/
 $route['user-dash/(:num)'] = "home/user_login/$1";
 $route['user-dash/(:num)/my-profile'] = "home/edit_user_profile/$1";
+$route['user-dash/(:num)/my-profile/edit-credential/(:num)'] = "home/edit_credential/$2/$1";
+$route['user-dash/(:num)/my-profile/add-credential'] = "home/add_credential/$1";
 
 
 

@@ -66,7 +66,7 @@
                                 <div class="col-lg-6  <?php echo(form_error('attachment') != '' ? 'has-error' : '');?>">
                                     <div class="fileinput fileinput-new input-group" data-provides="fileinput">
                                         <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                            <span class="fileinput-filename"><?php echo(isset($credential) ? $credential->attachment->attachment : ''); ?></span>
+                                            <span class="fileinput-filename"><?php echo(isset($credential->attachment) ? $credential->attachment->attachment : ''); ?></span>
                                         </div>
                                         <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="attachment"></span>
                                         <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
@@ -107,7 +107,7 @@
                         </div>
                         <div class="modal-footer">
                             <div class="row">
-                                <a href="<?php echo site_url('my-profile?tab=tab-credential');?>" class="btn btn-white" style="margin-bottom: 0px;">Close</a>
+                                <a href="<?php echo (isset($user_id) ? site_url('user-dash/' . $user_id . '/my-profile?tab=tab-credential') : site_url('my-profile?tab=tab-credential'));?>" class="btn btn-white" style="margin-bottom: 0px;">Close</a>
                                 <button type="submit" class="btn btn-primary">Save</button>
                             </div>
                         </div>

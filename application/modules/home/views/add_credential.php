@@ -75,7 +75,7 @@
                             <div class="form-group">
                                 <label class="control-label col-lg-2 required">Notes</label>
                                 <div class="col-lg-10 <?php echo(form_error('notes') != '' ? 'has-error' : '');?>">
-                                    <textarea name="notes" class="form-control"></textarea>
+                                    <textarea name="notes" class="form-control"><?php echo(set_value('notes'));?></textarea>
 <!--                                    --><?php //echo form_error('notes', '<div class="">', '</div>'); ?>
                                 </div>
                             </div>

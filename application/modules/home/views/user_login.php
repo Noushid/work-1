@@ -132,13 +132,13 @@
                             </span> <span class="text-muted text-xs block"><?php echo (isset($user) ? $user->first_name.' '.$user->last_name : '');?><b class="caret"></b></span> </span>
 <!--                            <span class="text-muted text-xs block">first and last name<b class="caret"></b></span>-->
                         </a>
-                        <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                            <li><a href="<?php echo current_url().'/my-profile#tabchange'?>">My Profile</a></li>
-                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-change-password');?>">Change Password</a></li>
-                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-electronic-signature');?>">Electronic Signature</a></li>
-                            <li><a onclick="location.reload();" href="<?php echo site_url('my-profile#tab-credential');?>">My Credential</a></li>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs" id="my-profile-nav">
+                            <li><a href="<?php echo site_url('user-dash/' . $user_id . '/my-profile#tab-profile');?>">My Profile</a></li>
+                            <li><a href="<?php echo site_url('user-dash/' . $user_id . '/my-profile#tab-change-password');?>">Change Password</a></li>
+                            <li><a href="<?php echo site_url('user-dash/' . $user_id . '/my-profile#tab-electronic-signature');?>">Electronic Signature</a></li>
+                            <li><a href="<?php echo site_url('user-dash/' . $user_id . '/my-profile#tab-credential');?>">My Credential</a></li>
                             <li class="divider"></li>
-                            <li><a onclick="location.reload();" href="<?php echo site_url('logout'); ?>">Logout</a></li>
+                            <li><a href="javascript:close_window();">Logout</a></li>
                         </ul>
                     </div>
                     <div class="logo-element">
@@ -190,7 +190,17 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <span class="m-r-sm text-muted welcome-message">Welcome <?php echo profile('first_name'); ?></span>
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                            <span class="m-r-sm text-muted welcome-message text-xs block" style="font-weight: 400;">Welcome <?php echo profile('first_name') . '  ' . profile('last_name'); ?><b class="caret"></b></span>
+                        </a>
+                        <ul class="dropdown-menu animated fadeInRight m-t-xs" id="my-profile-nav">
+                            <li><a href="<?php echo site_url('user-dash/' . $user_id . '/my-profile#tab-profile');?>">My Profile</a></li>
+                            <li><a href="<?php echo site_url('user-dash/' . $user_id . '/my-profile#tab-change-password');?>">Change Password</a></li>
+                            <li><a href="<?php echo site_url('user-dash/' . $user_id . '/my-profile#tab-electronic-signature');?>">Electronic Signature</a></li>
+                            <li><a href="<?php echo site_url('user-dash/' . $user_id . '/my-profile#tab-credential');?>">My Credential</a></li>
+                            <li class="divider"></li>
+                            <li><a href="javascript:close_window();">Logout</a></li>
+                        </ul>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -331,6 +341,10 @@
     </div>
 </div>
 <script>
+    function close_window() {
+        window.close();
+    }
+
     $(document).ready(function() {
         $('.dataTables-example').dataTable({
             responsive: true,
@@ -364,48 +378,7 @@
 
     });
 
-    function fnClickAddRow() {
-        $('#editable').dataTable().fnAddData( [
-            "Custom row",
-            "New row",
-            "New row",
-            "New row",
-            "New row" ] );
-
-    }
 </script>
-<style>
-    body.DTTT_Print {
-        background: #fff;
-
-    }
-    .DTTT_Print #page-wrapper {
-        margin: 0;
-        background:#fff;
-    }
-
-    button.DTTT_button, div.DTTT_button, a.DTTT_button {
-        border: 1px solid #e7eaec;
-        background: #fff;
-        color: #676a6c;
-        box-shadow: none;
-        padding: 6px 8px;
-    }
-    button.DTTT_button:hover, div.DTTT_button:hover, a.DTTT_button:hover {
-        border: 1px solid #d2d2d2;
-        background: #fff;
-        color: #676a6c;
-        box-shadow: none;
-        padding: 6px 8px;
-    }
-
-    .dataTables_filter label {
-        margin-right: 5px;
-
-    }
-</style>
-
-
 
 </body>
 </html>

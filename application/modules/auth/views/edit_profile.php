@@ -270,7 +270,7 @@
                                                             <td><?php echo $credential->notes; ?></td>
                                                             <td class="center">
                                                                 <div  class="btn-group btn-group-xs" role="group">
-                                                                    <a class="btn btn-info" href="<?php echo site_url('my-profile/edit-credential/' . $credential->user_credential_id);?>">
+                                                                    <a class="btn btn-info" href="<?php echo(isset($type) ? site_url('user-dash/' . $user->user_id . '/my-profile/edit-credential/' . $credential->user_credential_id) : site_url('my-profile/edit-credential/' . $credential->user_credential_id));?>">
                                                                         <i class="fa fa-pencil"></i>
                                                                     </a>
                                                                 </div>
@@ -346,8 +346,12 @@
         });
 
         $('#my-profile-nav a').click(function (e) {
-            var hash = window.location.hash;
-            hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+//            var hash = window.location.hash;
+            var hash = $(this).attr('href');
+//            alert($(this).attr('href'));
+            $("ul > li.active").removeClass("active");
+//            $("#my-profile-tab")
+            $('ul.nav a[href="' + hash + '"]').tab('show');
             var scrollmem = $('body').scrollTop();
             $('html,body').scrollTop(scrollmem);
         });

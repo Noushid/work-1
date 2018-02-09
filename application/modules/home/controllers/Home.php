@@ -397,8 +397,6 @@ class Home extends CI_Controller {
     public function user_login($user_id)
     {
         $user_agency = $this->user_agency->where('user_id', $user_id)->with_profile()->get_all();
-//        var_dump($user_agency);
-//        exit;
         if ($user_agency != false) {
             if (count($user_agency) == 1) {
                 $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
@@ -411,6 +409,7 @@ class Home extends CI_Controller {
         }else{
 //            No more agency here
         }
+        $data['user_id'] = $user_id;
         $data['user'] = $user_agency[0];
         $data['page'] = 'user-dash';
         $data['title'] = 'dashboard';
@@ -419,7 +418,7 @@ class Home extends CI_Controller {
     }
 
 
-    public function add_credential()
+    public function add_credential($user_id="")
     {
 
         if ($this->input->post()) {
@@ -457,7 +456,11 @@ class Home extends CI_Controller {
                         $user_credential['expiration_date'] = date("Y-m-d", strtotime($this->input->post('expiration_date')));
                         $user_credential['alert_days'] = $this->input->post('alert_days');
                         $user_credential['notes'] = $this->input->post('notes');
-                        $user_credential['user_id'] = $this->ion_auth->user()->row()->id;
+                        if ($user_id != "") {
+                            $user_credential['user_id'] = $user_id;
+                        }else{
+                            $user_credential['user_id'] = $this->ion_auth->user()->row()->id;
+                        }
                         $user_credential['attachment_id'] = $attachment_id;
                         $user_credential['create_date_time'] = date('Y-m-d H:i:s a', time());
 
@@ -466,8 +469,11 @@ class Home extends CI_Controller {
                             $attachment = [];
                             $attachment['us1_user_credential_id'] = $user_credential_id;
                             $this->user_credential_attachment->update($attachment, $attachment_id);
-
-                            redirect(site_url('my-profile?tab=tab-credential'));
+                            if ($user_id != "") {
+                                redirect(site_url('user-dash/' . $user_id . '/my-profile?tab=tab-credential'));
+                            }else{
+                                redirect(site_url('my-profile?tab=tab-credential'));
+                            }
                         }else{
                             $this->attachment->delete($attachment_id);
                             if (file_exists(getcwd() . '/uploads/credential/' . $upload_data['file_name'])) {
@@ -494,7 +500,7 @@ class Home extends CI_Controller {
         $this->load->view('template', $data);
     }
 
-    public function edit_credential($id,$from="",$user_id="")
+    public function edit_credential($id,$user_id="")
     {
         $data['credential'] = $this->user_credential->with_attachment()->where('user_credential_id', $id)->get();
         if ($this->input->post()) {
@@ -521,7 +527,7 @@ class Home extends CI_Controller {
                         $attachment['attachment'] = $upload_data['file_name'];
                         if (!$this->user_credential_attachment->update($attachment, $data['credential']->attachment_id)) {
                             $this->session->set_flashdata('error', 'Update Failed');
-                            if ($from == 'admin_user') {
+                            if ($user_id != '') {
                                 redirect(site_url('user-dash/' . $user_id . '/my-profile?tab=tab-credential'));
                             }else{
                                 redirect(site_url('my-profile?tab=tab-credential'));
@@ -541,7 +547,7 @@ class Home extends CI_Controller {
                 $this->user_credential->update($user_credential, $id);
                 $this->session->set_flashdata('message', 'Success');
 
-                if ($from == 'admin_user') {
+                if ($user_id != '') {
                     redirect(site_url('user-dash/' . $user_id . '/my-profile?tab=tab-credential'));
                 }else{
                     redirect(site_url('my-profile?tab=tab-credential'));
@@ -558,13 +564,13 @@ class Home extends CI_Controller {
         $data['current'] = "dashboard";
         $data['title'] = "Edit Credential";
         $data['page'] = "edit_credential";
+        $data['user_id'] = $user_id;
         $this->load->view('template', $data);
     }
 
 
     public function edit_user_profile($user_id)
     {
-
         if ($this->input->get('tab')) {
             $data['active_tab'] = $this->input->get('tab');
         }
@@ -658,14 +664,33 @@ class Home extends CI_Controller {
 
 
         $data['user'] = $this->user->where('user_id', $user_id)->with_state()->get();
+        $data['user_id'] = $user_id;
         $data['state'] = $this->state->get_all();
         $data['credentials'] = $this->user_credential->with('attachment')->get_all();
         $data['title'] = "Dashboard";
         $data['current'] = "dashboard";
         $data['page'] = "auth/edit_profile";
+//        $data['page'] = 'user-dash';
+
         $data['min_length'] = $this->config->item('min_password_length', 'ion_auth');
         $data['max_length'] = $this->config->item('max_password_length', 'ion_auth');
-        $this->load->view('template', $data);
+        $data['type'] = 'ad_user';
+
+        $user_agency = $this->user_agency->where('user_id', $user_id)->with_profile()->get_all();
+        if ($user_agency != false) {
+            if (count($user_agency) == 1) {
+                $profile = $this->profile->where('profile_id', $user_agency[0]->profile_id)->get();
+                $profile_group = $this->profile_group->where('profile_id', $profile->profile_id)->with_group()->get_all();
+                $data['profile_name'] = $profile->profile_name;
+                $data['profile_group'] = $profile_group;
+            }else{
+                //multiple agency here
+            }
+        }else{
+//            No more agency here
+        }
+
+        $this->load->view('user_login', $data);
     }
 
 
