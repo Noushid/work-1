@@ -145,9 +145,9 @@
                         IN+
                     </div>
                 </li>
-                <li>
-                    <a href="<?php echo current_url();?>"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>
-                </li>
+<!--                <li>-->
+<!--                    <a href="--><?php //echo current_url();?><!--"><i class="fa fa-diamond"></i> <span class="nav-label">Dashboard</span> <span class="label label-primary pull-right">NEW</span></a>-->
+<!--                </li>-->
 
                 <?php
                 if (isset($profile_group) and $profile_group != FALSE) {

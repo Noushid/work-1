@@ -35,6 +35,11 @@ class Profile extends CI_Controller {
                 redirect('login', 'refresh');
             }
         }
+
+        if (!$this->ion_auth->is_admin())
+        {
+            show_404();
+        }
     }
 
     public function index($param1="",$param2="") {

@@ -51,12 +51,6 @@ if (isset($modal_opened) and $modal_opened == true) {
                     </div>
                 </div>
                 <div class="ibox-content">
-                    <div class="">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">
-                            Add a new user
-                        </button>
-                    </div>
-
                     <div class="modal inmodal" id="myModal4" tabindex="-1" role="dialog"  aria-hidden="true" data-keyboard="false">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content animated fadeIn">
@@ -164,7 +158,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                         </div>
                     </div>
                     <div class="table table-responsive">
-                        <table class="table table-striped table-bordered table-hover dataTables-example table-responsive">
+                        <table class="table table-striped table-bordered table-hover table-responsive dataTables-users ">
                             <thead>
                             <tr>
                                 <th>#</th>
@@ -199,9 +193,6 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             <div  class="btn-group btn-group-xs" role="group">
                                                 <a class="btn btn-info" href="<?php echo site_url('users/edit/' . $value->id);?>">
                                                     <i class="fa fa-pencil"></i>
-                                                </a>
-                                                <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo site_url('users/delete/' . $value->id);?>">
-                                                    <i class="fa fa-trash-o"></i>
                                                 </a>
                                             </div>
                                         </td>

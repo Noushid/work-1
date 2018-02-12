@@ -38,6 +38,10 @@ class Agency extends CI_Controller {
                 // redirect them to the login page
                 redirect('login', 'refresh');
             }
+
+        }
+        if (!$this->ion_auth->is_admin()) {
+            show_404();
         }
     }
 

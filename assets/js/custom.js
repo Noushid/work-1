@@ -29,6 +29,37 @@ $(document).ready(function () {
 
     });
 
+    /*For user list in admin dashboard*/
+
+    $('.dataTables-users').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        "order": [[ 1, 'asc' ]],
+        //dom: '<"html5buttons"B>lTfgitp',lfrtip //normal
+        //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
+        dom: '<"html5buttons"B>g<"col-sm-3"f><"#addBtn.col-md-6">rtipl',//add btn right and search left
+        buttons: [
+            {extend: 'excel', title: 'ExampleFile'},
+            {extend: 'pdf', title: 'ExampleFile'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        "fnInitComplete": function(oSettings, json) {
+            $('#addBtn').append('<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal4">Add a new user</button>');
+        }
+    });
+
      /********Data table for agency**/
 
     $('.dataTables-agency').DataTable({
@@ -213,35 +244,6 @@ $(document).ready(function () {
         ],
         "fnInitComplete": function(oSettings, json) {
             $('#addBtn').append('<div class="col-md-6"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal4">Add a new sub Menu</button></div>');
-        }
-    });
-
-    /********Data table for x_application**/
-    $('.dataTables-x-application').DataTable({
-        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
-        "pageLength": 300,
-        responsive: true,
-        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtip',
-        buttons: [
-            {extend: 'copy'},
-            {extend: 'csv'},
-            {extend: 'excel', title: 'SubMenu'},
-            {extend: 'pdf', title: 'SubMenu'},
-
-            {
-                extend: 'print',
-                customize: function (win) {
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                }
-            }
-        ],
-        "fnInitComplete": function(oSettings, json) {
-            $('#addBtn').append('<div class="col-md-5"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationModal">Add New Application</button></div><div class="col-md-5"><a onclick="window.history.back();" class="btn btn-default">Back</a></div>');
         }
     });
 
