@@ -108,22 +108,35 @@ class Agency extends CI_Controller {
                 $form_data['agency_status'] = $this->input->post('agency_status');
                 $form_data['contact_name'] = $this->input->post('contact_name');
                 $form_data['state_id'] = $this->input->post('state');
+
+                $form_data['address'] = $this->input->post('address');
+                $form_data['city'] = $this->input->post('city');
+                $form_data['zip'] = $this->input->post('zip');
+                $form_data['tab_066_time_zone'] = $this->input->post('timezone');
+                $form_data['fax'] = $this->input->post('fax');
+                $form_data['agency_email'] = $this->input->post('agency_email');
+                $form_data['web_address'] = $this->input->post('web_address');
+                $form_data['po_box_address'] = $this->input->post('po_box_address');
+                $form_data['po_box_city'] = $this->input->post('po_box_city');
+                $form_data['po_box_state_id'] = $this->input->post('po_box_state_id');
+                $form_data['po_zip1'] = $this->input->post('po_zip1');
+
                 $phone = str_replace([' ', '(', ')','--'], '-', $this->input->post('contact_phone'));
                 $phone = ltrim($phone, '-');
                 $form_data['contact_phone'] = $phone;
+
                 if ($param1 == 'edit' and $param2 != "") {
                     $form_data['modify_datetime'] = now();
                     if ($this->agency->update($form_data ,$param2)) {
                         $this->session->set_flashdata('message', 'Updated');
                         redirect($this->agent->referrer(), 'refresh');
                     } else {
-//                        $this->session->set_flashdata('error', 'Does\'t Updated');
                         $this->session->set_flashdata('message', 'Updated');
                         redirect($this->agent->referrer(), 'refresh');
                     }
                 }
 
-                $form_data['create_datetime'] = now();
+                $form_data['create_datetime'] =  date("Y-m-d H:i:s");
                 if ($this->agency->insert($form_data)) {
                     $this->session->set_flashdata('message', 'Added');
                     redirect(site_url('/agency'), 'refresh');
@@ -142,6 +155,21 @@ class Agency extends CI_Controller {
             }
         }
 
+
+        $data['current'] = "agency";
+        $this->load->view('home/template', $data);
+    }
+
+    public function create()
+    {
+        $data['agencies'] = $this->agency->with_state()->get_all();
+        $data['timezone'] = $this->tab_parameter->where('tab_type', 66)->get_all();
+        $data['states'] = $this->state->get_all();
+        $data['title'] = "Agency";
+        $data['page'] = "add_agency";
+
+        if ($this->input->post()) {
+        }
 
         $data['current'] = "agency";
         $this->load->view('home/template', $data);

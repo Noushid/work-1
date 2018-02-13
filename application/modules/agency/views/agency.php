@@ -208,16 +208,3 @@ if (isset($modal_opened) and $modal_opened == true) {
         </div>
     </div>
 </div>
-<script>
-    $('#phone').inputmask({
-        mask: '?(999) 999-9999',
-        autoclear: true
-    });
-    $('#phone').change(function () {
-        if($(this).val().length < 14) {
-            $('#data_phone').addClass('has-error');
-        }else{
-            $('#data_phone').removeClass('has-error');
-        }
-    });
-</script>

@@ -82,6 +82,7 @@ $route['sub-menu'] = "home/sub_menu";
 $route['sub-menu/(:any)/(:num)'] = "home/sub_menu/$1/$2";
 
 $route['agency'] = "agency/index";
+$route['agency/add'] = "agency/create";
 $route['agency/(edit)/(:num)'] = "agency/index/$1/$2";
 $route['agency/(delete)/(:num)'] = "agency/index/$1/$2";
 

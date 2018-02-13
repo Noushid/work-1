@@ -161,7 +161,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <table class="table table-striped table-bordered table-hover table-responsive dataTables-users ">
                             <thead>
                             <tr>
-                                <th>#</th>
+                                <th>Id</th>
                                 <th>First Name</th>
                                 <th>Last Name</th>
 <!--                                <th>Username</th>-->
@@ -173,11 +173,10 @@ if (isset($modal_opened) and $modal_opened == true) {
                             <tbody>
                             <?php
                             if (isset($users) and $users != FALSE) {
-                                $i = 1;
                                 foreach ($users as $value) {
                                     ?>
                                     <tr>
-                                        <td><?php echo $i; ?></td>
+                                        <td><?php echo $value->user_id; ?></td>
                                         <td><?php echo $value->first_name; ?></td>
                                         <td><?php echo $value->last_name; ?></td>
                                         <td><?php echo $value->user_email; ?></td>
@@ -198,7 +197,6 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         </td>
                                     </tr>
                                     <?php
-                                    $i++;
                                 }
                             }
                             ?>
