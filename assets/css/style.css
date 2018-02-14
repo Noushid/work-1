@@ -8565,3 +8565,7 @@ body.md-skin {
     content:"*";
     color:red;
 }
+
+.fa-primary {
+    color: #1ab394;
+}

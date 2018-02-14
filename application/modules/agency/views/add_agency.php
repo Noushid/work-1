@@ -23,7 +23,7 @@
         <div class="col-lg-12">
             <div class="ibox float-e-margins">
                 <div class="ibox-title">
-                    <h5>Add New Agency</h5>
+                    <h5><i class="fa fa-plus-square fa-primary" style=""></i> Add New Agency</h5>
                     <div class="ibox-tools">
                         <a class="collapse-link">
                             <i class="fa fa-chevron-up"></i>
@@ -35,17 +35,19 @@
                 </div>
                 <div class="ibox-content">
                     <form action="<?php echo site_url('agency')?>" class="form-horizontal" method="post">
-                        <div class="form-group ">
-                            <label class="control-label col-lg-2 required">Name</label>
-                            <div class="col-lg-4 <?php echo(form_error('agency_name') != '' ? 'has-error' : '');?>">
-                                <input class="form-control" type="text" name="agency_name" placeholder="Agency Name" value="<?php echo(isset($current_agency) ? $current_agency->agency_name : set_value('agency_name'));?>" /><!--required=""/>-->
-                                <!--                                                --><?php //echo form_error('agency_name', '<div class="help-block">', '</div>'); ?>
+                        <fieldset class="the-fieldset m-t-lg">
+                            <legend class="the-legend"><i class="fa fa-caret-right fa-primary"></i> Agency Name</legend>
+                            <div class="form-group ">
+                                <label class="control-label col-lg-2 required">Name</label>
+                                <div class="col-lg-4 <?php echo(form_error('agency_name') != '' ? 'has-error' : '');?>">
+                                    <input class="form-control" type="text" name="agency_name" placeholder="Agency Name" value="<?php echo(isset($current_agency) ? $current_agency->agency_name : set_value('agency_name'));?>" /><!--required=""/>-->
+                                    <!--                                                --><?php //echo form_error('agency_name', '<div class="help-block">', '</div>'); ?>
+                                </div>
                             </div>
+                        </fieldset>
 
-                        </div>
-
-                        <fieldset class="the-fieldset" >
-                            <legend class="the-legend">Type & Status</legend>
+                        <fieldset class="the-fieldset m-t-lg" >
+                            <legend class="the-legend"><i class="fa fa-caret-right fa-primary"></i> Type & Status</legend>
                             <div class="form-group">
                                 <label class="control-label col-lg-2 required">Type</label>
                                 <div class="col-lg-4 <?php echo(form_error('agency_type') != '' ? 'has-error' : '');?>">
@@ -82,8 +84,8 @@
                             </div>
                         </fieldset>
 
-                        <fieldset class="the-fieldset" >
-                            <legend class="the-legend">Demographics</legend>
+                        <fieldset class="the-fieldset m-t-lg" >
+                            <legend class="the-legend"><i class="fa fa-caret-right fa-primary"></i> Demographics</legend>
                             <div class="form-group">
                                 <label class="control-label col-lg-2">Address</label>
                                 <div class="col-lg-4  <?php echo(form_error('address') != '' ? 'has-error' : '');?>">
@@ -136,8 +138,8 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <fieldset class="the-fieldset">
-                            <legend class="the-legend">Contact Information (Name, Phone, Fax, Email)</legend>
+                        <fieldset class="the-fieldset m-t-lg">
+                            <legend class="the-legend"> <i class="fa fa-caret-right fa-primary"></i> Contact Information (Name, Phone, Fax, Email)</legend>
 
                             <div class="form-group">
                                 <label class="control-label col-lg-2 required">Contact Name</label>
@@ -174,8 +176,8 @@
                             </div>
                         </fieldset>
 
-                        <fieldset class="the-fieldset">
-                            <legend class="the-legend">PO Box Information</legend>
+                        <fieldset class="the-fieldset m-t-lg">
+                            <legend class="the-legend"><i class="fa fa-caret-right fa-primary"></i> PO Box Information</legend>
                             <div class="form-group">
                                 <label class="control-label col-lg-2">Address</label>
                                 <div class="col-lg-4  <?php echo(form_error('po_box_address') != '' ? 'has-error' : '');?>">
