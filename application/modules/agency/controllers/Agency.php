@@ -179,7 +179,8 @@ class Agency extends CI_Controller {
     public function agency_single($param1,$param2="",$param3="")
     {
         $data['agency'] = $this->user_agency->select_where(['agency_id' => $param1]);
-        $data['contractors'] = $this->agency_contractor->where('agency_id', $param1)->get_all();
+        $data['contractors'] = $this->agency_contractor->where('agency_id', $param1)->with('agency')->get_all();
+
         $data['doctors'] = $this->agency_doctor_ofc->where('agency_id', $param1)->get_all();
 
         $data['states'] = $this->state->get_all();

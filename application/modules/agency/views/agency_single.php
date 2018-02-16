@@ -357,7 +357,8 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 <tr>
                                     <th>Id</th>
                                     <th>Contractor id</th>
-                                    <th>Agency id</th>
+                                    <th>Description</th>
+<!--                                    <th>Contractor Name</th>-->
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -368,7 +369,8 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <tr>
                                             <td><?php echo $contractor->agency_contractor_id; ?></td>
                                             <td><?php echo $contractor->contractor_id; ?></td>
-                                            <td><?php echo $contractor->agency_id; ?></td>
+                                            <td><?php echo $contractor->agency->agency_name; ?></td>
+<!--                                            <td>--><?php //echo $agency->agency_name; ?><!--</td>-->
                                         </tr>
                                     <?php
                                     }
@@ -398,7 +400,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Contractor id</th>
+                                            <th>Doctor Office Id</th>
                                             <th>Agency id</th>
                                         </tr>
                                         </thead>
