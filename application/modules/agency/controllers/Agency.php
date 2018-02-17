@@ -180,8 +180,21 @@ class Agency extends CI_Controller {
     {
         $data['agency'] = $this->user_agency->select_where(['agency_id' => $param1]);
         $data['contractors'] = $this->agency_contractor->where('agency_id', $param1)->with('agency')->get_all();
+        $data['doctors'] = $this->agency_doctor_ofc->where('agency_id', $param1)->with('agency')->get_all();
 
-        $data['doctors'] = $this->agency_doctor_ofc->where('agency_id', $param1)->get_all();
+        $exist_agency = [];
+        foreach ($data['contractors'] as $value) {
+            $exist_agency[] = $value->agency->agency_id;
+        }
+
+        /*get new contractor*/
+        $this->db->from('agy_agency');
+        $this->db->where('state_id', $data['agency']->state_id);
+        $this->db->where('agency_type', 'C');
+        $this->db->where_not_in('agency_id', $exist_agency);
+        $query = $this->db->get();
+        $data['new_contractors'] = ($query->num_rows() > 0 ? $query->result() : FALSE);
+        /*End*/
 
         $data['states'] = $this->state->get_all();
         $data['users'] = $this->us1_user->get_all();
@@ -396,6 +409,21 @@ class Agency extends CI_Controller {
     {
         $user = $this->us1_user->where('user_id', $param)->get();
         $this->output->set_content_type('application/json')->set_output(json_encode($user));
+    }
+
+
+    public function add_contractor($agency_id)
+    {
+        $data['contractor_id'] = $this->input->post('contractor');
+        $data['agency_id'] = $agency_id;
+        $contractor = $this->agency_contractor->insert($data);
+        if ($contractor) {
+            $response = $this->agency_contractor->where('agency_contractor_id', $contractor)->with('agency')->get();
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+        }else{
+            $this->output->set_status_header(400, 'Server Down');
+            $this->output->set_output('error');
+        }
     }
 
     public function test()

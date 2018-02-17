@@ -351,33 +351,70 @@ if (isset($modal_opened) and $modal_opened == true) {
                         </div>
                     </div>
                     <div id="contractors" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'contractors') ? 'active' : '');?>">
-                        <div class="table table-responsive">
-                            <table class="table table-striped table-bordered table-hover dataTables-agency-contractor">
-                                <thead>
-                                <tr>
-                                    <th>Id</th>
-                                    <th>Contractor id</th>
-                                    <th>Description</th>
-<!--                                    <th>Contractor Name</th>-->
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <?php
-                                if (isset($contractors) and $contractors != FALSE) {
-                                    foreach ($contractors as $contractor) {
-                                        ?>
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <div class="col-sm-3">
+                                    <h5>Agency Contractor List</h5>
+                                </div>
+
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="close-link">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+
+                                <div class="table table-responsive">
+                                    <div class="col-sm-6">
+                                        <form action="<?php echo current_url() . '/add-contractor';?>" method="POST" class="form-inline" id="contractorForm">
+                                            <div class="form-group">
+                                                <label for="" class="control-label">Select Contractor</label>
+                                                <select class="form-control" name="contractor" id="contractorField">
+                                                    <?php if (isset($new_contractors) and $new_contractors != false) {
+                                                        foreach ($new_contractors as $contr) {
+                                                            ?>
+                                                            <option value="<?php echo $contr->agency_id;?>"><?php echo $contr->agency_name;?></option>
+                                                        <?php
+                                                        }
+                                                    }else {
+                                                        ?>
+                                                        <option value="">Not found</option>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </select>
+                                                <button class="btn btn-primary">Add Contractor</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <table class="table table-striped table-bordered table-hover dataTables-agency-contractor">
+                                        <thead>
                                         <tr>
-                                            <td><?php echo $contractor->agency_contractor_id; ?></td>
-                                            <td><?php echo $contractor->contractor_id; ?></td>
-                                            <td><?php echo $contractor->agency->agency_name; ?></td>
-<!--                                            <td>--><?php //echo $agency->agency_name; ?><!--</td>-->
+                                            <th>Id</th>
+                                            <th>Description</th>
                                         </tr>
-                                    <?php
-                                    }
-                                }
-                                ?>
-                                </tbody>
-                            </table>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        if (isset($contractors) and $contractors != FALSE) {
+                                            foreach ($contractors as $contractor) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $contractor->agency_contractor_id; ?></td>
+                                                    <td><?php echo $contractor->agency->agency_name; ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -400,8 +437,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Doctor Office Id</th>
-                                            <th>Agency id</th>
+                                            <th>Description</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -411,8 +447,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $doctor->agency_doctor_office_id; ?></td>
-                                                    <td><?php echo $doctor->doctor_office_id; ?></td>
-                                                    <td><?php echo $doctor->agency_id; ?></td>
+                                                    <td><?php echo $doctor->agency->agency_name; ?></td>
                                                 </tr>
                                             <?php
                                             }
@@ -654,5 +689,49 @@ if (isset($modal_opened) and $modal_opened == true) {
             $('#data_phone').removeClass('has-error');
         }
     });
+
+    $('#contractorForm').submit(function(e) {
+        e.preventDefault();
+        var url = $(this).attr('action');
+        var data = $(this).serialize();
+        console.log();
+        if($('#contractorField').val() == ''){
+            return false;
+        }
+
+        $.post(url, data)
+            .done(function (response) {
+                $('#contractorField option:selected').remove();
+
+                var t = $('.dataTables-agency-contractor').DataTable();
+                t.row.add([
+                    response.contractor_id,
+                    response.agency.agency_name
+                ]).draw(false);
+
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.success('Added Successfully');
+                }, 330);
+            })
+            .fail(function (response) {
+                $('#contractorForm .form-group').addClass('has-error');
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.error('Try again later');
+                }, 330);
+            });
+
+    })
 
 </script>
