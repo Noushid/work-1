@@ -22,6 +22,7 @@ class Agency extends CI_Controller {
         $this->load->model('home/User_group_model', 'user_group');
         $this->load->model('agency/Agency_contractor_model', 'agency_contractor');
         $this->load->model('agency/Agency_doctor_office_model', 'agency_doctor_ofc');
+        $this->load->model('agency/Agy_agency_comments_model', 'agency_comment');
 
         $this->load->library(['ion_auth']);
         /*
@@ -181,17 +182,22 @@ class Agency extends CI_Controller {
         $data['agency'] = $this->user_agency->select_where(['agency_id' => $param1]);
         $data['contractors'] = $this->agency_contractor->where('agency_id', $param1)->with('agency')->get_all();
         $data['doctors'] = $this->agency_doctor_ofc->where('agency_id', $param1)->with('agency')->get_all();
+        $data['comments'] = $this->agency_comment->where('agency_id', $param1)->get_all();
 
         $exist_agency = [];
-        foreach ($data['contractors'] as $value) {
-            $exist_agency[] = $value->agency->agency_id;
+        if ($data['contractors']) {
+            foreach ($data['contractors'] as $value) {
+                $exist_agency[] = $value->agency->agency_id;
+            }
         }
 
         /*get new contractor*/
         $this->db->from('agy_agency');
         $this->db->where('state_id', $data['agency']->state_id);
         $this->db->where('agency_type', 'C');
-        $this->db->where_not_in('agency_id', $exist_agency);
+        if (!empty($exist_agency)) {
+            $this->db->where_not_in('agency_id', $exist_agency);
+        }
         $query = $this->db->get();
         $data['new_contractors'] = ($query->num_rows() > 0 ? $query->result() : FALSE);
         /*End*/
@@ -423,6 +429,29 @@ class Agency extends CI_Controller {
         }else{
             $this->output->set_status_header(400, 'Server Down');
             $this->output->set_output('error');
+        }
+    }
+
+    public function add_comment($agency_id)
+    {
+
+        $this->form_validation->set_rules('comment', 'Comment', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $this->output->set_status_header(400, 'Validation Error');
+            $this->output->set_content_type('application/json')->set_output(json_encode($this->form_validation->get_errors()));
+        }else{
+            $data['comment'] = $this->input->post('comment');
+            $data['review_date'] = date('Y-m-d', strtotime($this->input->post('reviewDate')));
+            $data['agency_id'] = $agency_id;
+            $comment = $this->agency_comment->insert($data);
+            if ($comment) {
+                $response = $this->agency_comment->where($comment)->get();
+                $response->created_at = date('d-m-Y', strtotime($response->created_at));
+                $this->output->set_content_type('application/json')->set_output(json_encode($response));
+            }else{
+                $this->output->set_status_header(400, 'Server Down');
+                $this->output->set_output('error');
+            }
         }
     }
 

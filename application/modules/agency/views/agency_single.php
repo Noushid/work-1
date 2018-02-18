@@ -71,6 +71,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <li class="<?php echo((isset($active_tab) && $active_tab == 'tab-3') ? 'active' : '');?>"><a data-toggle="tab" href="#tab-3">Agency Users</a></li>
                         <li class="<?php echo((isset($active_tab) && $active_tab == 'contractors') ? 'active' : '');?>"><a data-toggle="tab" href="#contractors">Contractors</a></li>
                         <li class="<?php echo((isset($active_tab) && $active_tab == 'doctors') ? 'active' : '');?>"><a data-toggle="tab" href="#doctors">Doctors</a></li>
+                        <li class="<?php echo((isset($active_tab) && $active_tab == 'comments') ? 'active' : '');?>"><a data-toggle="tab" href="#comments">Comments</a></li>
                     </ul>
                 </div>
             </div>
@@ -372,8 +373,9 @@ if (isset($modal_opened) and $modal_opened == true) {
                                     <div class="col-sm-6">
                                         <form action="<?php echo current_url() . '/add-contractor';?>" method="POST" class="form-inline" id="contractorForm">
                                             <div class="form-group">
-                                                <label for="" class="control-label">Select Contractor</label>
+<!--                                                <label for="" class="control-label">Select Contractor</label>-->
                                                 <select class="form-control" name="contractor" id="contractorField">
+                                                    <option value="">Select Contractor</option>
                                                     <?php if (isset($new_contractors) and $new_contractors != false) {
                                                         foreach ($new_contractors as $contr) {
                                                             ?>
@@ -448,6 +450,71 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 <tr>
                                                     <td><?php echo $doctor->agency_doctor_office_id; ?></td>
                                                     <td><?php echo $doctor->agency->agency_name; ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div id="comments" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'comments') ? 'active' : '');?>">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Comments</h5>
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="close-link">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="table table-responsive">
+                                    <div class="col-sm-2">
+                                        <button class="btn btn-primary" type="button" id="showBtn" onclick="showForm()">Add Comment</button>
+                                        <button class="btn btn-danger hide" id="closeBtn" type="button" onclick="hideForm()">Close</button>
+                                    </div>
+                                    <form action="<?php echo current_url() . '/add-comment';?>" method="POST" class="form-inline hide m-b-lg" id="commentForm">
+                                        <div class="form-group" id="commentArea">
+                                            <label for="" class="control-label">Comment</label>
+                                            <input class="form-control" type="text" name="comment" required=""/>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="" class="control-label">Review Date</label>
+                                            <div class="input-group date" id="reviewDate">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input type="text" class="form-control" value="01-01-2018" name="reviewDate">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit">Add</button>
+                                        </div>
+                                    </form>
+                                    <table class="table table-striped table-bordered table-hover dataTables-agency-comment">
+                                        <thead>
+                                        <tr>
+                                            <th>Comments</th>
+                                            <th>Creation Date</th>
+                                            <th>Review Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        if (isset($comments) and $comments != FALSE) {
+                                            foreach ($comments as $comment) {
+                                                ?>
+                                                <tr>
+                                                    <td><?php echo $comment->comment; ?></td>
+                                                    <td><?php echo date('d-m-Y', strtotime($comment->created_at)); ?></td>
+                                                    <td><?php echo date('d-m-Y', strtotime($comment->review_date)); ?></td>
                                                 </tr>
                                             <?php
                                             }
@@ -678,6 +745,16 @@ if (isset($modal_opened) and $modal_opened == true) {
         forceParse: false,
         autoclose: true
     });
+
+    $('#reviewDate').datepicker({
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        calendarWeeks: true,
+        autoclose: true,
+        format: "dd-mm-yyyy"
+    });
+
     $('#phone').inputmask({
         mask: '?(999) 999-9999',
         autoclear: true
@@ -690,12 +767,12 @@ if (isset($modal_opened) and $modal_opened == true) {
         }
     });
 
-    $('#contractorForm').submit(function(e) {
+    $('#contractorForm').submit(function (e) {
         e.preventDefault();
         var url = $(this).attr('action');
         var data = $(this).serialize();
         console.log();
-        if($('#contractorField').val() == ''){
+        if ($('#contractorField').val() == '') {
             return false;
         }
 
@@ -731,7 +808,63 @@ if (isset($modal_opened) and $modal_opened == true) {
                     toastr.error('Try again later');
                 }, 330);
             });
+    });
 
-    })
+    $('#commentForm').submit(function (e) {
+        e.preventDefault();
+        var url = $(this).attr('action');
+        var data = $(this).serialize();
+
+        $.post(url, data)
+            .done(function (response) {
+                $('#commentForm').addClass('hide');
+
+                $('#commentForm').closest('form').find("input[type=text], textarea").val("");
+                var t = $('.dataTables-agency-comment').DataTable();
+                t.row.add([
+                    response.comment,
+                    response.created_at,
+                    response.review_date
+                ]).draw(false);
+
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.success('Added Successfully');
+                }, 330);
+            })
+            .fail(function (response) {
+                if(response.statusText == 'Validation Error') {
+                    $('#commentForm #commentArea').addClass('has-error');
+                }else{
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.error('Try again later');
+                    }, 330);
+                }
+            });
+    });
+
+
+    function showForm(){
+        $('#commentForm').removeClass('hide');
+        $('#showBtn').addClass('hide');
+        $('#closeBtn').removeClass('hide');
+    }
+
+    function hideForm(){
+        $('#commentForm').addClass('hide');
+        $('#showBtn').removeClass('hide');
+        $('#closeBtn').addClass('hide');
+    }
 
 </script>
