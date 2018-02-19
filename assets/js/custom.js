@@ -333,7 +333,7 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
-        "order": [[ 2, 'asc' ]],
+        "order": [[ 0, 'asc' ]],
         dom: '<"html5buttons"B><"#showCommentFrm.col-lg-8">gfrtipl',//add button left
         //dom: '<"html5buttons"B>g<"col-sm-3"f><"#showCommentFrm.col-md-7">rtipl',//add btn right and search left
         buttons: [
@@ -346,16 +346,16 @@ $(document).ready(function () {
                 '<button class="btn btn-primary" type="button" id="showBtn" onclick="showForm()">Add</button>' +
                 '<button class="btn btn-danger hide" id="closeBtn" type="button" onclick="hideForm()">Close</button>' +
                 '</div>' +
-                '<form action="' + currentUrl + '" method="POST" class="form-inline hide" id="commentForm" data-type="add" data-type="">' +
+                '<form action="' + currentUrl + '" method="POST" class="form-inline hide" id="commentForm" data-type="add">' +
                 '<div class="form-group m-r-sm" id="commentArea">' +
                 '<label for="comment" class="sr-only">Email address</label>' +
-                '<input placeholder="Enter Comment" name="comment" class="form-control" type="text">' +
+                '<input placeholder="Enter Comment" name="comment" class="form-control" type="text" id="comment">' +
                 '</div>' +
                 '<div class="form-group m-r-sm">' +
                 '<label for="reviewDate" class="sr-only">Review Date</label>' +
                 '<div class="input-group date" id="reviewDate">' +
                 '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
-                '<input type="text" class="form-control" name="reviewDate" placeholder="Review Date">' +
+                '<input type="text" class="form-control" name="reviewDate" placeholder="Review Date" id="reviewDate">' +
                 '</div>' +
                 '</div>' +
                 '<div class="form-group"><button class="btn btn-white" type="submit">Submit</button></div>';
@@ -425,7 +425,10 @@ $(document).ready(function () {
 
         var data = $(this).serialize();
 
+        var type = '';
         var type = $(this).data("type");
+
+        console.log(type);
 
         if(type == 'add') {
             var url = $(this).attr('action') + '/add-comment';
@@ -473,17 +476,19 @@ $(document).ready(function () {
             var url = $(this).attr('action') + '/edit-comment/' + id;
             $.post(url, data)
                 .done(function (response) {
+                    console.log(response);
+                    console.log(response.comment);
                     $('#commentForm').addClass('hide');
                     $('#showBtn').removeClass('hide');
                     $('#closeBtn').addClass('hide');
 
                     $('#commentForm').closest('form').find("input[type=text], textarea").val("");
-                    var t = $('.dataTables-agency-comment').DataTable();
-                    t.row.add([
-                        response.comment,
-                        response.created_at,
-                        response.review_date
-                    ]).draw(false);
+
+                    var $targetTable = $('.dataTables-agency-comment').dataTable();
+
+                    $targetTable.fnUpdate(response.comment, '#comment-' + id, 0);
+                    $targetTable.fnUpdate(response.created_at, '#comment-' + id, 1);
+                    $targetTable.fnUpdate(response.review_date, '#comment-' + id, 2);
 
                     setTimeout(function () {
                         toastr.options = {
@@ -492,7 +497,7 @@ $(document).ready(function () {
                             showMethod: 'slideDown',
                             timeOut: 4000
                         };
-                        toastr.success('Added Successfully');
+                        toastr.success('Updated');
                     }, 330);
                 })
                 .fail(function (response) {
@@ -585,6 +590,7 @@ function showForm(){
     $('#commentForm').removeClass('hide');
     $('#showBtn').addClass('hide');
     $('#closeBtn').removeClass('hide');
+    $('#commentForm').attr('data-type', 'add');
 }
 
 function hideForm(){
@@ -593,16 +599,29 @@ function hideForm(){
     $('#closeBtn').addClass('hide');
 }
 
-function editComment(e,data) {
+function editComment(e,id) {
     e.preventDefault();
-    console.log(data);
-    //console.log(JSON.parse(data));
-    //$('#commentForm').removeClass('hide');
-    //$('#commentForm').data('type', 'edit');
-    ////$('#commentForm').data('id', id);
-    //
-    //$('#showBtn').addClass('hide');
-    //$('#closeBtn').removeClass('hide');
+
+
+    $.get('get-comment/'+id)
+        .done(function (response) {
+            var data = response;
+            $('#comment').val(data.comment);
+            $('#reviewDate').datepicker('setDate', new Date(data.review_date));
+
+            $('#commentForm').removeClass('hide');
+            $('#commentForm').data('type', 'edit');
+
+            $('#showBtn').addClass('hide');
+            $('#closeBtn').removeClass('hide');
+
+            $('#commentForm').attr('data-type', 'edit');
+            $('#commentForm').attr('data-id', id);
+        })
+        .fail(function (response) {
+            console.log(response);
+        });
+
 }
 
 

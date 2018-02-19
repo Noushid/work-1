@@ -91,7 +91,12 @@ $route['agency/(:num)/(edit)/(:num)'] = "agency/agency_single/$1/$2/$3";
 $route['agency/(:num)/(delete)/(:num)'] = "agency/agency_single/$1/$2/$3";
 
 $route['agency/(:num)/add-contractor']['POST'] = "agency/add_contractor/$1";
+
+$route['agency/get-comment/(:num)'] = "agency/get_comment/$1";
+
 $route['agency/(:num)/add-comment']['POST'] = "agency/add_comment/$1";
+$route['agency/(:num)/edit-comment/(:num)']['POST'] = "agency/edit_comment/$2";
+
 
 $route['agency/get-user/(:num)'] = "agency/get_user/$1";
 

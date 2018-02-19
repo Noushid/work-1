@@ -455,6 +455,34 @@ class Agency extends CI_Controller {
         }
     }
 
+
+    public function get_comment($id)
+    {
+        $comment = $this->agency_comment->where($id)->get();
+        $this->output->set_content_type('application/json')->set_output(json_encode($comment));
+    }
+
+    public function edit_comment($id)
+    {
+        $this->form_validation->set_rules('comment', 'Comment', 'required');
+        if ($this->form_validation->run() == FALSE) {
+            $this->output->set_status_header(400, 'Validation Error');
+            $this->output->set_content_type('application/json')->set_output(json_encode($this->form_validation->get_errors()));
+        }else{
+            $data['comment'] = $this->input->post('comment');
+            $data['review_date'] = date('Y-m-d', strtotime($this->input->post('reviewDate')));
+            $comment = $this->agency_comment->update($data, $id);
+            if ($comment) {
+                $response = $this->agency_comment->where($id)->get();
+                $response->created_at = date('d-m-Y', strtotime($response->created_at));
+                $this->output->set_content_type('application/json')->set_output(json_encode($response));
+            }else{
+                $this->output->set_status_header(400, 'Server Down');
+                $this->output->set_output('error');
+            }
+        }
+    }
+
     public function test()
     {
         var_dump($this->user_agency->where('user_id' , 22)->get_all());

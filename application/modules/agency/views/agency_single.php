@@ -492,13 +492,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         if (isset($comments) and $comments != FALSE) {
                                             foreach ($comments as $comment) {
                                                 ?>
-                                                <tr>
+                                                <tr id="comment-<?php echo $comment->agy_agency_comments_id;?>">
                                                     <td><?php echo $comment->comment; ?></td>
                                                     <td><?php echo date('d-m-Y', strtotime($comment->created_at)); ?></td>
                                                     <td><?php echo date('d-m-Y', strtotime($comment->review_date)); ?></td>
                                                     <td class="center">
                                                         <div  class="btn-group btn-group-xs" role="group">
-                                                            <a class="btn btn-info" href="#" onclick="editComment(event,<?php echo json_encode($comment);?>)">
+                                                            <a class="btn btn-info" href="#" onclick="editComment(event,<?php echo $comment->agy_agency_comments_id;?>)">
                                                                 <i class="fa fa-pencil"></i>
                                                             </a>
                                                             <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo current_url() . '/delete/' . $comment->agy_agency_comments_id;?>">
