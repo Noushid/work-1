@@ -326,31 +326,42 @@ $(document).ready(function () {
         ]
     });
 
+    var currentUrl = location.protocol + '//' + location.hostname + (location.port ? ":" + location.port : "") + location.pathname + (location.search ? location.search : "");
 
-    /********Data table for Agency contractor**/
+    /********Data table for Agency comment**/
     $('.dataTables-agency-comment').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
-        //"pageLength": 300,
+        "pageLength": 300,
         responsive: true,
-        dom: '<"html5buttons"B>gfrtip',
+        "order": [[ 2, 'asc' ]],
+        dom: '<"html5buttons"B><"#showCommentFrm.col-lg-8">gfrtipl',//add button left
+        //dom: '<"html5buttons"B>g<"col-sm-3"f><"#showCommentFrm.col-md-7">rtipl',//add btn right and search left
         buttons: [
-            {extend: 'excel', title: 'AgencyDoctor'},
-            {extend: 'pdf', title: 'AgencyDoctor'},
-
-            {
-                extend: 'print',
-                customize: function (win) {
-                    $(win.document.body).addClass('white-bg');
-                    $(win.document.body).css('font-size', '10px');
-
-                    $(win.document.body).find('table')
-                        .addClass('compact')
-                        .css('font-size', 'inherit');
-                }
-            }
-        ]
+            {extend: 'excel', title: 'agencyUsers'},
+            {extend: 'pdf', title: 'agencyUsers'},
+        ],
+        "fnInitComplete": function (oSettings, json) {
+            var html =
+                '<div class="col-lg-2">' +
+                '<button class="btn btn-primary" type="button" id="showBtn" onclick="showForm()">Add</button>' +
+                '<button class="btn btn-danger hide" id="closeBtn" type="button" onclick="hideForm()">Close</button>' +
+                '</div>' +
+                '<form action="' + currentUrl + '" method="POST" class="form-inline hide" id="commentForm" data-type="add" data-type="">' +
+                '<div class="form-group m-r-sm" id="commentArea">' +
+                '<label for="comment" class="sr-only">Email address</label>' +
+                '<input placeholder="Enter Comment" name="comment" class="form-control" type="text">' +
+                '</div>' +
+                '<div class="form-group m-r-sm">' +
+                '<label for="reviewDate" class="sr-only">Review Date</label>' +
+                '<div class="input-group date" id="reviewDate">' +
+                '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
+                '<input type="text" class="form-control" name="reviewDate" placeholder="Review Date">' +
+                '</div>' +
+                '</div>' +
+                '<div class="form-group"><button class="btn btn-white" type="submit">Submit</button></div>';
+            $('#showCommentFrm').append(html);
+        }
     });
-
 
 
 
@@ -396,8 +407,204 @@ $(document).ready(function () {
     ////////////Edit  profile/////////////
 
 
+    ////////// Agency Single //////////
+
+    /* Agency comment*/
+    $('#reviewDate').datepicker(
+        {
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true,
+            format: "dd-mm-yyyy"
+        });
+
+    $('#commentForm').submit(function (e) {
+        e.preventDefault();
+
+        var data = $(this).serialize();
+
+        var type = $(this).data("type");
+
+        if(type == 'add') {
+            var url = $(this).attr('action') + '/add-comment';
+            $.post(url, data)
+                .done(function (response) {
+                    $('#commentForm').addClass('hide');
+                    $('#showBtn').removeClass('hide');
+                    $('#closeBtn').addClass('hide');
+
+                    $('#commentForm').closest('form').find("input[type=text], textarea").val("");
+                    var t = $('.dataTables-agency-comment').DataTable();
+                    t.row.add([
+                        response.comment,
+                        response.created_at,
+                        response.review_date
+                    ]).draw(false);
+
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.success('Added Successfully');
+                    }, 330);
+                })
+                .fail(function (response) {
+                    if(response.statusText == 'Validation Error') {
+                        $('#commentForm #commentArea').addClass('has-error');
+                    }else{
+                        setTimeout(function () {
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 4000
+                            };
+                            toastr.error('Try again later');
+                        }, 330);
+                    }
+                });
+        }else if(type == 'edit'){
+            var id = $(this).data("id");
+            var url = $(this).attr('action') + '/edit-comment/' + id;
+            $.post(url, data)
+                .done(function (response) {
+                    $('#commentForm').addClass('hide');
+                    $('#showBtn').removeClass('hide');
+                    $('#closeBtn').addClass('hide');
+
+                    $('#commentForm').closest('form').find("input[type=text], textarea").val("");
+                    var t = $('.dataTables-agency-comment').DataTable();
+                    t.row.add([
+                        response.comment,
+                        response.created_at,
+                        response.review_date
+                    ]).draw(false);
+
+                    setTimeout(function () {
+                        toastr.options = {
+                            closeButton: true,
+                            progressBar: true,
+                            showMethod: 'slideDown',
+                            timeOut: 4000
+                        };
+                        toastr.success('Added Successfully');
+                    }, 330);
+                })
+                .fail(function (response) {
+                    if (response.statusText == 'Validation Error') {
+                        $('#commentForm #commentArea').addClass('has-error');
+                    } else {
+                        setTimeout(function () {
+                            toastr.options = {
+                                closeButton: true,
+                                progressBar: true,
+                                showMethod: 'slideDown',
+                                timeOut: 4000
+                            };
+                            toastr.error('Try again later');
+                        }, 330);
+                    }
+                });
+        }
+
+    });
+
+
+    $('#data_3 .input-group.date').datepicker({
+        startView: 2,
+        todayBtn: "linked",
+        keyboardNavigation: false,
+        forceParse: false,
+        autoclose: true
+    });
+
+    $('#phone').inputmask({
+        mask: '?(999) 999-9999',
+        autoclear: true
+    });
+    $('#phone').change(function () {
+        if($(this).val().length < 14) {
+            $('#data_phone').addClass('has-error');
+        }else{
+            $('#data_phone').removeClass('has-error');
+        }
+    });
+
+    $('#contractorForm').submit(function (e) {
+        e.preventDefault();
+        var url = $(this).attr('action');
+        var data = $(this).serialize();
+        if ($('#contractorField').val() == '') {
+            return false;
+        }
+
+        $.post(url, data)
+            .done(function (response) {
+                $('#contractorField option:selected').remove();
+
+                var t = $('.dataTables-agency-contractor').DataTable();
+                t.row.add([
+                    response.contractor_id,
+                    response.agency.agency_name
+                ]).draw(false);
+
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.success('Added Successfully');
+                }, 330);
+            })
+            .fail(function (response) {
+                $('#contractorForm .form-group').addClass('has-error');
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.error('Try again later');
+                }, 330);
+            });
+    });
 
 });
+
+
+
+function showForm(){
+    $('#commentForm').removeClass('hide');
+    $('#showBtn').addClass('hide');
+    $('#closeBtn').removeClass('hide');
+}
+
+function hideForm(){
+    $('#commentForm').addClass('hide');
+    $('#showBtn').removeClass('hide');
+    $('#closeBtn').addClass('hide');
+}
+
+function editComment(e,data) {
+    e.preventDefault();
+    console.log(data);
+    //console.log(JSON.parse(data));
+    //$('#commentForm').removeClass('hide');
+    //$('#commentForm').data('type', 'edit');
+    ////$('#commentForm').data('id', id);
+    //
+    //$('#showBtn').addClass('hide');
+    //$('#closeBtn').removeClass('hide');
+}
+
 
 function alertConfirm(e) {
     $("#delConfirmBtn").attr("href", $(e).attr("href"));

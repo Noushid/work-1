@@ -478,32 +478,13 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                             <div class="ibox-content">
                                 <div class="table table-responsive">
-                                    <div class="col-sm-2">
-                                        <button class="btn btn-primary" type="button" id="showBtn" onclick="showForm()">Add Comment</button>
-                                        <button class="btn btn-danger hide" id="closeBtn" type="button" onclick="hideForm()">Close</button>
-                                    </div>
-                                    <form action="<?php echo current_url() . '/add-comment';?>" method="POST" class="form-inline hide m-b-lg" id="commentForm">
-                                        <div class="form-group" id="commentArea">
-                                            <label for="" class="control-label">Comment</label>
-                                            <input class="form-control" type="text" name="comment" required=""/>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="" class="control-label">Review Date</label>
-                                            <div class="input-group date" id="reviewDate">
-                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                <input type="text" class="form-control" value="01-01-2018" name="reviewDate">
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button class="btn btn-primary" type="submit">Add</button>
-                                        </div>
-                                    </form>
                                     <table class="table table-striped table-bordered table-hover dataTables-agency-comment">
                                         <thead>
                                         <tr>
                                             <th>Comments</th>
                                             <th>Creation Date</th>
                                             <th>Review Date</th>
+                                            <th>Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -515,6 +496,16 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     <td><?php echo $comment->comment; ?></td>
                                                     <td><?php echo date('d-m-Y', strtotime($comment->created_at)); ?></td>
                                                     <td><?php echo date('d-m-Y', strtotime($comment->review_date)); ?></td>
+                                                    <td class="center">
+                                                        <div  class="btn-group btn-group-xs" role="group">
+                                                            <a class="btn btn-info" href="#" onclick="editComment(event,<?php echo json_encode($comment);?>)">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                            <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo current_url() . '/delete/' . $comment->agy_agency_comments_id;?>">
+                                                                <i class="fa fa-trash-o"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             <?php
                                             }
@@ -736,135 +727,3 @@ if (isset($modal_opened) and $modal_opened == true) {
     </div>
     </div>
 </div>
-<script>
-
-    $('#data_3 .input-group.date').datepicker({
-        startView: 2,
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        autoclose: true
-    });
-
-    $('#reviewDate').datepicker({
-        todayBtn: "linked",
-        keyboardNavigation: false,
-        forceParse: false,
-        calendarWeeks: true,
-        autoclose: true,
-        format: "dd-mm-yyyy"
-    });
-
-    $('#phone').inputmask({
-        mask: '?(999) 999-9999',
-        autoclear: true
-    });
-    $('#phone').change(function () {
-        if($(this).val().length < 14) {
-            $('#data_phone').addClass('has-error');
-        }else{
-            $('#data_phone').removeClass('has-error');
-        }
-    });
-
-    $('#contractorForm').submit(function (e) {
-        e.preventDefault();
-        var url = $(this).attr('action');
-        var data = $(this).serialize();
-        console.log();
-        if ($('#contractorField').val() == '') {
-            return false;
-        }
-
-        $.post(url, data)
-            .done(function (response) {
-                $('#contractorField option:selected').remove();
-
-                var t = $('.dataTables-agency-contractor').DataTable();
-                t.row.add([
-                    response.contractor_id,
-                    response.agency.agency_name
-                ]).draw(false);
-
-                setTimeout(function () {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-                    toastr.success('Added Successfully');
-                }, 330);
-            })
-            .fail(function (response) {
-                $('#contractorForm .form-group').addClass('has-error');
-                setTimeout(function () {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-                    toastr.error('Try again later');
-                }, 330);
-            });
-    });
-
-    $('#commentForm').submit(function (e) {
-        e.preventDefault();
-        var url = $(this).attr('action');
-        var data = $(this).serialize();
-
-        $.post(url, data)
-            .done(function (response) {
-                $('#commentForm').addClass('hide');
-
-                $('#commentForm').closest('form').find("input[type=text], textarea").val("");
-                var t = $('.dataTables-agency-comment').DataTable();
-                t.row.add([
-                    response.comment,
-                    response.created_at,
-                    response.review_date
-                ]).draw(false);
-
-                setTimeout(function () {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-                    toastr.success('Added Successfully');
-                }, 330);
-            })
-            .fail(function (response) {
-                if(response.statusText == 'Validation Error') {
-                    $('#commentForm #commentArea').addClass('has-error');
-                }else{
-                    setTimeout(function () {
-                        toastr.options = {
-                            closeButton: true,
-                            progressBar: true,
-                            showMethod: 'slideDown',
-                            timeOut: 4000
-                        };
-                        toastr.error('Try again later');
-                    }, 330);
-                }
-            });
-    });
-
-
-    function showForm(){
-        $('#commentForm').removeClass('hide');
-        $('#showBtn').addClass('hide');
-        $('#closeBtn').removeClass('hide');
-    }
-
-    function hideForm(){
-        $('#commentForm').addClass('hide');
-        $('#showBtn').removeClass('hide');
-        $('#closeBtn').addClass('hide');
-    }
-
-</script>
