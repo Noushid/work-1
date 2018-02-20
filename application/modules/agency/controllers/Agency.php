@@ -446,7 +446,8 @@ class Agency extends CI_Controller {
             $comment = $this->agency_comment->insert($data);
             if ($comment) {
                 $response = $this->agency_comment->where($comment)->get();
-                $response->created_at = date('d-m-Y', strtotime($response->created_at));
+                $response->created_at = date('m-d-Y', strtotime($response->created_at));
+                $response->review_date = date('m-d-Y', strtotime($response->review_date));
                 $this->output->set_content_type('application/json')->set_output(json_encode($response));
             }else{
                 $this->output->set_status_header(400, 'Server Down');
@@ -474,12 +475,23 @@ class Agency extends CI_Controller {
             $comment = $this->agency_comment->update($data, $id);
             if ($comment) {
                 $response = $this->agency_comment->where($id)->get();
-                $response->created_at = date('d-m-Y', strtotime($response->created_at));
+                $response->created_at = date('m-d-Y', strtotime($response->created_at));
+                $response->review_date = date('m-d-Y', strtotime($response->review_date));
                 $this->output->set_content_type('application/json')->set_output(json_encode($response));
             }else{
                 $this->output->set_status_header(400, 'Server Down');
                 $this->output->set_output('error');
             }
+        }
+    }
+
+    public function delete_comment($id)
+    {
+        if ($this->agency_comment->delete($id)) {
+            $this->output->set_output('success');
+        }else{
+            $this->output->set_status_header(400, 'Server Down');
+            $this->output->set_output('error');
         }
     }
 

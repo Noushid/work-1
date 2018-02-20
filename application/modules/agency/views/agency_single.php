@@ -478,6 +478,27 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                             <div class="ibox-content">
                                 <div class="table table-responsive">
+<!--                                    <form action="http://localhost:8000/agency/15" class="form-horizontal" method="post">-->
+<!--                                        <div class="form-group" id="commentArea">-->
+<!--                                            <label class="control-label col-lg-2 required">Enter Comment</label>-->
+<!--                                            <div class="col-lg-5">-->
+<!--                                                <textarea placeholder="Enter Comment" name="comment" class="form-control" id="comment"></textarea>-->
+<!--                                            </div>-->
+<!---->
+<!--                                            <label class="control-label col-lg-2">Reiew date</label>-->
+<!---->
+<!--                                            <div class="col-lg-3">-->
+<!--                                                <div class="input-group date" id="reviewDate">-->
+<!--                                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>-->
+<!--                                                    <input type="text" class="form-control" name="reviewDate" placeholder="Review Date" id="reviewDate">-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="form-group text-left">-->
+<!--                                            <button class="btn btn-danger" type="button"><Cancel></Cancel></button>-->
+<!--                                            <button class="btn btn-primary" type="submit">Submit</button>-->
+<!--                                        </div>-->
+<!--                                    </form>-->
                                     <table class="table table-striped table-bordered table-hover dataTables-agency-comment">
                                         <thead>
                                         <tr>
@@ -494,14 +515,14 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 ?>
                                                 <tr id="comment-<?php echo $comment->agy_agency_comments_id;?>">
                                                     <td><?php echo $comment->comment; ?></td>
-                                                    <td><?php echo date('d-m-Y', strtotime($comment->created_at)); ?></td>
-                                                    <td><?php echo date('d-m-Y', strtotime($comment->review_date)); ?></td>
+                                                    <td><?php echo date('m-d-Y', strtotime($comment->created_at)); ?></td>
+                                                    <td><?php echo date('m-d-Y', strtotime($comment->review_date)); ?></td>
                                                     <td class="center">
                                                         <div  class="btn-group btn-group-xs" role="group">
                                                             <a class="btn btn-info" href="#" onclick="editComment(event,<?php echo $comment->agy_agency_comments_id;?>)">
                                                                 <i class="fa fa-pencil"></i>
                                                             </a>
-                                                            <a class="btn btn-danger" onclick="return confirm('do you want to delete?');" href="<?php echo current_url() . '/delete/' . $comment->agy_agency_comments_id;?>">
+                                                            <a class="btn btn-danger" onclick="deleteComment(event,this,<?php echo $comment->agy_agency_comments_id;?>);" href="<?php echo current_url() . '/comment/delete/' . $comment->agy_agency_comments_id;?>">
                                                                 <i class="fa fa-trash-o"></i>
                                                             </a>
                                                         </div>

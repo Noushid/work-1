@@ -96,6 +96,7 @@ $route['agency/get-comment/(:num)'] = "agency/get_comment/$1";
 
 $route['agency/(:num)/add-comment']['POST'] = "agency/add_comment/$1";
 $route['agency/(:num)/edit-comment/(:num)']['POST'] = "agency/edit_comment/$2";
+$route['agency/(:num)/comment/delete/(:num)'] = "agency/delete_comment/$2";
 
 
 $route['agency/get-user/(:num)'] = "agency/get_user/$1";

@@ -334,7 +334,8 @@ $(document).ready(function () {
         "pageLength": 300,
         responsive: true,
         "order": [[ 0, 'asc' ]],
-        dom: '<"html5buttons"B><"#showCommentFrm.col-lg-8">gfrtipl',//add button left
+        //dom: '<"html5buttons"B><"#showCommentFrm.col-lg-8">gfrtipl',//add button left
+        dom: '<"html5buttons"B><"#showaddBtn.col-lg-8">gf<"#showCommentFrm.col-lg-12">rtipl',//add button left
         //dom: '<"html5buttons"B>g<"col-sm-3"f><"#showCommentFrm.col-md-7">rtipl',//add btn right and search left
         buttons: [
             {extend: 'excel', title: 'agencyUsers'},
@@ -343,23 +344,32 @@ $(document).ready(function () {
         "fnInitComplete": function (oSettings, json) {
             var html =
                 '<div class="col-lg-2">' +
-                '<button class="btn btn-primary" type="button" id="showBtn" onclick="showForm()">Add</button>' +
-                '<button class="btn btn-danger hide" id="closeBtn" type="button" onclick="hideForm()">Close</button>' +
+                '<button class="btn btn-primary" type="button" id="showBtn" onclick="showForm()">Add Comment</button>' +
+                //'<button class="btn btn-danger hide" id="closeBtn" type="button" onclick="hideForm()">Close</button>' +
+                '</div>';
+            var html1 = '<form action="' + currentUrl + '" method="POST" class="form-horizontal hide" method="post" id="commentForm" data-type="add">' +
+                '<div class="form-group" style="width: 100%" id="commentArea">' +
+                '<label for="comment" class="control-label col-lg-2 required">Enter Comment</label>' +
+                '<div class="col-lg-4">' +
+                '<textarea placeholder="Enter Comment" name="comment" class="form-control" id="comment"></textarea>' +
                 '</div>' +
-                '<form action="' + currentUrl + '" method="POST" class="form-inline hide" id="commentForm" data-type="add">' +
-                '<div class="form-group m-r-sm" id="commentArea">' +
-                '<label for="comment" class="sr-only">Email address</label>' +
-                '<input placeholder="Enter Comment" name="comment" class="form-control" type="text" id="comment">' +
-                '</div>' +
-                '<div class="form-group m-r-sm">' +
-                '<label for="reviewDate" class="sr-only">Review Date</label>' +
+
+                '<label class="control-label col-lg-2">Reiew date</label>' +
+
+                '<div class="col-lg-3">' +
                 '<div class="input-group date" id="reviewDate">' +
                 '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
                 '<input type="text" class="form-control" name="reviewDate" placeholder="Review Date" id="reviewDate">' +
                 '</div>' +
                 '</div>' +
-                '<div class="form-group"><button class="btn btn-white" type="submit">Submit</button></div>';
-            $('#showCommentFrm').append(html);
+                '</div>' +
+                '<div class="form-group text-left m-l-lg">' +
+                '<button class="btn btn-danger m-r-md" id="closeBtn" type="button" onclick="hideForm()">Cancel</button>' +
+                '<button class="btn btn-primary" type="submit">Submit</button>' +
+                '</div>' +
+                '</form>';
+            $('#showaddBtn').append(html);
+            $('#showCommentFrm').append(html1);
         }
     });
 
@@ -425,11 +435,9 @@ $(document).ready(function () {
 
         var data = $(this).serialize();
 
-        var type = '';
-        var type = $(this).data("type");
+        var type = $(this).attr('data-type');
 
-        console.log(type);
-
+        $('#commentForm #commentArea').removeClass('has-error');
         if(type == 'add') {
             var url = $(this).attr('action') + '/add-comment';
             $.post(url, data)
@@ -440,11 +448,22 @@ $(document).ready(function () {
 
                     $('#commentForm').closest('form').find("input[type=text], textarea").val("");
                     var t = $('.dataTables-agency-comment').DataTable();
+                    var action = '<div  class="btn-group btn-group-xs" role="group">' +
+                        '<a class="btn btn-info" href="#" onclick="editComment(event,' + response.agy_agency_comments_id + ')">' +
+                        '<i class="fa fa-pencil"></i>' +
+                        '</a>' +
+                        '<a class="btn btn-danger" onclick="deleteComment(event,this,' + response.agy_agency_comments_id + ');" href="' + currentUrl + '/comment/delete/' + response.agy_agency_comments_id + '">' +
+                        '<i class="fa fa-trash-o"></i>' +
+                        '</a>' +
+                        '</div>';
+
                     t.row.add([
                         response.comment,
                         response.created_at,
-                        response.review_date
-                    ]).draw(false);
+                        response.review_date,
+                        action
+                    ]).node().id = "comment-" + response.agy_agency_comments_id;
+                    t.draw();
 
                     setTimeout(function () {
                         toastr.options = {
@@ -622,6 +641,34 @@ function editComment(e,id) {
             console.log(response);
         });
 
+}
+
+function deleteComment(e,el,id) {
+    e.preventDefault();
+    var url = $(el).attr('href');
+
+    swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this record!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false
+    }, function () {
+        $.post(url)
+            .done(function (response) {
+                var t = $('.dataTables-agency-comment').DataTable();
+                t.row("#comment-" + id).remove().draw();
+                //swal("Deleted!", "Your record has been deleted.", "success");
+                swal.close();
+            })
+            .fail(function (response) {
+                swal("Warning!", "Something went wrong.", "warning");
+            });
+
+
+    });
 }
 
 
