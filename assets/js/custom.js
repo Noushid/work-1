@@ -330,12 +330,12 @@ $(document).ready(function () {
 
     /********Data table for Agency comment**/
     $('.dataTables-agency-comment').DataTable({
-        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
-        "pageLength": 300,
+        //"lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        //"pageLength": 300,
         responsive: true,
         "order": [[ 0, 'asc' ]],
         //dom: '<"html5buttons"B><"#showCommentFrm.col-lg-8">gfrtipl',//add button left
-        dom: '<"html5buttons"B><"#showaddBtn.col-lg-8">gf<"#showCommentFrm.col-lg-12">rtipl',//add button left
+        dom: '<"html5buttons"B><"#showaddBtn.col-lg-8">gf<"#showCommentFrm.col-lg-12 m-b-lg">rti',//add button left
         //dom: '<"html5buttons"B>g<"col-sm-3"f><"#showCommentFrm.col-md-7">rtipl',//add btn right and search left
         buttons: [
             {extend: 'excel', title: 'agencyUsers'},
@@ -349,23 +349,19 @@ $(document).ready(function () {
                 '</div>';
             var html1 = '<form action="' + currentUrl + '" method="POST" class="form-horizontal hide" method="post" id="commentForm" data-type="add">' +
                 '<div class="form-group" style="width: 100%" id="commentArea">' +
-                '<label for="comment" class="control-label col-lg-2 required">Enter Comment</label>' +
-                '<div class="col-lg-4">' +
-                '<textarea placeholder="Enter Comment" name="comment" class="form-control" id="comment"></textarea>' +
+                '<div class="col-lg-6">' +
+                '<textarea placeholder="Enter Comment" name="comment" class="form-control" id="comment" style="width: 100%;"></textarea>' +
                 '</div>' +
-
-                '<label class="control-label col-lg-2">Reiew date</label>' +
-
                 '<div class="col-lg-3">' +
                 '<div class="input-group date" id="reviewDate">' +
                 '<span class="input-group-addon"><i class="fa fa-calendar"></i></span>' +
                 '<input type="text" class="form-control" name="reviewDate" placeholder="Review Date" id="reviewDate">' +
                 '</div>' +
                 '</div>' +
-                '</div>' +
-                '<div class="form-group text-left m-l-lg">' +
-                '<button class="btn btn-danger m-r-md" id="closeBtn" type="button" onclick="hideForm()">Cancel</button>' +
-                '<button class="btn btn-primary" type="submit">Submit</button>' +
+                '<div class="col-lg-3">' +
+                '<button class="btn btn-white btn-sm m-r-md" id="closeBtn" type="button" onclick="hideForm()">Cancel</button>' +
+                '<button class="btn btn-primary btn-sm" type="submit">Submit</button>' +
+                '</div>'
                 '</div>' +
                 '</form>';
             $('#showaddBtn').append(html);
@@ -427,7 +423,7 @@ $(document).ready(function () {
             forceParse: false,
             calendarWeeks: true,
             autoclose: true,
-            format: "dd-mm-yyyy"
+            format: "mm-dd-yyyy"
         });
 
     $('#commentForm').submit(function (e) {
@@ -443,7 +439,7 @@ $(document).ready(function () {
             $.post(url, data)
                 .done(function (response) {
                     $('#commentForm').addClass('hide');
-                    $('#showBtn').removeClass('hide');
+                    $('#showBtn').attr('disabled', false);
                     $('#closeBtn').addClass('hide');
 
                     $('#commentForm').closest('form').find("input[type=text], textarea").val("");
@@ -498,7 +494,7 @@ $(document).ready(function () {
                     console.log(response);
                     console.log(response.comment);
                     $('#commentForm').addClass('hide');
-                    $('#showBtn').removeClass('hide');
+                    $('#showBtn').attr('disabled', false);
                     $('#closeBtn').addClass('hide');
 
                     $('#commentForm').closest('form').find("input[type=text], textarea").val("");
@@ -607,21 +603,19 @@ $(document).ready(function () {
 
 function showForm(){
     $('#commentForm').removeClass('hide');
-    $('#showBtn').addClass('hide');
+    $('#showBtn').attr('disabled', true);
     $('#closeBtn').removeClass('hide');
     $('#commentForm').attr('data-type', 'add');
 }
 
 function hideForm(){
     $('#commentForm').addClass('hide');
-    $('#showBtn').removeClass('hide');
+    $('#showBtn').attr('disabled', false);
     $('#closeBtn').addClass('hide');
 }
 
 function editComment(e,id) {
     e.preventDefault();
-
-
     $.get('get-comment/'+id)
         .done(function (response) {
             var data = response;
@@ -631,7 +625,7 @@ function editComment(e,id) {
             $('#commentForm').removeClass('hide');
             $('#commentForm').data('type', 'edit');
 
-            $('#showBtn').addClass('hide');
+            $('#showBtn').attr('disabled', true);
             $('#closeBtn').removeClass('hide');
 
             $('#commentForm').attr('data-type', 'edit');
