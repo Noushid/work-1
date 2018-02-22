@@ -307,6 +307,7 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         //"pageLength": 300,
         responsive: true,
+        //dom: '<"html5buttons"B>gfrtip',
         dom: '<"html5buttons"B>gfrtip',
         buttons: [
             {extend: 'excel', title: 'AgencyDoctor'},
@@ -323,7 +324,10 @@ $(document).ready(function () {
                         .css('font-size', 'inherit');
                 }
             }
-        ]
+        ],
+        "fnInitComplete": function(oSettings, json) {
+            $('#addDtrBtn').append('<div class="col-md-5"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationModal">Add Doctor To Agency</button></div>');
+        }
     });
 
     var currentUrl = location.protocol + '//' + location.hostname + (location.port ? ":" + location.port : "") + location.pathname + (location.search ? location.search : "");
@@ -597,6 +601,60 @@ $(document).ready(function () {
             });
     });
 
+    $('#doctorAddBtn').click(function () {
+        $('#doctorForm').removeClass('hide');
+        $(this).attr('disabled', true);
+    });
+
+    $('#DtrCancelBtn').click(function () {
+        $('#doctorForm').addClass('hide');
+        $('#doctorAddBtn').attr('disabled', false);
+    });
+
+    $('#doctorForm').submit(function(e) {
+        e.preventDefault();
+
+        var url = $(this).attr('action');
+        var data = $(this).serialize();
+        if ($('#doctorField').val() == '') {
+            return false;
+        }
+
+        $.post(url, data)
+            .done(function (response) {
+                $('#doctorForm').addClass('hide');
+                $('#doctorAddBtn').attr('disabled', false);
+                $('#doctorField option:selected').remove();
+                var t = $('.dataTables-agency-doctor').DataTable();
+                t.row.add([
+                    response.agency_doctor_office_id,
+                    response.agency.agency_name
+                ]).draw(false);
+
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.success('Added Successfully');
+                }, 330);
+            })
+            .fail(function (response) {
+                $('#doctorForm .form-group').addClass('has-error');
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.error('Try again later');
+                }, 330);
+            });
+    })
+
 });
 
 
@@ -664,6 +722,9 @@ function deleteComment(e,el,id) {
 
     });
 }
+
+
+
 
 
 function alertConfirm(e) {

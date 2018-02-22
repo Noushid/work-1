@@ -435,6 +435,35 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                             <div class="ibox-content">
                                 <div class="table table-responsive">
+                                    <div class="col-sm-7">
+                                        <div class="col-sm-4">
+                                            <button type="button" class="btn btn-primary" id="doctorAddBtn">Add Doctor To Agency</button>
+                                        </div>
+                                        <div class="col-sm-8">
+                                            <form action="<?php echo current_url() . '/add-doctor';?>" method="POST" class="form-inline hide" id="doctorForm">
+                                                <div class="form-group">
+                                                    <!--                                                <label for="" class="control-label">Select Contractor</label>-->
+                                                    <select class="form-control" name="doctor" id="doctorField">
+                                                        <option value="">Select Doctor</option>
+                                                        <?php if (isset($new_doctors) and $new_doctors != false) {
+                                                            foreach ($new_doctors as $dtr) {
+                                                                ?>
+                                                                <option value="<?php echo $dtr->agency_id;?>"><?php echo $dtr->agency_name;?></option>
+                                                            <?php
+                                                            }
+                                                        }else {
+                                                            ?>
+                                                            <option value="">Not found</option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    <button class="btn btn-primary">Add</button>
+                                                    <button class="btn btn-white" id="DtrCancelBtn" type="button">Cancel</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
                                     <table class="table table-striped table-bordered table-hover dataTables-agency-doctor">
                                         <thead>
                                         <tr>

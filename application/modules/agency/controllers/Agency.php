@@ -202,6 +202,25 @@ class Agency extends CI_Controller {
         $data['new_contractors'] = ($query->num_rows() > 0 ? $query->result() : FALSE);
         /*End*/
 
+        /*get new doctors*/
+
+        $exist_doctor = [];
+        if ($data['doctors']) {
+            foreach ($data['doctors'] as $value1) {
+                $exist_doctor[] = $value1->agency->agency_id;
+            }
+        }
+
+        $this->db->from('agy_agency');
+        $this->db->where('state_id', $data['agency']->state_id);
+        $this->db->where('agency_type', 'D');
+        if (!empty($exist_doctor)) {
+            $this->db->where_not_in('agency_id', $exist_doctor);
+        }
+        $query = $this->db->get();
+        $data['new_doctors'] = ($query->num_rows() > 0 ? $query->result() : FALSE);
+
+
         $data['states'] = $this->state->get_all();
         $data['users'] = $this->us1_user->get_all();
         $data['user_status'] = $this->tab_parameter->where('tab_type', 21)->get_all();
@@ -489,6 +508,21 @@ class Agency extends CI_Controller {
     {
         if ($this->agency_comment->delete($id)) {
             $this->output->set_output('success');
+        }else{
+            $this->output->set_status_header(400, 'Server Down');
+            $this->output->set_output('error');
+        }
+    }
+
+
+    public function add_doctor($agency_id)
+    {
+        $data['doctor_office_id'] = $this->input->post('doctor');
+        $data['agency_id'] = $agency_id;
+        $doctor = $this->agency_doctor_ofc->insert($data);
+        if ($doctor) {
+            $response = $this->agency_doctor_ofc->where('agency_doctor_office_id', $doctor)->with('agency')->get();
+            $this->output->set_content_type('application/json')->set_output(json_encode($response));
         }else{
             $this->output->set_status_header(400, 'Server Down');
             $this->output->set_output('error');
