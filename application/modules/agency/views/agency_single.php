@@ -424,6 +424,9 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>Agency Doctor List</h5>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#doctorFormModal">
+                                    Add doctor to agency type-1
+                                </button>
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -437,7 +440,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 <div class="table table-responsive">
                                     <div class="col-sm-7">
                                         <div class="col-sm-4">
-                                            <button type="button" class="btn btn-primary" id="doctorAddBtn">Add Doctor To Agency</button>
+                                            <button type="button" class="btn btn-primary" id="doctorAddBtn">Add Doctor To Agency type-2</button>
                                         </div>
                                         <div class="col-sm-8">
                                             <form action="<?php echo current_url() . '/add-doctor';?>" method="POST" class="form-inline hide" id="doctorForm">
@@ -787,3 +790,57 @@ if (isset($modal_opened) and $modal_opened == true) {
     </div>
     </div>
 </div>
+
+<div class="modal inmodal" id="doctorFormModal" tabindex="-1" role="dialog"  aria-hidden="true" data-backdrop="static" data-keyboard="false">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content animated fadeIn">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">Add New User</h4>
+            <small>You can add user to agency.</small>
+        </div>
+        <div class="modal-body">
+            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+            <div id="list">
+            <?php
+            if (isset($new_doctors) and $new_doctors != false) {
+                foreach ($new_doctors as $dtr) {
+                    ?>
+                    <div class="checkbox checkbox-circle" id="item">
+                        <input id="doctor[]" type="checkbox" value="<?php echo $dtr->agency_id;?>">
+                        <label for="checkbox7">
+                            <?php echo $dtr->agency_name;?>
+                        </label>
+                    </div>
+                <?php
+                }
+                }?>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<script>
+    function myFunction() {
+        console.log('test');
+        var input, filter, ul, li, a, i;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("list");
+        li = ul.getElementsByTagName('input');
+
+        console.log(input);
+        console.log(filter);
+        console.log(ul);
+        console.log(li);
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("input")[0];
+            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+
+            }
+        }
+    }
+</script>
