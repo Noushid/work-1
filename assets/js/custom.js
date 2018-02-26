@@ -611,25 +611,31 @@ $(document).ready(function () {
         $('#doctorAddBtn').attr('disabled', false);
     });
 
-    $('#doctorForm').submit(function(e) {
+    $('#doctorForm').submit(function (e) {
         e.preventDefault();
 
         var url = $(this).attr('action');
         var data = $(this).serialize();
-        if ($('#doctorField').val() == '') {
+
+        if ($('#selectDoctor').val() == '') {
             return false;
         }
 
         $.post(url, data)
             .done(function (response) {
+                $("#selectDoctor").select2("val", "");
+
                 $('#doctorForm').addClass('hide');
                 $('#doctorAddBtn').attr('disabled', false);
                 $('#doctorField option:selected').remove();
                 var t = $('.dataTables-agency-doctor').DataTable();
-                t.row.add([
-                    response.agency_doctor_office_id,
-                    response.agency.agency_name
-                ]).draw(false);
+                response.forEach(function (item) {
+                    t.row.add([
+                        item.agency_doctor_office_id,
+                        item.agency.agency_name
+                    ]).draw(false);
+                });
+
 
                 setTimeout(function () {
                     toastr.options = {
@@ -640,6 +646,7 @@ $(document).ready(function () {
                     };
                     toastr.success('Added Successfully');
                 }, 330);
+
             })
             .fail(function (response) {
                 $('#doctorForm .form-group').addClass('has-error');
@@ -653,7 +660,14 @@ $(document).ready(function () {
                     toastr.error('Try again later');
                 }, 330);
             });
-    })
+    });
+
+
+    $("#selectDoctor").select2({
+        placeholder: "Select Doctor",
+        allowClear: true
+    });
+
 
 });
 

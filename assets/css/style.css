@@ -8569,3 +8569,7 @@ body.md-skin {
 .fa-primary {
     color: #1ab394;
 }
+
+.select2-container {
+    min-width:200px;
+}

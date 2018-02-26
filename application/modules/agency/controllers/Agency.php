@@ -517,11 +517,18 @@ class Agency extends CI_Controller {
 
     public function add_doctor($agency_id)
     {
-        $data['doctor_office_id'] = $this->input->post('doctor');
-        $data['agency_id'] = $agency_id;
-        $doctor = $this->agency_doctor_ofc->insert($data);
-        if ($doctor) {
-            $response = $this->agency_doctor_ofc->where('agency_doctor_office_id', $doctor)->with('agency')->get();
+        $insert_id = [];
+        foreach ($this->input->post('doctor') as $doctor) {
+            $data = [];
+            $data['doctor_office_id'] = $doctor;
+            $data['agency_id'] = $agency_id;
+
+            $doctor = $this->agency_doctor_ofc->insert($data);
+            $insert_id[] = $doctor;
+        }
+
+        if (!empty($insert_id)) {
+            $response = $this->agency_doctor_ofc->where('agency_doctor_office_id', $insert_id)->with('agency')->get_all();
             $this->output->set_content_type('application/json')->set_output(json_encode($response));
         }else{
             $this->output->set_status_header(400, 'Server Down');

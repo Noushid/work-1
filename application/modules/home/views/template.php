@@ -46,6 +46,7 @@
 
 
     <link href="<?php echo asset('css/plugins/dualListbox/bootstrap-duallistbox.min.css');?>" rel="stylesheet">
+    <link href="<?php echo asset('css/plugins/select2/select2.min.css');?>" rel="stylesheet">
 
     <!-- Mainly scripts -->
     <script src="<?php echo asset('js/jquery-3.1.1.min.js');?>"></script>
@@ -95,6 +96,9 @@
     <script src="<?php echo asset('js/custom.js');?>"></script>
 
     <script src="<?php echo asset('js/plugins/fullcalendar/moment.min.js');?>"></script>
+
+    <!-- Select2 -->
+    <script src="<?php echo asset('js/plugins/select2/select2.full.min.js');?>"></script>
 
     <script>
 
