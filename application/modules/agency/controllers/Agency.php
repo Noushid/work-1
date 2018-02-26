@@ -527,13 +527,15 @@ class Agency extends CI_Controller {
             $insert_id[] = $doctor;
         }
 
-        if (!empty($insert_id)) {
-            $response = $this->agency_doctor_ofc->where('agency_doctor_office_id', $insert_id)->with('agency')->get_all();
-            $this->output->set_content_type('application/json')->set_output(json_encode($response));
-        }else{
-            $this->output->set_status_header(400, 'Server Down');
-            $this->output->set_output('error');
-        }
+        redirect(site_url('agency/' . $agency_id . '#doctors'));
+
+//        if (!empty($insert_id)) {
+//            $response = $this->agency_doctor_ofc->where('agency_doctor_office_id', $insert_id)->with('agency')->get_all();
+//            $this->output->set_content_type('application/json')->set_output(json_encode($response));
+//        }else{
+//            $this->output->set_status_header(400, 'Server Down');
+//            $this->output->set_output('error');
+//        }
     }
 
     public function test()

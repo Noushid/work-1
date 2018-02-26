@@ -602,6 +602,7 @@ $(document).ready(function () {
     });
 
     $('#doctorAddBtn').click(function () {
+        $("#selectDoctor").select2("val", "");
         $('#doctorForm').removeClass('hide');
         $(this).attr('disabled', true);
     });
@@ -612,54 +613,7 @@ $(document).ready(function () {
     });
 
     $('#doctorForm').submit(function (e) {
-        e.preventDefault();
 
-        var url = $(this).attr('action');
-        var data = $(this).serialize();
-
-        if ($('#selectDoctor').val() == '') {
-            return false;
-        }
-
-        $.post(url, data)
-            .done(function (response) {
-                $("#selectDoctor").select2("val", "");
-
-                $('#doctorForm').addClass('hide');
-                $('#doctorAddBtn').attr('disabled', false);
-                $('#doctorField option:selected').remove();
-                var t = $('.dataTables-agency-doctor').DataTable();
-                response.forEach(function (item) {
-                    t.row.add([
-                        item.agency_doctor_office_id,
-                        item.agency.agency_name
-                    ]).draw(false);
-                });
-
-
-                setTimeout(function () {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-                    toastr.success('Added Successfully');
-                }, 330);
-
-            })
-            .fail(function (response) {
-                $('#doctorForm .form-group').addClass('has-error');
-                setTimeout(function () {
-                    toastr.options = {
-                        closeButton: true,
-                        progressBar: true,
-                        showMethod: 'slideDown',
-                        timeOut: 4000
-                    };
-                    toastr.error('Try again later');
-                }, 330);
-            });
     });
 
 
@@ -738,11 +692,62 @@ function deleteComment(e,el,id) {
 }
 
 
-
-
-
 function alertConfirm(e) {
     $("#delConfirmBtn").attr("href", $(e).attr("href"));
     $("#delConfirm").modal('toggle');
     return false;
+}
+
+function addDoctor(e,el) {
+    e.preventDefault();
+
+    var url = $(el).attr('action');
+    var data = $(el).serialize();
+
+
+    //if ($('#selectDoctor').val() == '') {
+    //    return false;
+    //}
+    $.post(url, data)
+        .done(function (response) {
+            /*$("#selectDoctor").select2("val", "");
+            $('#doctorForm').addClass('hide');
+            $('#doctorAddBtn').attr('disabled', false);
+            $('#doctorField option:selected').remove();*/
+
+            $('#doctorFormModal').modal('toggle');
+
+            var t = $('.dataTables-agency-doctor').DataTable();
+            response.forEach(function (item) {
+                t.row.add([
+                    item.agency_doctor_office_id,
+                    item.agency.agency_name
+                ]).draw(false);
+            });
+
+
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.success('Added Successfully');
+            }, 330);
+
+
+        })
+        .fail(function (response) {
+            $('#doctorForm .form-group').addClass('has-error');
+            setTimeout(function () {
+                toastr.options = {
+                    closeButton: true,
+                    progressBar: true,
+                    showMethod: 'slideDown',
+                    timeOut: 4000
+                };
+                toastr.error('Try again later');
+            }, 330);
+        });
 }

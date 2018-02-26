@@ -424,9 +424,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
                                 <h5>Agency Doctor List</h5>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#doctorFormModal">
-                                    Add doctor to agency type-1
-                                </button>
+
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -440,7 +438,10 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 <div class="table table-responsive">
                                     <div class="col-sm-7">
                                         <div class="col-sm-4">
-                                            <button type="button" class="btn btn-primary" id="doctorAddBtn">Add Doctor To Agency type-2</button>
+<!--                                            <button type="button" class="btn btn-primary" id="doctorAddBtn">Add Doctor To Agency type-2</button>-->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#doctorFormModal">
+                                                Add doctor to agency
+                                            </button>
                                         </div>
                                         <div class="col-sm-8">
                                             <form action="<?php echo current_url() . '/add-doctor';?>" method="POST" class="form-inline hide" id="doctorForm">
@@ -796,51 +797,60 @@ if (isset($modal_opened) and $modal_opened == true) {
     <div class="modal-content animated fadeIn">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title">Add New User</h4>
-            <small>You can add user to agency.</small>
+                <h4 class="modal-title">Add New Doctor To Agency</h4>
+            <small>You can select doctors.</small>
         </div>
-        <div class="modal-body">
-            <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
-            <div id="list">
-            <?php
-            if (isset($new_doctors) and $new_doctors != false) {
-                foreach ($new_doctors as $dtr) {
-                    ?>
-                    <div class="checkbox checkbox-circle" id="item">
-                        <input id="doctor[]" type="checkbox" value="<?php echo $dtr->agency_id;?>">
-                        <label for="checkbox7">
-                            <?php echo $dtr->agency_name;?>
-                        </label>
+
+            <div class="modal-body">
+<!--                <form action="--><?php //echo current_url() . '/add-doctor';?><!--" method="POST" class="form-horizontal" id="doctorForm" onsubmit="addDoctor(event,this)">-->
+                <form action="<?php echo current_url() . '/add-doctor';?>" method="POST" class="form-horizontal" id="doctorForm">
+                    <div class="form-group">
+                        <div class="col-lg-8">
+                            <input type="text" id="search" placeholder="Search for Doctors" title="Type in a name" class="form-control">
+                        </div>
+                        <div class="col-lg-4">
+                            <button type="submit" class="btn btn-primary">Select</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                        </div>
                     </div>
-                <?php
-                }
-                }?>
+
+                    <div id="list">
+                        <ul class="doctor-list list-group">
+                        <?php
+                        if (isset($new_doctors) and $new_doctors != false) {
+                            foreach ($new_doctors as $dtr) {
+                                ?>
+                                <li class="list-group-item">
+                                    <div class="checkbox">
+                                        <input name="doctor[]" type="checkbox" value="<?php echo $dtr->agency_id;?>">
+                                        <label>
+                                                <?php echo $dtr->agency_name;?>
+                                        </label>
+                                    </div>
+                                </li>
+                            <?php
+                            }
+                        }?>
+                    </div>
+                </form>
             </div>
-        </div>
     </div>
 </div>
 </div>
 <script>
-    function myFunction() {
-        console.log('test');
-        var input, filter, ul, li, a, i;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("list");
-        li = ul.getElementsByTagName('input');
+    $('#search').bind('keyup', function(){
+        var searchString = $(this).val();
 
-        console.log(input);
-        console.log(filter);
-        console.log(ul);
-        console.log(li);
-        for (i = 0; i < li.length; i++) {
-            a = li[i].getElementsByTagName("input")[0];
-            if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
+        $(".list-group li").each(function(index, value) {
+
+            currentName = $(value).text()
+            if( currentName.toUpperCase().indexOf(searchString.toUpperCase()) > -1) {
+                $(value).show();
             } else {
-                li[i].style.display = "none";
-
+                $(value).hide();
             }
-        }
-    }
+
+        });
+
+    });
 </script>
