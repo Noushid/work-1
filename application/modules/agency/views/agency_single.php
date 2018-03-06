@@ -805,10 +805,18 @@ if (isset($modal_opened) and $modal_opened == true) {
 <!--                <form action="--><?php //echo current_url() . '/add-doctor';?><!--" method="POST" class="form-horizontal" id="doctorForm" onsubmit="addDoctor(event,this)">-->
                 <form action="<?php echo current_url() . '/add-doctor';?>" method="POST" class="form-horizontal" id="doctorForm">
                     <div class="form-group">
-                        <div class="col-lg-8">
+                        <div class="col-lg-2">
+                            <div class="checkbox checkbox-primary">
+                                <input id="selectall" type="checkbox" >
+                                <label for="selectall">
+                                    Select All
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
                             <input type="text" id="search" placeholder="Search for Doctors" title="Type in a name" class="form-control">
                         </div>
-                        <div class="col-lg-4">
+                        <div class="col-lg-3">
                             <button type="submit" class="btn btn-primary">Select</button>
                             <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                         </div>
@@ -822,7 +830,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                 ?>
                                 <li class="list-group-item">
                                     <div class="checkbox">
-                                        <input name="doctor[]" type="checkbox" value="<?php echo $dtr->agency_id;?>">
+                                        <input name="doctor[]" type="checkbox" value="<?php echo $dtr->agency_id;?>" class="cus-check" id="chdoctor">
                                         <label>
                                                 <?php echo $dtr->agency_name;?>
                                         </label>
@@ -852,5 +860,39 @@ if (isset($modal_opened) and $modal_opened == true) {
 
         });
 
+    });
+
+    $(document).ready(function () {
+        $('.i-checks').iCheck({
+            checkboxClass: 'icheckbox_square-green',
+            radioClass: 'iradio_square-green',
+        });
+
+        /*$("#selectall").change(function() {
+            if(this.checked) {
+                $('doctor').prop('checked', true);
+            }
+        });*/
+
+        $("#selectall").change(function(){  //"select all" change
+            var status = this.checked; // "select all" checked status
+            $('.cus-check').each(function(){ //iterate all listed checkbox items
+                this.checked = status; //change ".checkbox" checked status
+            });
+        });
+
+        $('.cus-check').change(function(){ //".checkbox" change
+            console.log('kjnk');
+            console.log(this);
+            //uncheck "select all", if one of the listed checkbox item is unchecked
+            if(this.checked == false){ //if this item is unchecked
+                $("#selectall")[0].checked = false; //change "select all" checked status to false
+            }
+
+            //check "select all" if all checkbox items are checked
+            if ($('.cus-check:checked').length == $('.cus-check').length ){
+                $("#selectall")[0].checked = true; //change "select all" checked status to true
+            }
+        });
     });
 </script>
