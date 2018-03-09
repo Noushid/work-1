@@ -11,8 +11,8 @@ $(document).ready(function () {
         buttons: [
                 { extend: 'copy'},
                 {extend: 'csv'},
-                {extend: 'excel', title: 'ExampleFile'},
-                {extend: 'pdf', title: 'ExampleFile'},
+                {extend: 'excel', title: 'userList'},
+                {extend: 'pdf', title: 'userList'},
 
             {
                 extend: 'print',
@@ -40,8 +40,8 @@ $(document).ready(function () {
         //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
         dom: '<"html5buttons"B>g<"col-sm-3"f><"#addBtn.col-md-6">rtipl',//add btn right and search left
         buttons: [
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
+            {extend: 'excel', title: 'users'},
+            {extend: 'pdf', title: 'users'},
 
             {
                 extend: 'print',
@@ -71,8 +71,8 @@ $(document).ready(function () {
         //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
         dom: '<"html5buttons"B>g<"col-sm-3"f><"#addBtn.col-md-6">rtipl',//add btn right and search left
         buttons: [
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
+            {extend: 'excel', title: 'agency'},
+            {extend: 'pdf', title: 'agency'},
 
             {
                 extend: 'print',
@@ -134,8 +134,8 @@ $(document).ready(function () {
             {extend: 'copy'},
             {extend: 'copy'},
             {extend: 'csv'},
-            {extend: 'excel', title: 'ExampleFile'},
-            {extend: 'pdf', title: 'ExampleFile'},
+            {extend: 'excel', title: 'group'},
+            {extend: 'pdf', title: 'group'},
 
             {
                 extend: 'print',
@@ -167,8 +167,8 @@ $(document).ready(function () {
             {extend: 'copy'},
             {extend: 'copy'},
             {extend: 'csv'},
-            {extend: 'excel', title: 'X-Profile'},
-            {extend: 'pdf', title: 'X-Profile'},
+            {extend: 'excel', title: 'Profile'},
+            {extend: 'pdf', title: 'Profile'},
 
             {
                 extend: 'print',
@@ -257,8 +257,8 @@ $(document).ready(function () {
         buttons: [
             {extend: 'copy'},
             {extend: 'csv'},
-            {extend: 'excel', title: 'SubMenu'},
-            {extend: 'pdf', title: 'SubMenu'},
+            {extend: 'excel', title: 'applications'},
+            {extend: 'pdf', title: 'applications'},
 
             {
                 extend: 'print',
