@@ -374,6 +374,30 @@ $(document).ready(function () {
     });
 
 
+    /********Data table for Agency patient**/
+    $('.dataTables-agency-patient').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        dom: '<"html5buttons"B>gfrtip',
+        buttons: [
+            {extend: 'excel', title: 'AgencyPatient'},
+            {extend: 'pdf', title: 'AgencyPatient'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+
 
     ////////////Edit  profile/////////////
     $('#change-user-email-check').iCheck({

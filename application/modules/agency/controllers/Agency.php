@@ -23,6 +23,7 @@ class Agency extends CI_Controller {
         $this->load->model('agency/Agency_contractor_model', 'agency_contractor');
         $this->load->model('agency/Agency_doctor_office_model', 'agency_doctor_ofc');
         $this->load->model('agency/Agy_agency_comments_model', 'agency_comment');
+        $this->load->model('agency/Pat_patient_model', 'pat_patient');
 
         $this->load->library(['ion_auth']);
         /*
@@ -183,6 +184,7 @@ class Agency extends CI_Controller {
         $data['contractors'] = $this->agency_contractor->where('agency_id', $param1)->with('agency')->get_all();
         $data['doctors'] = $this->agency_doctor_ofc->where('agency_id', $param1)->with('agency')->get_all();
         $data['comments'] = $this->agency_comment->where('agency_id', $param1)->get_all();
+        $data['patients'] = $this->pat_patient->where('agency_id', $param1)->get_all();
 
         $exist_agency = [];
         if ($data['contractors']) {
