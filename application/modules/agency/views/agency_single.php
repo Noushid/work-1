@@ -73,6 +73,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                         <li class="<?php echo((isset($active_tab) && $active_tab == 'doctors') ? 'active' : '');?>"><a data-toggle="tab" href="#doctors">Doctors</a></li>
                         <li class="<?php echo((isset($active_tab) && $active_tab == 'comments') ? 'active' : '');?>"><a data-toggle="tab" href="#comments">Comments</a></li>
                         <li class="<?php echo((isset($active_tab) && $active_tab == 'patients') ? 'active' : '');?>"><a data-toggle="tab" href="#patients">patients</a></li>
+                        <li class="<?php echo((isset($active_tab) && $active_tab == 'visitLog') ? 'active' : '');?>"><a data-toggle="tab" href="#visitLog">Visit Log</a></li>
                     </ul>
                 </div>
             </div>
@@ -616,6 +617,63 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     <td><?php echo $patient->patient_id;?></td>
                                                     <td><?php echo $patient->first_name; ?></td>
                                                     <td><?php echo $patient->last_name; ?></td>
+                                                </tr>
+                                            <?php
+                                            }
+                                        }
+                                        ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!--Visit Log tab-->
+                    <div id="visitLog" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'visitLog') ? 'active' : '');?>">
+                        <div class="ibox float-e-margins">
+                            <div class="ibox-title">
+                                <h5>Comments</h5>
+                                <div class="ibox-tools">
+                                    <a class="collapse-link">
+                                        <i class="fa fa-chevron-up"></i>
+                                    </a>
+                                    <a class="close-link">
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="ibox-content">
+                                <div class="table table-responsive">
+                                    <table class="table table-striped table-bordered table-hover dataTables-agency-comment">
+                                        <thead>
+                                        <tr>
+                                            <th>Comments</th>
+                                            <th>Creation Date</th>
+                                            <th>Review Date</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        if (isset($comments) and $comments != FALSE) {
+                                            foreach ($comments as $comment) {
+                                                ?>
+                                                <tr id="comment-<?php echo $comment->agy_agency_comments_id;?>">
+                                                    <td><?php echo $comment->comment; ?></td>
+                                                    <td><?php echo date('m-d-Y', strtotime($comment->created_at)); ?></td>
+                                                    <td><?php echo date('m-d-Y', strtotime($comment->review_date)); ?></td>
+                                                    <td class="center">
+                                                        <div  class="btn-group btn-group-xs" role="group">
+                                                            <a class="btn btn-info" href="#" onclick="editComment(event,<?php echo $comment->agy_agency_comments_id;?>)">
+                                                                <i class="fa fa-pencil"></i>
+                                                            </a>
+                                                            <a class="btn btn-danger" onclick="deleteComment(event,this,<?php echo $comment->agy_agency_comments_id;?>);" href="<?php echo current_url() . '/comment/delete/' . $comment->agy_agency_comments_id;?>">
+                                                                <i class="fa fa-trash-o"></i>
+                                                            </a>
+                                                        </div>
+                                                    </td>
                                                 </tr>
                                             <?php
                                             }
