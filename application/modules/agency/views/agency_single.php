@@ -646,36 +646,36 @@ if (isset($modal_opened) and $modal_opened == true) {
                             </div>
                             <div class="ibox-content">
                                 <div class="table table-responsive">
-                                    <table class="table table-striped table-bordered table-hover dataTables-agency-comment">
+                                    <table class="table table-striped table-bordered table-hover dataTables-agency-visit-log">
                                         <thead>
                                         <tr>
-                                            <th>Comments</th>
-                                            <th>Creation Date</th>
-                                            <th>Review Date</th>
-                                            <th>Action</th>
+                                            <th>ID</th>
+                                            <th>Visit date</th>
+                                            <th>Visit Type</th>
+                                            <th>User</th>
+                                            <th>Status</th>
+                                            <th>Patient</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         <?php
-                                        if (isset($comments) and $comments != FALSE) {
-                                            foreach ($comments as $comment) {
-                                                ?>
-                                                <tr id="comment-<?php echo $comment->agy_agency_comments_id;?>">
-                                                    <td><?php echo $comment->comment; ?></td>
-                                                    <td><?php echo date('m-d-Y', strtotime($comment->created_at)); ?></td>
-                                                    <td><?php echo date('m-d-Y', strtotime($comment->review_date)); ?></td>
-                                                    <td class="center">
-                                                        <div  class="btn-group btn-group-xs" role="group">
-                                                            <a class="btn btn-info" href="#" onclick="editComment(event,<?php echo $comment->agy_agency_comments_id;?>)">
-                                                                <i class="fa fa-pencil"></i>
-                                                            </a>
-                                                            <a class="btn btn-danger" onclick="deleteComment(event,this,<?php echo $comment->agy_agency_comments_id;?>);" href="<?php echo current_url() . '/comment/delete/' . $comment->agy_agency_comments_id;?>">
-                                                                <i class="fa fa-trash-o"></i>
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            <?php
+                                        if (isset($visit_logs) and $visit_logs != FALSE) {
+                                            foreach ($visit_logs as $log) {
+                                                if ($log != false) {
+                                                    $data = (array)$this->us1_user->where(['user_id' => $log->visit_user_id])->get();
+                                                    $username = ((isset($data['username']) && $data['username'] != null) ? $data['username'] : '');
+                                                    $status = $this->tab_parameter->where(['tab_value' => $log->visit_status_id, 'tab_type' => 83])->get();
+                                                    ?>
+                                                    <tr id="visit-log-<?php echo $log->visit_log_id; ?>">
+                                                        <td><?php echo $log->visit_log_id; ?></td>
+                                                        <td><?php echo date('m-d-Y', strtotime($log->visit_date_time)); ?></td>
+                                                        <td><?php echo $log->visit_type->visit_description; ?></td>
+                                                        <td><?php echo $username;?></td>
+                                                        <td><?php echo $status->tab_description; ?></td>
+                                                        <td><?php echo 'patient '; ?></td>
+                                                    </tr>
+                                                <?php
+                                                }
                                             }
                                         }
                                         ?>

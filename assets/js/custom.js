@@ -373,6 +373,34 @@ $(document).ready(function () {
         }
     });
 
+    /********Data table for Agency contractor**/
+    $('.dataTables-agency-visit-log').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        //"pageLength": 300,
+        responsive: true,
+        //dom: '<"html5buttons"B>gfrtip',
+        dom: '<"html5buttons"B>gfrtip',
+        buttons: [
+            {extend: 'excel', title: 'vistLog'},
+            {extend: 'pdf', title: 'visitLog'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        "fnInitComplete": function (oSettings, json) {
+            $('#addDtrBtn').append('<div class="col-md-5"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#applicationModal">Add Doctor To Agency</button></div>');
+        }
+    });
+
 
     /********Data table for Agency patient**/
     $('.dataTables-agency-patient').DataTable({

@@ -25,6 +25,9 @@ class Agency extends CI_Controller {
         $this->load->model('agency/Agy_agency_comments_model', 'agency_comment');
         $this->load->model('agency/Pat_patient_model', 'pat_patient');
         $this->load->model('agency/Soc_start_of_care_model', 'soc_start_of_care');
+        $this->load->model('agency/Cms_485_model', 'cms485');
+        $this->load->model('agency/Vis_visit_log_model', 'vis_visit');
+        $this->load->model('agency/Vit_visit_type_model', 'visit_type');
 
         $this->load->library(['ion_auth']);
         /*
@@ -181,15 +184,64 @@ class Agency extends CI_Controller {
 
     public function agency_single($param1,$param2="",$param3="")
     {
+        $data['agency_id'] = $param1;
         $data['agency'] = $this->user_agency->select_where(['agency_id' => $param1]);
-        $data['contractors'] = $this->agency_contractor->where('agency_id', $param1)->with('agency')->get_all();
-        $data['doctors'] = $this->agency_doctor_ofc->where('agency_id', $param1)->with('agency')->get_all();
-        $data['comments'] = $this->agency_comment->where('agency_id', $param1)->get_all();
-        $data['patients'] = $this->pat_patient->where('agency_id', $param1)->get_all();
-//        var_dump($data['patients']);
-        $soc = $this->soc_start_of_care->with_patient()->get_all();
-        var_dump($soc);
-        exit;
+        $data['contractors'] = $this->agency_contractor->where('agency_id', $param1)->with('agency')->set_cache('get_contractors')->get_all();
+        $data['doctors'] = $this->agency_doctor_ofc->where('agency_id', $param1)->with('agency')->set_cache('get_doctors')->get_all();
+        $data['comments'] = $this->agency_comment->where('agency_id', $param1)->set_cache('get_comments')->get_all();
+
+        $patients =
+        $data['patients'] = $this->pat_patient->where('agency_id', $param1)->set_cache('get_patients')->get_all();
+
+        /**
+         * Get Visit log
+        */
+
+        /*STEP 1*/
+        /*Get All patients id related to agency*/
+        $patient_ids = $this->pat_patient->where('agency_id', $param1)->fields('patient_id')->set_cache('get_patients')->get_all();
+
+        /*STEP 2*/
+        /*Get all admissions(soc_start_of_care) related to their patients*/
+        $soc = [];
+        if ($patient_ids != false) {
+            foreach ($patient_ids as $pat_id) {
+                $temp = $this->soc_start_of_care->where('patient_id', $pat_id->patient_id)->get_all();
+                $soc[] = $temp;
+            }
+            $admissions = array_flatten($soc);
+        }
+
+        /*STEP 3*/
+        /*Get all episode(cms_485) related to their admissions*/
+        $cms485 = [];
+        if (isset($admissions) and $admissions != false) {
+            foreach ($admissions as $adm) {
+                if ($adm != false) {
+                    $temp = $this->cms485->where('soc_id', $adm->soc_id)->set_cache('get_cms485')->get_all();
+                    $cms485[] = $temp;
+                }
+            }
+            $episodes = array_flatten($cms485);
+        }
+
+        /*STEP 4*/
+        /*Get all visit logs(vis_visit_log) related to their episode*/
+        $visit_logs = [];
+        if (isset($episodes) and $episodes != false) {
+            foreach ($episodes as $epsd) {
+
+                if ($epsd != false) {
+                    $temp = $this->vis_visit->where('cms485_id', $epsd->cms485_id)->with_visit_type()->set_cache('get_vis_visit')->get_all();
+                    $visit_logs[] = $temp;
+                }
+            }
+            $data['visit_logs'] = array_flatten($visit_logs);
+        }else{
+            $data['visit_logs'] = false;
+        }
+
+        /*End*/
 
         $exist_agency = [];
         if ($data['contractors']) {

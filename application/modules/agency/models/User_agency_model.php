@@ -12,6 +12,7 @@ class User_agency_model extends MY_Model
 
     public $table = 'us_agy';
     public $primary_key = 'us_agy_id';
+    public $delete_cache_on_save = TRUE;
     function __construct()
     {
         $this->has_one['user'] = array('foreign_model' => 'Us1_user_model', 'foreign_table' => 'us1_users', 'foreign_key' => 'user_id', 'local_key' => 'user_id');
@@ -49,7 +50,7 @@ class User_agency_model extends MY_Model
 
     public function select_where($where)
     {
-        $agency = $this->agency->where($where)->with_state()->get();
+        $agency = $this->agency->where($where)->with_state()->set_cache('get_agency')->get();
 
         if ($agency) {
             $agency_user = $this->user_agency->where('agency_id', $agency->agency_id)->get_all();
