@@ -199,7 +199,7 @@ class Agency extends CI_Controller {
 
         /*STEP 1*/
         /*Get All patients id related to agency*/
-        $patient_ids = $this->pat_patient->where('agency_id', $param1)->fields('patient_id')->set_cache('get_patients')->get_all();
+        $patient_ids = $this->pat_patient->where('agency_id', $param1)->fields('patient_id')->get_all();
 
         /*STEP 2*/
         /*Get all admissions(soc_start_of_care) related to their patients*/
@@ -218,7 +218,7 @@ class Agency extends CI_Controller {
         if (isset($admissions) and $admissions != false) {
             foreach ($admissions as $adm) {
                 if ($adm != false) {
-                    $temp = $this->cms485->where('soc_id', $adm->soc_id)->set_cache('get_cms485')->get_all();
+                    $temp = $this->cms485->where('soc_id', $adm->soc_id)->get_all();
                     $cms485[] = $temp;
                 }
             }
@@ -230,9 +230,8 @@ class Agency extends CI_Controller {
         $visit_logs = [];
         if (isset($episodes) and $episodes != false) {
             foreach ($episodes as $epsd) {
-
                 if ($epsd != false) {
-                    $temp = $this->vis_visit->where('cms485_id', $epsd->cms485_id)->with_visit_type()->set_cache('get_vis_visit')->get_all();
+                    $temp = $this->vis_visit->where('cms485_id', $epsd->cms485_id)->with_visit_type()->get_all();
                     $visit_logs[] = $temp;
                 }
             }
@@ -240,7 +239,6 @@ class Agency extends CI_Controller {
         }else{
             $data['visit_logs'] = false;
         }
-
         /*End*/
 
         $exist_agency = [];

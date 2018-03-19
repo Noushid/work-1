@@ -663,14 +663,16 @@ if (isset($modal_opened) and $modal_opened == true) {
                                             foreach ($visit_logs as $log) {
                                                 if ($log != false) {
                                                     $data = (array)$this->us1_user->where(['user_id' => $log->visit_user_id])->get();
-                                                    $username = ((isset($data['username']) && $data['username'] != null) ? $data['username'] : '');
+                                                    $first_name = (isset($data['first_name']) ? $data['first_name'] : '');
+                                                    $last_name = (isset($data['last_name']) ? $data['last_name'] : '');
+
                                                     $status = $this->tab_parameter->where(['tab_value' => $log->visit_status_id, 'tab_type' => 83])->get();
                                                     ?>
                                                     <tr id="visit-log-<?php echo $log->visit_log_id; ?>">
                                                         <td><?php echo $log->visit_log_id; ?></td>
                                                         <td><?php echo date('m-d-Y', strtotime($log->visit_date_time)); ?></td>
-                                                        <td><?php echo $log->visit_type->visit_description; ?></td>
-                                                        <td><?php echo $username;?></td>
+                                                        <td><?php echo ((isset($log->visit_type) and $log->visit_type != null) ? $log->visit_type->visit_description : ''); ?></td>
+                                                        <td><?php echo $first_name . ' ' . $last_name;?></td>
                                                         <td><?php echo $status->tab_description; ?></td>
                                                         <td><?php echo 'patient '; ?></td>
                                                     </tr>
