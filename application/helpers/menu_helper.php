@@ -54,7 +54,7 @@ if (!function_exists('render_menu')) {
                     if ($applications != false) {
                         $html .= '<ul class="nav nav-second-level">';
                         foreach ($applications as $apl) {
-                            $html .= '<li><a href="' . site_url($apl->x_application->application_name) . '">' . $apl->x_application->application_name . '</a></li>';
+                            $html .= '<li><a href="' . site_url($apl->x_application->application_path) . '">' . $apl->x_application->application_name . '</a></li>';
                         }
                         $html .= '</ul>
                             </li>';

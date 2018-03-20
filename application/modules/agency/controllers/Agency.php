@@ -206,7 +206,7 @@ class Agency extends CI_Controller {
         $soc = [];
         if ($patient_ids != false) {
             foreach ($patient_ids as $pat_id) {
-                $temp = $this->soc_start_of_care->where('patient_id', $pat_id->patient_id)->get_all();
+                $temp = $this->soc_start_of_care->where('patient_id', $pat_id->patient_id)->with_patient('fields:first_name,last_name')->get_all();
                 $soc[] = $temp;
             }
             $admissions = array_flatten($soc);
@@ -219,7 +219,12 @@ class Agency extends CI_Controller {
             foreach ($admissions as $adm) {
                 if ($adm != false) {
                     $temp = $this->cms485->where('soc_id', $adm->soc_id)->get_all();
-                    $cms485[] = $temp;
+                    if ($temp != false) {
+                        foreach ($temp as $val) {
+                            $val->patient = $adm->patient;
+                        }
+                        $cms485[] = $temp;
+                    }
                 }
             }
             $episodes = array_flatten($cms485);
@@ -232,7 +237,12 @@ class Agency extends CI_Controller {
             foreach ($episodes as $epsd) {
                 if ($epsd != false) {
                     $temp = $this->vis_visit->where('cms485_id', $epsd->cms485_id)->with_visit_type()->get_all();
-                    $visit_logs[] = $temp;
+                    if ($temp != false) {
+                        foreach ($temp as $val1) {
+                            $val1->patient = $epsd->patient;
+                        }
+                        $visit_logs[] = $temp;
+                    }
                 }
             }
             $data['visit_logs'] = array_flatten($visit_logs);

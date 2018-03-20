@@ -665,7 +665,6 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                     $data = (array)$this->us1_user->where(['user_id' => $log->visit_user_id])->get();
                                                     $first_name = (isset($data['first_name']) ? $data['first_name'] : '');
                                                     $last_name = (isset($data['last_name']) ? $data['last_name'] : '');
-
                                                     $status = $this->tab_parameter->where(['tab_value' => $log->visit_status_id, 'tab_type' => 83])->get();
                                                     ?>
                                                     <tr id="visit-log-<?php echo $log->visit_log_id; ?>">
@@ -674,7 +673,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                         <td><?php echo ((isset($log->visit_type) and $log->visit_type != null) ? $log->visit_type->visit_description : ''); ?></td>
                                                         <td><?php echo $first_name . ' ' . $last_name;?></td>
                                                         <td><?php echo $status->tab_description; ?></td>
-                                                        <td><?php echo 'patient '; ?></td>
+                                                        <td><?php echo((isset($log->patient) and $log->patient != null) ? $log->patient->last_name . ' ' . $log->patient->first_name : ''); ?></td>
                                                     </tr>
                                                 <?php
                                                 }
