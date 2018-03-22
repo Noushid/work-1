@@ -149,6 +149,14 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
+                        <?php
+                        if (!$this->ion_auth->is_admin()) {
+                            $agency_name = $this->agency->where('agency_id', $_SESSION['agency']->agency_id)->get()->agency_name;
+                            echo '<span class="clear text-info"> <span class="block m-t-xs"> <strong class="font-bold">' . $agency_name . '</strong>';
+                        }
+                        ?>
+                    </li>
+                    <li>
                         <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                             <span class="m-r-sm text-muted welcome-message text-xs block" style="font-weight: 400;">Welcome <?php echo profile('first_name') . '  ' . profile('last_name'); ?><b class="caret"></b></span>
                         </a>
@@ -266,7 +274,6 @@
                         </a>
                     </li>
                 </ul>
-
             </nav>
         </div>
         <div class="">

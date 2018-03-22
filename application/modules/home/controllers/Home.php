@@ -6,6 +6,7 @@ class Home extends CI_Controller {
 	public function __construct() {
 		parent::__construct();		
 		$this->load->model('user/User_model');
+        $this->load->model('agency/Agency_model', 'agency');
         $this->load->model('home/Menu_model', 'menu');
         $this->load->model('home/Sub_menu_model', 'sub_menu');
         $this->load->model('home/Group_menu_model', 'group_menu');

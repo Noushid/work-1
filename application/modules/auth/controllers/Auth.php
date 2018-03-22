@@ -214,6 +214,7 @@ class Auth extends CI_Controller {
 
                     $this->session->set_userdata('profile_id', $profile->profile_id);
                     $this->session->set_userdata('profile_name', $profile->profile_name);
+                    $this->session->set_userdata('agency', $user_agency[0]);
                     //if the login is successful
 
                     //redirect them back to the home page

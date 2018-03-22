@@ -142,5 +142,13 @@ $route['my-profile/edit-credential/(:num)'] = "home/edit_credential/$1";
 //$route['(:any)'] = "home/test/$1";
 
 
+/**
+ *
+ * user side
+ */
+$route['patient/mypatient'] = 'user/patient';
+
+
+
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
