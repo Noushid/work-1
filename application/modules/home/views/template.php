@@ -48,6 +48,7 @@
     <link href="<?php echo asset('css/plugins/dualListbox/bootstrap-duallistbox.min.css');?>" rel="stylesheet">
     <link href="<?php echo asset('css/plugins/select2/select2.min.css');?>" rel="stylesheet">
 
+
     <!-- Mainly scripts -->
     <script src="<?php echo asset('js/jquery-3.1.1.min.js');?>"></script>
     <script src="<?php echo asset('js/bootstrap.min.js');?>"></script>
@@ -96,9 +97,16 @@
     <script src="<?php echo asset('js/custom.js');?>"></script>
 
     <script src="<?php echo asset('js/plugins/fullcalendar/moment.min.js');?>"></script>
+    <script src="//cdn.datatables.net/plug-ins/1.10.16/sorting/datetime-moment.js"></script>
+
 
     <!-- Select2 -->
     <script src="<?php echo asset('js/plugins/select2/select2.full.min.js');?>"></script>
+
+    <!--Loading jquery spinner-->
+    <script src="<?php echo asset('js/jquery.loading.block.js');?>"></script>
+
+
 
     <script>
 
@@ -149,16 +157,18 @@
                 </div>
                 <ul class="nav navbar-top-links navbar-right">
                     <li>
-                        <?php
-                        if (!$this->ion_auth->is_admin()) {
-                            $agency_name = $this->agency->where('agency_id', $_SESSION['agency']->agency_id)->get()->agency_name;
-                            echo '<span class="clear text-info"> <span class="block m-t-xs"> <strong class="font-bold">' . $agency_name . '</strong>';
-                        }
-                        ?>
+
                     </li>
                     <li>
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <a data-toggle="dropdown" class="dropdown-toggle" href="#" style="padding: 5px 10px;min-height: 50px;height: 50px;margin: 0 auto;" aria-expanded="false">
                             <span class="m-r-sm text-muted welcome-message text-xs block" style="font-weight: 400;">Welcome <?php echo profile('first_name') . '  ' . profile('last_name'); ?><b class="caret"></b></span>
+                            <?php
+                            if (!$this->ion_auth->is_admin()) {
+                                $agency_name = $this->agency->where('agency_id', $_SESSION['agency']->agency_id)->get()->agency_name;
+                                echo '<span class="block m-t-xs text-info"> <strong class="font-bold">' . $agency_name . '</strong></span>';
+                            }
+                            ?>
+
                         </a>
                         <ul class="dropdown-menu animated fadeInRight m-t-xs">
                             <li><a href="<?php echo site_url('my-profile#tabchange')?>">My Profile</a></li>

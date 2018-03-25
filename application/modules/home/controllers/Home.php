@@ -14,6 +14,7 @@ class Home extends CI_Controller {
         $this->load->model('agency/User_agency_model', 'user_agency');
         $this->load->model('home/User_group_model', 'user_group');
         $this->load->model('profile/X_profile_group_model', 'profile_group');
+        $this->load->model('Home/Tic_ticket_model', 'tic_ticket');
 
         $this->load->model('profile/X_profile_group_applic_model', 'profile_group_applica');
 
@@ -692,6 +693,16 @@ class Home extends CI_Controller {
         }
 
         $this->load->view('user_login', $data);
+    }
+
+    public function heatTicket()
+    {
+        $data['current'] = "heat-ticket";
+        $data['title'] = "Heat Ticket";
+        $data['page'] = "heat_ticket";
+        $data['hot_tickets'] = $this->tic_ticket->with_user()->get_all();
+
+        $this->load->view('template', $data);
     }
 
 

@@ -42,7 +42,9 @@ if (!function_exists('render_menu')) {
                     <li  ' . ($current == 'profile' ? 'class="active"' : '') . ' >
                         <a href="' . site_url('profile') . '"><i class="fa fa-user"></i> <span class="nav-label">Profile</span></a>
                     </li>
-                    ';
+                    <li  ' . ($current == 'heat-ticket' ? 'class="active"' : '') . ' >
+                        <a href="' . site_url('heat-ticket') . '"><i class="fa fa-user"></i> <span class="nav-label">Heat Ticket</span></a>
+                    </li>';
         }else {
             $html = '';
             if (isset($profile_group) and $profile_group != FALSE) {

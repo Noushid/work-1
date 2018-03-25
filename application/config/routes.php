@@ -138,6 +138,8 @@ $route['user-dash/(:num)/my-profile/add-credential'] = "home/add_credential/$1";
 $route['my-profile/add-credential'] = "home/add_credential";
 $route['my-profile/edit-credential/(:num)'] = "home/edit_credential/$1";
 
+$route['heat-ticket'] = "home/heatTicket";
+
 
 //$route['(:any)'] = "home/test/$1";
 
@@ -147,6 +149,8 @@ $route['my-profile/edit-credential/(:num)'] = "home/edit_credential/$1";
  * user side
  */
 $route['patient/mypatient'] = 'user/patient';
+$route['help/ticket'] = 'user/heatTicket';
+$route['help/ticket/add']['POST'] = "user/addHeatTicket";
 
 
 

@@ -2,6 +2,7 @@
  * Created by noushid on 11/10/17.
  */
 $(document).ready(function () {
+
     $('.dataTables-user-list').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
@@ -427,7 +428,7 @@ $(document).ready(function () {
     });
 
 
-    /********Data table for Agency patient**/
+    /********Data table for user patient**/
     $('.dataTables-user-patient').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
@@ -449,6 +450,59 @@ $(document).ready(function () {
                 }
             }
         ]
+    });
+
+    /********Data table for heat ticket**/
+    $('.dataTables-heat-ticket').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        dom: '<"html5buttons"B>gfrtip',
+        "order": [[ 5, "desc" ]],
+        buttons: [
+            {extend: 'excel', title: 'AgencyPatient'},
+            {extend: 'pdf', title: 'AgencyPatient'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+
+    /********Data table for user heat ticket **/
+    $('.dataTables-user-heat-ticket').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        "order": [[ 4, "desc" ]],
+        responsive: true,
+        dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',
+        buttons: [
+            {extend: 'excel', title: 'AgencyDoctor'},
+            {extend: 'pdf', title: 'AgencyDoctor'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        "fnInitComplete": function(oSettings, json) {
+            $('#addBtn').append('<div class="col-md-5"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#ticketModal">Add Ticket</button></div>');
+        }
     });
 
 
