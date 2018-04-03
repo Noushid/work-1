@@ -24,7 +24,7 @@
         <div class="col-md-12">
             <div class="ibox-content">
 
-                <h2 class="font-bold">Reset password</h2>
+                <h2 class="font-bold">Reset Password</h2>
 
                 <p>
                     Enter your New Password below..
@@ -37,8 +37,8 @@
                         <form class="m-t" role="form" method="POST" action="<?php echo site_url('reset-password/' . $code); ?>">
                             <div class="form-group">
                                 <?php echo form_input($new_password);?>
-                                <small class="text-danger">
-                                    Must be <?php echo $min_length . '-' . $max_length;?> characters long.
+                                <small class="text-danger"><!---->
+                                    Must be <?php echo $min_length . ' - ' . $max_length;?> characters long.
                                 </small>
                             </div>
                             <div class="form-group">

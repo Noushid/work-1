@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title><?php echo (isset($title)?$title:"Title goes here"); ?></title>
+    <title><?php echo(isset($title) ? $title : "Title goes here"); ?></title>
 
 
     <link href="<?php echo asset('css/bootstrap.min.css');?>" rel="stylesheet">
@@ -97,7 +97,8 @@
     <script src="<?php echo asset('js/custom.js');?>"></script>
 
     <script src="<?php echo asset('js/plugins/fullcalendar/moment.min.js');?>"></script>
-    <script src="//cdn.datatables.net/plug-ins/1.10.16/sorting/datetime-moment.js"></script>
+    <script src="<?php echo asset('js/jquery.cookie.js');?>"></script>
+
 
 
     <!-- Select2 -->

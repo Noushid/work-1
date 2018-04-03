@@ -1,6 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ *
+ */
 class Home extends CI_Controller {
 
 	public function __construct() {
@@ -15,6 +18,7 @@ class Home extends CI_Controller {
         $this->load->model('home/User_group_model', 'user_group');
         $this->load->model('profile/X_profile_group_model', 'profile_group');
         $this->load->model('Home/Tic_ticket_model', 'tic_ticket');
+        $this->load->model('Home/Tic_response_model', 'tic_response');
 
         $this->load->model('profile/X_profile_group_applic_model', 'profile_group_applica');
 
@@ -695,6 +699,10 @@ class Home extends CI_Controller {
         $this->load->view('user_login', $data);
     }
 
+
+    /**
+     *Show all heat tickets fetch form tic_ticket table
+     */
     public function heatTicket()
     {
         $data['current'] = "heat-ticket";
@@ -703,6 +711,72 @@ class Home extends CI_Controller {
         $data['hot_tickets'] = $this->tic_ticket->with_user()->get_all();
 
         $this->load->view('template', $data);
+    }
+
+
+    /**
+     *Show ticket details
+     */
+    public function showTicket($ticket_id)
+    {
+        $ticket = $this->tic_ticket->where('ticket_id', $ticket_id)->with_response(['with' => ['relation' => 'user']])->with_user()->get();
+        $data['ticket'] = $ticket;
+        $data['current'] = "heat-ticket";
+        $data['title'] = "Heat Ticket";
+        $data['page'] = "home/heat_ticket_details";
+
+        $this->load->view('home/template', $data);
+    }
+
+
+    /**
+     * Reply to ticket
+     */
+    public function replyToTicket($ticket_id)
+    {
+        $this->form_validation->set_rules('reply', 'Reply', 'required');
+        if ($this->form_validation->run() == false) {
+            redirect(site_url('heat-ticket/' . $ticket_id));
+        }else{
+            $data['ticket_id'] = $ticket_id;
+            $data['response_user_id'] = $this->session->userdata('user_profile')->user_id;
+            $data['response_content'] = $this->input->post('reply');
+            $data['response_datetime'] = date('Y-m-d h:i:s', time());
+            if ($this->tic_response->insert($data)) {
+                redirect(site_url('heat-ticket/' . $ticket_id));
+            }
+        }
+    }
+
+
+    public function test()
+    {
+        $this->load->library('email');
+
+        $config = [
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://a2plcpnl0038.prod.iad2.secureserver.net',
+            'smtp_port' => 465,
+            'smtp_user' => 'web@oasis-c1.com',
+            'smtp_pass' => 'web@oasis',
+            'mailtype' => 'html',
+            'charset' => 'iso-8859-1',
+            'wordwrap' => TRUE
+        ];
+
+        $this->email->initialize($config);
+
+//        var_dump($config);
+
+
+        $this->email->from('web@oasis-c1.com', 'Noushid');
+        $this->email->to('pnoushid@gmail.com');
+
+        $this->email->subject('Email Test');
+        $this->email->message('Testing the email class.');
+
+        var_dump($this->email->send());
+        var_dump($this->email->print_debugger());
     }
 
 

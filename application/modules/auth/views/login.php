@@ -39,7 +39,8 @@ if (isset($agencies) and $agencies > 1) {
                     <h4 class="modal-title">Choose Agency</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="m-t" role="form" method="POST" action="<?php echo site_url('login/submit-agency'); ?>">
+<!--                    <form class="m-t" role="form" method="POST" action="--><?php //echo site_url('login/submit-agency'); ?><!--">-->
+                        <?php echo form_open(site_url('login/submit-agency'), ['class' => "m-t", 'role' => "form"]);?>
                         <div class="form-group">
                             <select name="agency" id="agency" class="form-control" required="">
                                 <option value="" disabled selected>Select</option>
@@ -73,7 +74,8 @@ if (isset($agencies) and $agencies > 1) {
         <div class="help-block bg-info">
             <?php echo $message; ?>
         </div>
-        <form class="m-t" role="form" method="POST" action="<?php echo site_url('login'); ?>">
+<!--        <form class="m-t" role="form" method="POST" action="--><?php //echo site_url('login'); ?><!--">-->
+        <?php echo form_open(site_url('login'), ['class' => "m-t", 'role' => "form"]);?>
             <div class="form-group">
 <!--                --><?php //echo lang('login_identity_label', 'identity');?>
                 <?php echo form_input($identity);?>

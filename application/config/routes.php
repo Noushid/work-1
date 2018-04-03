@@ -86,9 +86,17 @@ $route['agency/add'] = "agency/create";
 $route['agency/(edit)/(:num)'] = "agency/index/$1/$2";
 $route['agency/(delete)/(:num)'] = "agency/index/$1/$2";
 
+
+$route['doctor'] = "agency/index";
+$route['doctor/add'] = "contractor/create";
+$route['doctor/(edit)/(:num)'] = "contractor/index/$1/$2";
+$route['doctor/(delete)/(:num)'] = "contractor/index/$1/$2";
+
+
 $route['agency/(:num)'] = "agency/agency_single/$1";
 $route['agency/(:num)/(edit)/(:num)'] = "agency/agency_single/$1/$2/$3";
 $route['agency/(:num)/(delete)/(:num)'] = "agency/agency_single/$1/$2/$3";
+
 
 $route['agency/(:num)/add-contractor']['POST'] = "agency/add_contractor/$1";
 $route['agency/(:num)/add-doctor']['POST'] = "agency/add_doctor/$1";
@@ -101,6 +109,27 @@ $route['agency/(:num)/comment/delete/(:num)'] = "agency/delete_comment/$2";
 
 
 $route['agency/get-user/(:num)'] = "agency/get_user/$1";
+
+
+/*contractor start*/
+$route['contractor'] = "contractor/index";
+$route['contractor/add'] = "contractor/create";
+$route['contractor/(edit)/(:num)'] = "contractor/index/$1/$2";
+$route['contractor/(delete)/(:num)'] = "contractor/index/$1/$2";
+
+$route['contractor/(:num)'] = "contractor/contractor_single/$1";
+//$route['agency/(:num)/(edit)/(:num)'] = "agency/agency_single/$1/$2/$3";
+//$route['agency/(:num)/(delete)/(:num)'] = "agency/agency_single/$1/$2/$3";
+
+/*contractor start*/
+$route['doctor'] = "doctor/index";
+$route['doctor/add'] = "doctor/create";
+$route['doctor/(edit)/(:num)'] = "doctor/index/$1/$2";
+$route['doctor/(delete)/(:num)'] = "contractor/index/$1/$2";
+
+$route['doctor/(:num)'] = "doctor/doctor_single/$1";
+//$route['agency/(:num)/(edit)/(:num)'] = "agency/agency_single/$1/$2/$3";
+//$route['agency/(:num)/(delete)/(:num)'] = "agency/agency_single/$1/$2/$3";
 
 
 $route['user-list'] = "user";
@@ -139,6 +168,8 @@ $route['my-profile/add-credential'] = "home/add_credential";
 $route['my-profile/edit-credential/(:num)'] = "home/edit_credential/$1";
 
 $route['heat-ticket'] = "home/heatTicket";
+$route['heat-ticket/(:num)'] = "home/showTicket/$1";
+$route['heat-ticket/(:num)/reply'] = "home/replyToTicket/$1";
 
 
 //$route['(:any)'] = "home/test/$1";
@@ -151,6 +182,8 @@ $route['heat-ticket'] = "home/heatTicket";
 $route['patient/mypatient'] = 'user/patient';
 $route['help/ticket'] = 'user/heatTicket';
 $route['help/ticket/add']['POST'] = "user/addHeatTicket";
+$route['help/ticket/(:num)'] = "user/showTicket/$1" ;
+$route['help/ticket/(:num)/reply'] = "user/replyToTicket/$1" ;
 
 
 

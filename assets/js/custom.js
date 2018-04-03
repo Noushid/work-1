@@ -1,6 +1,7 @@
 /**
  * Created by noushid on 11/10/17.
  */
+
 $(document).ready(function () {
 
     $('.dataTables-user-list').DataTable({
@@ -70,7 +71,7 @@ $(document).ready(function () {
         "order": [[ 1, 'asc' ]],
         //dom: '<"html5buttons"B>lTfgitp',lfrtip //normal
         //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
-        dom: '<"html5buttons"B>g<"col-sm-3"f><"#addBtn.col-md-6">rtipl',//add btn right and search left
+        dom: '<"#addBtn.html5buttons"B>g<"col-sm-3"f>rtipl',//add btn right and search left
         buttons: [
             {extend: 'excel', title: 'agency'},
             {extend: 'pdf', title: 'agency'},
@@ -88,8 +89,101 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function(oSettings, json) {
-            $('#addBtn').append('<a href="agency/add" class="btn btn-primary pull-right">Add new Agency</a>');
+            $('#addBtn').append('<button onclick="location.href=\'agency/add\';" class="btn btn-primary btn-sm pull-left m-r-xs">Add Agency</button>');
         }
+    });
+
+
+    /********Data table for agency**/
+
+    $('.dataTables-contractor').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        "order": [[ 1, 'asc' ]],
+        //dom: '<"html5buttons"B>lTfgitp',lfrtip //normal
+        //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
+        dom: '<"#addBtn.html5buttons"B>g<"col-sm-3"f>rtipl',//add btn right and search left
+        buttons: [
+            {extend: 'excel', title: 'agency'},
+            {extend: 'pdf', title: 'agency'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        "fnInitComplete": function(oSettings, json) {
+            $('#addBtn').append('<button onclick="location.href=\'contractor/add\';" class="btn btn-primary btn-sm pull-left m-r-xs">Add Contractor</button>');
+        }
+    });
+
+
+    /********Data table for doctor list**/
+
+    $('.dataTables-doctor').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        "order": [[ 1, 'asc' ]],
+        //dom: '<"html5buttons"B>lTfgitp',lfrtip //normal
+        //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
+        dom: '<"#addBtn.html5buttons"B>g<"col-sm-3"f>rtipl',//add btn right and search left
+        buttons: [
+            {extend: 'excel', title: 'agency'},
+            {extend: 'pdf', title: 'agency'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ],
+        "fnInitComplete": function(oSettings, json) {
+            //$('#addBtn').append('<button onclick="location.href=\'doctor/add\';" class="btn btn-primary btn-sm pull-left m-r-xs">Add Doctor</button>');
+        }
+    });
+
+
+    /********Data table for contractor agencies**/
+
+    $('.dataTables-contractor-agency').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        "order": [[ 1, 'asc' ]],
+        //dom: '<"html5buttons"B>lTfgitp',lfrtip //normal
+        //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
+        dom: '<"html5buttons"B>grtipl',//add btn right and search left
+        buttons: [
+            {extend: 'excel', title: 'agency'},
+            {extend: 'pdf', title: 'agency'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
     });
 
 
@@ -101,7 +195,7 @@ $(document).ready(function () {
         responsive: true,
         "order": [[ 2, 'asc' ]],
         //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
-        dom: '<"html5buttons"B>g<"col-sm-3"f><"#addBtn.col-md-7">rtipl',//add btn right and search left
+        dom: '<"#addBtn.html5buttons"B>g<"col-sm-3"f>rtipl',//add btn right and search left
         buttons: [
             {extend: 'excel', title: 'agencyUsers'},
             {extend: 'pdf', title: 'agencyUsers'},
@@ -119,7 +213,7 @@ $(document).ready(function () {
             }
         ],
         "fnInitComplete": function (oSettings, json) {
-            $('#addBtn').append('<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add User</button>');
+            $('#addBtn').append('<button type="button" class="btn btn-primary btn-sm pull-left m-r-xs" data-toggle="modal" data-target="#myModal">Add User</button>');
         }
     });
 

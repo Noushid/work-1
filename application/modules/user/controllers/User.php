@@ -23,9 +23,10 @@ class User extends CI_Controller {
 //        $this->load->model('agency/Vit_visit_type_model', 'visit_type');
 
         $this->load->model('Home/Tic_ticket_model', 'tic_ticket');
+        $this->load->model('Home/Tic_response_model', 'tic_response');
 
 
-        $this->load->library(['ion_auth']);
+        $this->load->library(['ion_auth', 'upload']);
 
         if (!$this->ion_auth->logged_in())
         {
@@ -93,6 +94,22 @@ class User extends CI_Controller {
             return false;
         }
 
+        if (isset($_FILES['attachment']) and $_FILES['attachment']['name'] != "") {
+            $config['allowed_types'] = 'jpg|pdf|png|jpeg';
+            $config['upload_path'] = getcwd() . '/uploads/tickets/';
+            $config['file_name'] = time() . '_' . $_FILES["attachment"]['name'];
+            $this->upload->initialize($config);
+
+            if ( ! $this->upload->do_upload('attachment'))
+            {
+                $data['upload_error'] = array('error' => $this->upload->display_errors());
+            }else {
+                $upload_data = $this->upload->data();
+                $data['attachment'] = $upload_data['file_name'];
+            }
+        }
+
+
         $data['ticket_subject'] = $this->input->post('subject');
         $data['tab_088_ticket_type_id'] = $this->input->post('category');
         $data['tab_089_ticket_status_id'] = 1;
@@ -101,11 +118,13 @@ class User extends CI_Controller {
         $data['ticket_content'] = $this->input->post('message');
         $data['ticket_datetime'] = date('Y-m-d H:i:s');
 
-        if ($this->tic_ticket->insert($data)) {
-
+        $ticket = $this->tic_ticket->insert($data);
+        if ($ticket) {
             $data['tab_088_ticket_type_id'] = $this->utility->get_tab_value(88, $data['tab_088_ticket_type_id'])->tab_description;
-            $data['tab_89_ticket_type_id'] = '';
+            $data['tab_089_ticket_status_id'] = 'new';
+            $data['ticket_id'] = $ticket;
             $data['ticket_user_id'] = $this->session->userdata('user_profile')->last_name . ' ' . $this->session->userdata('user_profile')->first_name;
+
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         }else{
             $this->output->set_status_header(400, 'Server Down');
@@ -113,4 +132,35 @@ class User extends CI_Controller {
         }
     }
 
+
+    public function showTicket($ticket_id)
+    {
+        $ticket = $this->tic_ticket->where('ticket_id', $ticket_id)->with_response(['with' => ['relation' => 'user']])->with_user()->get();
+        $data['ticket'] = $ticket;
+        $data['current'] = "heat-ticket";
+        $data['title'] = "Heat Ticket";
+        $data['page'] = "user/heat_ticket_details";
+
+        $this->load->view('home/template', $data);
+    }
+
+
+    /**
+     * Reply to ticket
+     */
+    public function replyToTicket($ticket_id)
+    {
+        $this->form_validation->set_rules('reply', 'Reply', 'required');
+        if ($this->form_validation->run() == false) {
+            redirect(site_url('help/ticket/' . $ticket_id));
+        }else{
+            $data['ticket_id'] = $ticket_id;
+            $data['response_user_id'] = $this->session->userdata('user_profile')->user_id;
+            $data['response_content'] = $this->input->post('reply');
+            $data['response_datetime'] = date('Y-m-d h:i:s', time());
+            if ($this->tic_response->insert($data)) {
+                redirect(site_url('help/ticket/' . $ticket_id));
+            }
+        }
+    }
 }

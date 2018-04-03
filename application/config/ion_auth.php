@@ -82,8 +82,8 @@ $config['salt_prefix']    = version_compare(PHP_VERSION, '5.3.7', '<') ? '$2a$' 
  | The controller should check this function and act
  | appropriately. If this variable set to 0, there is no maximum.
  */
-$config['site_title']                 = "Example.com";       // Site Title, example.com
-$config['admin_email']                = "noushid@psybotechnologies.com"; // Admin Email, admin@example.com
+$config['site_title']                 = "oasis.com";       // Site Title, example.com
+$config['admin_email']                = "web@oasis-c1.com"; // Admin Email, admin@example.com
 $config['default_group']              = 'members';           // Default group, use name
 $config['admin_group']                = 'admin';             // Default administrators group, use name
 $config['identity']                   = 'user_email';             // You can use any unique column in your table as identity column. The values in this column, alongside password, will be used for login purposes
@@ -127,10 +127,10 @@ $config['identity_cookie_name'] = 'identity';
 $config['use_ci_email'] = TRUE; // Send Email using the builtin CI email class, if false it will return the code and the identity
 $config['email_config'] = array(
     'protocol' => 'smtp',
-    'smtp_host' => 'ssl://md-in-15.webhostbox.net',
+    'smtp_host' => 'ssl://a2plcpnl0038.prod.iad2.secureserver.net',
     'smtp_port' => 465,
-    'smtp_user' => 'noushid@psybotechnologies.com',
-    'smtp_pass' => 'noushid@psybo',
+    'smtp_user' => 'web@oasis-c1.com',
+    'smtp_pass' => 'web@oasis',
     'mailtype' => 'html',
     'charset' => 'iso-8859-1',
     'wordwrap' => TRUE

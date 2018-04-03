@@ -63,7 +63,7 @@
                                     }
                                     ?>
                                     <tr>
-                                        <td><?php echo $value->ticket_subject; ?></td>
+                                        <td><a href="<?php echo site_url(uri_string() . '/' . $value->ticket_id);?>"><?php echo $value->ticket_subject; ?></a></td>
 <!--                                    category    <td>--><?php //echo $this->utility->get_tab_value(88, $value->tab_088_ticket_type_id)->tab_description;?><!--</td>-->
                                         <td style="white-space: pre-wrap; word-wrap: break-word;"><?php echo $value->ticket_content;?></td>
                                         <td><?php echo ($status != false ? $status->tab_description : '');?></td>
@@ -100,7 +100,7 @@
                 ?>
 
             </div>
-            <form action="<?php echo site_url(uri_string().'/add')?>" class="form-horizontal" method="post" id="ticketForm">
+            <form action="<?php echo site_url(uri_string().'/add')?>" class="form-horizontal" method="post" id="ticketForm" enctype="multipart/form-data">
                 <div class="modal-body">
                     <div class="form-group ">
                         <label class="control-label col-lg-3 required">Category</label>
@@ -137,9 +137,24 @@
                             <textarea name="message" id="message" class="form-control" required=""><?php echo (isset($current_agency) ? $current_agency->contact_name: set_value('contact_name'));?></textarea>
                         </div>
                     </div>
-                    <div id="errorBlock">
-
+                    <div class="form-group">
+                        <label class="control-label col-lg-3 required">Attachment</label>
+                        <div class="col-lg-6">
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput">
+                                    <i class="glyphicon glyphicon-file fileinput-exists"></i>
+                                    <span class="fileinput-filename"></span>
+                                </div>
+                            <span class="input-group-addon btn btn-default btn-file">
+                                <span class="fileinput-new">Select file</span>
+                                <span class="fileinput-exists">Change</span>
+                                <input type="file" name="attachment"/>
+                            </span>
+                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                            </div>
+                        </div>
                     </div>
+                    <div id="errorBlock"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
@@ -168,15 +183,24 @@
                     zIndex: 100000
                 }
             });
-            $.post($(this).attr('action'), $(this).serialize())
+            var formData = new FormData($(this)[0]);
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData
+            })
+
                 .done(function (response) {
                     $('#ticketForm')[0].reset();
                     $('#ticketModal').modal('toggle');
                     var t = $('.dataTables-user-heat-ticket').DataTable();
                     t.row.add([
-                        response.ticket_subject,
-                        response.tab_088_ticket_type_id,
-                        response.tab_088_ticket_type_id,
+                        '<a href="' + document.URL + '/' + response.ticket_id + '">' + response.ticket_subject + '</a>',
+                        response.ticket_content,
+                        response.tab_089_ticket_status_id,
                         response.ticket_user_id,
                         response.ticket_datetime,
                         'last activity',

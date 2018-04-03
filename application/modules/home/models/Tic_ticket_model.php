@@ -16,6 +16,7 @@ class Tic_ticket_model extends MY_Model
     function __construct()
     {
         $this->has_one['user'] = array('foreign_model' => 'home/User_model', 'foreign_table' => 'us1_user', 'foreign_key' => 'user_id', 'local_key' => 'ticket_user_id');
+        $this->has_many['response'] = array('foreign_model' => 'home/Tic_response_model', 'foreign_table' => 'tic_response', 'foreign_key' => 'ticket_id', 'local_key' => 'ticket_id');
         parent::__construct();
         $this->timestamps = FALSE;
     }

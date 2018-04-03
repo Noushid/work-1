@@ -1,6 +1,6 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
-        <h2>User List</h2>
+        <h2>Heat Tickets</h2>
         <ol class="breadcrumb">
             <li>
                 <a href="<?php echo site_url();?>">Home</a>
@@ -64,7 +64,7 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $value->ticket_id; ?></td>
-                                        <td><?php echo $value->ticket_subject; ?></td>
+                                            <td><a href="<?php echo site_url(uri_string() . '/' . $value->ticket_id);?>"><?php echo $value->ticket_subject; ?></a></td>
 <!--                                        category<td>--><?php //echo $this->utility->get_tab_value(88, $value->tab_088_ticket_type_id)->tab_description;?><!--</td>-->
                                         <td style="white-space: pre-wrap; word-wrap: break-word;"><?php echo $value->ticket_content;?></td>
                                         <td><?php echo ($status != false ? $status->tab_description : '');?></td>

@@ -36,6 +36,12 @@ if (!function_exists('render_menu')) {
             $html = '<li  ' . ($current == 'agency' ? 'class="active"' : '') . ' >
                         <a href="' . site_url('agency') . '"><i class="fa fa-list"></i> <span class="nav-label">Agency list</span></a>
                     </li>
+                    <li  ' . ($current == 'contractor' ? 'class="active"' : '') . ' >
+                        <a href="' . site_url('contractor') . '"><i class="fa fa-list"></i> <span class="nav-label">Contractor list</span></a>
+                    </li>
+                    <li  ' . ($current == 'doctor' ? 'class="active"' : '') . ' >
+                        <a href="' . site_url('doctor') . '"><i class="fa fa-list"></i> <span class="nav-label">Doctor list</span></a>
+                    </li>
                     <li  ' . ($current == 'users' ? 'class="active"' : '') . ' >
                         <a href="' . site_url('users') . '"><i class="fa fa-group"></i> <span class="nav-label">User list</span></a>
                     </li>

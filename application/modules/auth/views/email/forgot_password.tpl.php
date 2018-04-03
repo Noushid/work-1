@@ -314,7 +314,7 @@ A very basic CSS reset
                                 </tr>
                                 <tr>
                                     <td class="content-block aligncenter">
-                                        <a href="<?php echo 'reset-password/' . $forgotten_password_code;?>" class="btn-primary">Confirm email address</a>
+                                        <a href="<?php echo site_url() . 'reset-password/' . $forgotten_password_code;?>" class="btn-primary">click to Reset Password</a>
                                     </td>
                                 </tr>
                             </table>
