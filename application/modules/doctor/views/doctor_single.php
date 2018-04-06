@@ -41,7 +41,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                 <a href="<?php echo site_url();?>">Home</a>
             </li>
             <li>
-                <a href="<?php echo site_url('doctor');?>">Contractor</a>
+                <a href="<?php echo site_url('doctor');?>">Doctor</a>
             </li>
             <li class="active">
                 <strong><?php echo $doctor->agency_name;?></strong>
@@ -273,7 +273,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                     <div id="users" class="tab-pane <?php echo((isset($active_tab) && $active_tab == 'users') ? 'active' : '');?>">
                         <div class="ibox float-e-margins">
                             <div class="ibox-title">
-                                <h5>Contractor user List</h5>
+                                <h5>Doctor user List</h5>
                                 <div class="ibox-tools">
                                     <a class="collapse-link">
                                         <i class="fa fa-chevron-up"></i>
@@ -354,7 +354,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $agency->agency_id; ?></td>
-                                                    <td><?php echo $agency->agency->agency_name; ?></td>
+                                                    <td><?php echo $agency->agencies->agency_name; ?></td>
                                                 </tr>
                                             <?php
                                             }

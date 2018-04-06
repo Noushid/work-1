@@ -59,7 +59,7 @@ class Contractor extends CI_Controller {
         $title = 'Contractor';
         $current = 'contractor';
 
-        $data['contractors'] = $this->agency->where('agency_type', 'C')->with_state()->get_all();
+        $data['contractors'] = $this->agency->where('agency_type', 'C')->where('')->with_state()->get_all();
         $data['states'] = $this->state->get_all();
         $data['title'] = $title;
         $data['page'] = "contractor";
@@ -229,7 +229,7 @@ class Contractor extends CI_Controller {
 
         $data['agency_id'] = $param1;
         $data['contractor'] = $this->user_agency->select_where(['agency_id' => $param1]);
-        $data['agencies'] = $this->user_agency->where('user_id', $user_id)->fields('agency_id')->with_agency('fields:agency_name')->get_all();
+        $data['agencies'] = $this->agency_contractor->where('contractor_id', $param1)->fields('agency_id')->with_agencies('fields:agency_name')->get_all();
 
         $data['states'] = $this->state->get_all();
         $data['users'] = $this->us1_user->get_all();

@@ -354,7 +354,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                 ?>
                                                 <tr>
                                                     <td><?php echo $agency->agency_id; ?></td>
-                                                    <td><?php echo $agency->agency->agency_name; ?></td>
+                                                    <td><?php echo $agency->agencies->agency_name; ?></td>
                                                 </tr>
                                             <?php
                                             }

@@ -16,6 +16,7 @@ class Agency_doctor_office_model extends MY_Model
     function __construct()
     {
         $this->has_one['agency'] = array('foreign_model' => 'home/Agency_model', 'foreign_table' => 'agy_agency', 'foreign_key' => 'agency_id', 'local_key' => 'doctor_office_id');
+        $this->has_one['agencies'] = array('foreign_model' => 'home/Agency_model', 'foreign_table' => 'agy_agency', 'foreign_key' => 'agency_id', 'local_key' => 'agency_id');
 
         parent::__construct();
         $this->timestamps = FALSE;
