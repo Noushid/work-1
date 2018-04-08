@@ -159,7 +159,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                     ?>
                                     <tr>
                                         <td><?php echo $agency->agency_id; ?></td>
-                                        <td><a href="<?php echo site_url(uri_string() . '/' . $agency->agency_id);?>"><?php echo $agency->agency_name; ?></a></td>
+                                        <td><a href="<?php echo site_url('agency/' . $agency->agency_id);?>"><?php echo $agency->agency_name; ?></a></td>
                                         <td><?php echo $agency->agency_status; ?></td>
                                         <td><?php echo $agency->contact_name; ?></td>
                                         <td><?php echo $agency->contact_phone; ?></td>

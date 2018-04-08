@@ -68,7 +68,7 @@ class Agency extends CI_Controller {
          * edit agency
          *  */
         if ($param1 == 'edit') {
-            $data['modal_opened'] = true;
+//            $data['modal_opened'] = true;
             $data['current_agency'] = $this->agency->where('agency_id', $param2)->get();
         }
 
@@ -122,7 +122,6 @@ class Agency extends CI_Controller {
                 $form_data['city'] = $this->input->post('city');
                 $form_data['zip'] = $this->input->post('zip');
                 $form_data['tab_066_time_zone'] = $this->input->post('timezone');
-                $form_data['fax'] = $this->input->post('fax');
                 $form_data['agency_email'] = $this->input->post('agency_email');
                 $form_data['web_address'] = $this->input->post('web_address');
                 $form_data['po_box_address'] = $this->input->post('po_box_address');
@@ -134,14 +133,20 @@ class Agency extends CI_Controller {
                 $phone = ltrim($phone, '-');
                 $form_data['contact_phone'] = $phone;
 
+                $fax = str_replace([' ', '(', ')', '--'], '-', $this->input->post('fax'));
+                $fax = ltrim($fax, '-');
+                $form_data['fax'] = $fax;
+
                 if ($param1 == 'edit' and $param2 != "") {
                     $form_data['modify_datetime'] = now();
                     if ($this->agency->update($form_data ,$param2)) {
                         $this->session->set_flashdata('message', 'Updated');
-                        redirect($this->agent->referrer(), 'refresh');
+//                        redirect($this->agent->referrer(), 'refresh');
+                        redirect(site_url('agency/' . $param2), 'refresh');
                     } else {
                         $this->session->set_flashdata('message', 'Updated');
-                        redirect($this->agent->referrer(), 'refresh');
+//                        redirect($this->agent->referrer(), 'refresh');
+                        redirect(site_url('agency/' . $param2), 'refresh');
                     }
                 }
 

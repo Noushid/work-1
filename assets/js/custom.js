@@ -4,6 +4,11 @@
 
 $(document).ready(function () {
 
+    $('.i-checks').iCheck({
+        checkboxClass: 'icheckbox_square-green',
+        radioClass: 'iradio_square-green'
+    });
+
     $('.dataTables-user-list').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
@@ -976,3 +981,4 @@ function addDoctor(e,el) {
             }, 330);
         });
 }
+

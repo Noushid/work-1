@@ -8574,7 +8574,17 @@ body.md-skin {
     min-width:200px;
 }
 
-.doctor-list {
-    /*column-count: 4;*/
-    /*width: 100%;*/
+
+@media (min-width: 992px) {
+    .md-m-b-15{
+        margin-bottom: 15px;
     }
+}
+.tabs-container .nav-tabs > li a:hover {
+    background-color: #c6c6c7;
+    color: #fff;
+}
+
+.nav-tabs > li.active > a:hover{
+    color: #000;
+}
