@@ -8581,8 +8581,7 @@ body.md-skin {
     }
 }
 .tabs-container .nav-tabs > li a:hover {
-    background-color: #c6c6c7;
-    color: #fff;
+    background-color: #e6e6e6;
 }
 
 .nav-tabs > li.active > a:hover{
