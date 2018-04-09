@@ -76,7 +76,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                         <i class="fa fa-chevron-up"></i>
                                     </a>
                                     <a class="close-link">
-                                        <i class="fa fa-times"></i>
+                                        <i class="fa fa-times"></i>g
                                     </a>
                                 </div>
                             </div>
