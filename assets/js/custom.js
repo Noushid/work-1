@@ -781,6 +781,10 @@ $(document).ready(function () {
         mask: '?(999) 999-9999',
         autoclear: true
     });
+    $('#fax').inputmask({
+        mask: '?(999) 999-9999',
+        autoclear: true
+    });
     $('#phone').change(function () {
         if($(this).val().length < 14) {
             $('#data_phone').addClass('has-error');

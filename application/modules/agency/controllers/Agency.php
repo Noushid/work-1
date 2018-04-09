@@ -59,7 +59,6 @@ class Agency extends CI_Controller {
         $type = 'A';
         $title = 'Agency';
         $current = 'agency';
-
         $data['agencies'] = $this->agency->where('agency_type', $type)->with_state()->get_all();
         $data['states'] = $this->state->get_all();
         $data['title'] = $title;
@@ -99,14 +98,14 @@ class Agency extends CI_Controller {
                     $is_unique =  '';
                 }
                 $this->form_validation->set_rules('agency_name', 'Agency name', 'required' . $is_unique);
-                $this->form_validation->set_rules('agency_type', 'agency type', 'required');
-                $this->form_validation->set_rules('agency_status', 'agency status', 'required');
+                $this->form_validation->set_rules('agency_type', 'Agency type', 'required');
+                $this->form_validation->set_rules('agency_status', 'Agency status', 'required');
                 $this->form_validation->set_rules('contact_name', 'Contact Name', 'required');
                 $this->form_validation->set_rules('contact_phone', 'Contact phone', 'required');
             }else{
-                $this->form_validation->set_rules('agency_name', 'agency_name', 'required|is_unique[agy_agency.agency_name]');
-                $this->form_validation->set_rules('agency_type', 'agency type', 'required');
-                $this->form_validation->set_rules('agency_status', 'agency status', 'required');
+                $this->form_validation->set_rules('agency_name', 'Agency name', 'required|is_unique[agy_agency.agency_name]');
+                $this->form_validation->set_rules('agency_type', 'Agency type', 'required');
+                $this->form_validation->set_rules('agency_status', 'Agency status', 'required');
                 $this->form_validation->set_rules('contact_name', 'Contact Name', 'required');
                 $this->form_validation->set_rules('contact_phone', 'Contact phone', 'required');
             }
@@ -140,11 +139,11 @@ class Agency extends CI_Controller {
                 if ($param1 == 'edit' and $param2 != "") {
                     $form_data['modify_datetime'] = now();
                     if ($this->agency->update($form_data ,$param2)) {
-                        $this->session->set_flashdata('message', 'Updated');
+                        $this->session->set_flashdata('message', 'Record Successfully Updated');
 //                        redirect($this->agent->referrer(), 'refresh');
                         redirect(site_url('agency/' . $param2), 'refresh');
                     } else {
-                        $this->session->set_flashdata('message', 'Updated');
+                        $this->session->set_flashdata('message', 'record Successfully Updated');
 //                        redirect($this->agent->referrer(), 'refresh');
                         redirect(site_url('agency/' . $param2), 'refresh');
                     }
@@ -159,12 +158,14 @@ class Agency extends CI_Controller {
                     redirect(site_url('/agency'), 'refresh');
                 }
             }else{
+
                 if ($param1 == 'edit' and $param2 != "") {
                     $data['agency'] = $this->user_agency->select_where(['agency_id' => $param2]);
                     $data['page'] = "agency_single";
                     $data['modal_opened'] = false;
                 }else{
-                    $data['modal_opened'] = true;
+                    $data['modal_opened'] = false;
+                    $data['page'] = "add_agency";
                 }
             }
         }
@@ -199,6 +200,8 @@ class Agency extends CI_Controller {
         $data['comments'] = $this->agency_comment->where('agency_id', $param1)->get_all();
 
         $data['patients'] = $this->pat_patient->where('agency_id', $param1)->get_all();
+
+        $data['timezone'] = $this->tab_parameter->where('tab_type', 66)->get_all();
 
         /**
          * Get Visit log
