@@ -181,6 +181,7 @@ class Agency extends CI_Controller {
         $data['timezone'] = $this->tab_parameter->where('tab_type', 66)->get_all();
         $data['states'] = $this->state->get_all();
         $data['title'] = "Agency";
+        $data['current'] = "agency";
         $data['page'] = "add_agency";
 
         if ($this->input->post()) {
@@ -503,7 +504,7 @@ class Agency extends CI_Controller {
         $data['title'] = "Agency";
         $data['page'] = "agency_single";
 
-        $data['current'] = "Agency";
+        $data['current'] = "agency";
         $this->load->view('home/template', $data);
     }
 

@@ -15,21 +15,21 @@
                 </div>
                 <div class="ibox-content">
                     <form action="<?php echo site_url('agency')?>" class="form-horizontal" method="post">
-                    <?php
-                    if(validation_errors() != '') {
-                        ?>
-                        <div class="row">
-                            <div class="col-md-7">
-                                <div class="alert alert-danger">
-                                    <ul>
-                                        <?php echo validation_errors('<li>', '</li>') ?>
-                                    </ul>
+                        <?php
+                        if(validation_errors() != '') {
+                            ?>
+                            <div class="row">
+                                <div class="col-md-7">
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            <?php echo validation_errors('<li>', '</li>') ?>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    <?php
-                    }
-                    ?>
+                        <?php
+                        }
+                        ?>
                         <fieldset class="the-fieldset">
                             <div class="form-group">
                                 <label class="control-label col-lg-2 col-md-3 required">Agency Name</label>
