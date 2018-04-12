@@ -77,7 +77,9 @@ class Discipline extends CI_Controller {
 
     public function visit_type_delete($discipline_id, $visit_id)
     {
+        $visit = $this->vit_visit_type_discip->where('visit_type_disc_id', $visit_id)->get();
         if ($this->vit_visit_type_discip->delete($visit_id)) {
+            $response['data'] = $this->vit_visit_type->where('visit_type_id', $visit->visit_type_id)->get();
             $response['message'] = 'Record Successfully Deleted';
             $this->output->set_content_type('application/json')->set_output(json_encode($response));
         }else{

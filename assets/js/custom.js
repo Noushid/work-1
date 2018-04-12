@@ -613,9 +613,7 @@ $(document).ready(function () {
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         "pageLength": 300,
         responsive: true,
-        "order": [[ 1, 'asc' ]],
-        //dom: '<"html5buttons"B>lTfgitp',lfrtip //normal
-        //dom: '<"html5buttons"B><"#addBtn.col-md-6">gfrtipl',//add button left
+        "order": [[ 0, 'asc' ]],
         dom: '<"html5buttons"B>g<"col-sm-3"f>rtipl',//add btn right and search left
         buttons: [
             {extend: 'excel', title: 'agency'},
@@ -641,6 +639,7 @@ $(document).ready(function () {
     $('.dataTables-discipline-visit-type').DataTable({
         "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
         //"pageLength": 300,
+        "order": [[ 0, 'asc' ]],
         responsive: true,
         dom: '<"html5buttons"B>gfrtip',
         buttons: [
@@ -782,8 +781,6 @@ $(document).ready(function () {
             var url = $(this).attr('action') + '/edit-comment/' + id;
             $.post(url, data)
                 .done(function (response) {
-                    console.log(response);
-                    console.log(response.comment);
                     $('#commentForm').addClass('hide');
                     $('#showBtn').attr('disabled', false);
                     $('#closeBtn').addClass('hide');
@@ -1115,10 +1112,12 @@ function deleteVisitType(e,el,id) {
     }, function () {
         $.post(url)
             .done(function (response) {
+                console.log(response);
                 var t = $('.dataTables-discipline-visit-type').DataTable();
                 t.row("#visit-type-" + id).remove().draw();
                 //swal("Deleted!", "Your record has been deleted.", "success");
                 swal.close();
+                $("#visitTypeField").append('<option value="' + response.data.visit_type_id + '">' + response.data.visit_description + '</option>');
                 setTimeout(function () {
                     toastr.options = {
                         closeButton: true,

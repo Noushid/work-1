@@ -27,6 +27,7 @@
                                         ?>
                                     </select>
                                     <button class="btn btn-primary btn-sm m-t-xs">Add Visit Type</button>
+                                    <a class="btn btn-info btn-sm m-t-xs" href="<?php echo site_url('disciplines-visits');?>">Back</a>
                                 </div>
                             </form>
                         </div>
