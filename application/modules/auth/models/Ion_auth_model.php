@@ -307,7 +307,7 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select('password, salt')
+		$query = $this->db->select('password')
 		                  ->where('user_id', $id)
 		                  ->limit(1)
 		                  ->order_by('user_id', 'desc')
@@ -986,7 +986,7 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$query = $this->db->select($this->identity_column . ', user_email, user_id, password, active, last_login')
+		$query = $this->db->select($this->identity_column . ', user_email, user_id, password')
 		                  ->where($this->identity_column, $identity)
 		                  ->or_where('user_nick', $identity)
 		                  ->limit(1)
@@ -1805,9 +1805,10 @@ class Ion_auth_model extends CI_Model
 
 		$this->trigger_events('extra_where');
 
-		$this->db->update($this->tables['users'], array('last_login' => time()), array('user_id' => $id));
+//		$this->db->update($this->tables['users'], array('last_login' => time()), array('user_id' => $id));
 
-		return $this->db->affected_rows() == 1;
+//		return $this->db->affected_rows() == 1;
+        return true;
 	}
 
 	/**
@@ -1856,7 +1857,7 @@ class Ion_auth_model extends CI_Model
 		    $this->identity_column             => $user->{$this->identity_column},
 		    'user_email'                => $user->user_email,
 		    'user_id'              => $user->user_id, //everyone likes to overwrite id so we'll use user_id
-		    'old_last_login'       => $user->last_login,
+//		    'old_last_login'       => $user->last_login,
 		    'last_check'           => time(),
 		);
 

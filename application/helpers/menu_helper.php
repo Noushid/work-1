@@ -17,8 +17,6 @@ if (!function_exists('render_menu')) {
 //        $group_id = $_SESSION['group_id'];
         $CI = get_instance();
         $CI->load->model('home/Menu_model', 'menu');
-        $CI->load->model('home/Menu_model', 'menu');
-        $CI->load->model('home/Group_model', 'group');
         $CI->load->model('home/Group_model', 'group');
         $CI->load->model('profile/X_profile_group_model', 'profile_group');
         $CI->load->model('profile/X_profile_group_applic_model', 'profile_group_applica');

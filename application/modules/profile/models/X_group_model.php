@@ -10,7 +10,8 @@ defined('BASEPATH') or exit('No direct Script access allowed');
 class X_group_model extends MY_Model
 {
 
-    public $table = 'x_group';
+//    public $table = 'x_group'; old database
+    public $table = 'y_control';//new database
     public $primary_key = 'group_id';
     function __construct()
     {

@@ -42,11 +42,10 @@ class Home extends CI_Controller {
 	* Dashboard area
 	*/
 	public function index($param1="",$param2="",$param3="") {
-        $data['menu'] = $this->menu->with_subMenu()->get_all();
+//        $data['menu'] = $this->menu->with_subMenu()->get_all();
 		$data['title'] = "Dashboard";
 		$data['page'] = "dashboard";
 		$data['current'] = "dashboard";
-
 		$this->load->view('template', $data);
 	}
 	
