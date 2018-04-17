@@ -8587,3 +8587,6 @@ body.md-skin {
 .nav-tabs > li.active > a:hover{
     color: #000;
 }
+#agencySingleTab ,#contractorTab > li{
+    background-color: #f3f3f4;
+}

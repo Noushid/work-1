@@ -48,6 +48,9 @@ if (!function_exists('render_menu')) {
                     </li>
                     <li  ' . ($current == 'heat-ticket' ? 'class="active"' : '') . ' >
                         <a href="' . site_url('heat-ticket') . '"><i class="fa fa-user"></i> <span class="nav-label">Heat Ticket</span></a>
+                    </li>
+                    <li  ' . ($current == 'disciplines-visits' ? 'class="active"' : '') . ' >
+                        <a href="' . site_url('disciplines-visits') . '"><i class="fa fa-drivers-license-o"></i> <span class="nav-label">Disciplines Visits</span></a>
                     </li>';
         }else {
             $html = '';

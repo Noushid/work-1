@@ -3,7 +3,6 @@
  */
 
 $(document).ready(function () {
-
     $('.i-checks').iCheck({
         checkboxClass: 'icheckbox_square-green',
         radioClass: 'iradio_square-green'
@@ -431,6 +430,8 @@ $(document).ready(function () {
     });
 
     var currentUrl = location.protocol + '//' + location.hostname + (location.port ? ":" + location.port : "") + location.pathname + (location.search ? location.search : "");
+    var baseUrl = location.protocol + '//' + location.hostname + (location.port ? ":" + location.port : "");
+    var uriString = location.pathname + (location.search ? location.search : "");
 
     /********Data table for Agency comment**/
     $('.dataTables-agency-comment').DataTable({
@@ -605,6 +606,61 @@ $(document).ready(function () {
     });
 
 
+
+    /********Data table for descipline list**/
+
+    $('.dataTables-discipline').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        "pageLength": 300,
+        responsive: true,
+        "order": [[ 0, 'asc' ]],
+        dom: '<"html5buttons"B>g<"col-sm-3"f>rtipl',//add btn right and search left
+        buttons: [
+            {extend: 'excel', title: 'agency'},
+            {extend: 'pdf', title: 'agency'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+
+
+    /********Data table for discipline visit type**/
+
+    $('.dataTables-discipline-visit-type').DataTable({
+        "lengthMenu": [[100, 200, 300, -1], [100, 200, 300, "All"]],
+        //"pageLength": 300,
+        "order": [[ 0, 'asc' ]],
+        responsive: true,
+        dom: '<"html5buttons"B>gfrtip',
+        buttons: [
+            {extend: 'excel', title: 'VisitType'},
+            {extend: 'pdf', title: 'VisitType'},
+
+            {
+                extend: 'print',
+                customize: function (win) {
+                    $(win.document.body).addClass('white-bg');
+                    $(win.document.body).css('font-size', '10px');
+
+                    $(win.document.body).find('table')
+                        .addClass('compact')
+                        .css('font-size', 'inherit');
+                }
+            }
+        ]
+    });
+
+
     ////////////Edit  profile/////////////
     $('#change-user-email-check').iCheck({
         checkboxClass: 'icheckbox_square-green',
@@ -725,8 +781,6 @@ $(document).ready(function () {
             var url = $(this).attr('action') + '/edit-comment/' + id;
             $.post(url, data)
                 .done(function (response) {
-                    console.log(response);
-                    console.log(response.comment);
                     $('#commentForm').addClass('hide');
                     $('#showBtn').attr('disabled', false);
                     $('#closeBtn').addClass('hide');
@@ -778,6 +832,10 @@ $(document).ready(function () {
     });
 
     $('#phone').inputmask({
+        mask: '?(999) 999-9999',
+        autoclear: true
+    });
+    $('#fax').inputmask({
         mask: '?(999) 999-9999',
         autoclear: true
     });
@@ -853,6 +911,63 @@ $(document).ready(function () {
     });
 
 
+    /**
+     * Add visit type  ajax
+     * */
+
+    $('#newVisitTypeForm').submit(function (e) {
+        e.preventDefault();
+        var url = $(this).attr('action');
+        var data = $(this).serialize();
+        if ($('#visitTypeField').val() == '') {
+            return false;
+        }
+
+        $.post(url, data)
+            .done(function (response) {
+                console.log(response);
+                $('#visitTypeField option:selected').remove();
+
+                var t = $('.dataTables-discipline-visit-type').DataTable();
+
+                var action = '<div  class="btn-group btn-group-xs" role="group">' +
+                    '<a class="btn btn-danger" onclick="deleteVisitType(event,this,' + response.visit_type_disc_id + ');" href="' + currentUrl + '/delete/' + response.visit_type_disc_id + '">' +
+                    'Delete' +
+                    '</a>' +
+                    '</div>';
+
+                t.row.add([
+                    response.visit_type_disc_id,
+                    response.visitType.visit_description,
+                    action
+                ]).node().id = "visit-type-" + response.visit_type_disc_id;
+                t.draw();
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.success('Added Successfully');
+                }, 330);
+            })
+            .fail(function (response) {
+                $('#newVisitTypeForm .form-group').addClass('has-error');
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.error('Try Again Later');
+                }, 330);
+            });
+    });
+
+
+
 });
 
 
@@ -916,8 +1031,6 @@ function deleteComment(e,el,id) {
             .fail(function (response) {
                 swal("Warning!", "Something went wrong.", "warning");
             });
-
-
     });
 }
 
@@ -981,4 +1094,44 @@ function addDoctor(e,el) {
             }, 330);
         });
 }
+
+
+
+function deleteVisitType(e,el,id) {
+    e.preventDefault();
+    var url = $(el).attr('href');
+
+    swal({
+        title: "Are you sure?",
+        text: "You will not be able to recover this record!",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#DD6B55",
+        confirmButtonText: "Yes, delete it!",
+        closeOnConfirm: false
+    }, function () {
+        $.post(url)
+            .done(function (response) {
+                console.log(response);
+                var t = $('.dataTables-discipline-visit-type').DataTable();
+                t.row("#visit-type-" + id).remove().draw();
+                //swal("Deleted!", "Your record has been deleted.", "success");
+                swal.close();
+                $("#visitTypeField").append('<option value="' + response.data.visit_type_id + '">' + response.data.visit_description + '</option>');
+                setTimeout(function () {
+                    toastr.options = {
+                        closeButton: true,
+                        progressBar: true,
+                        showMethod: 'slideDown',
+                        timeOut: 4000
+                    };
+                    toastr.success('Record Deleted Successfully');
+                }, 330);
+            })
+            .fail(function (response) {
+                swal("Warning!", "Something went wrong.", "warning");
+            });
+    });
+}
+
 

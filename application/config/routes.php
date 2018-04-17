@@ -172,6 +172,12 @@ $route['heat-ticket/(:num)'] = "home/showTicket/$1";
 $route['heat-ticket/(:num)/reply'] = "home/replyToTicket/$1";
 
 
+$route['disciplines-visits'] = "discipline/index";
+$route['disciplines-visits/visit-type/(:num)'] = "discipline/visit_type/$1";
+$route['disciplines-visits/visit-type/(:num)/delete/(:num)'] = "discipline/visit_type_delete/$1/$2";
+$route['ajax/disciplines-visits/visit-type/(:num)/add-visit_type'] = "discipline/visit_type_add/$1";
+
+
 //$route['(:any)'] = "home/test/$1";
 
 

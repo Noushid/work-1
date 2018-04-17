@@ -136,10 +136,10 @@ class Contractor extends CI_Controller {
                 if ($param1 == 'edit' and $param2 != "") {
                     $form_data['modify_datetime'] = now();
                     if ($this->agency->update($form_data ,$param2)) {
-                        $this->session->set_flashdata('message', 'Updated');
+                        $this->session->set_flashdata('message', 'Record Successfully Updated');
                         redirect($this->agent->referrer(), 'refresh');
                     } else {
-                        $this->session->set_flashdata('message', 'Updated');
+                        $this->session->set_flashdata('message', 'Record Successfully Updated');
                         redirect($this->agent->referrer(), 'refresh');
                     }
                 }
@@ -309,7 +309,7 @@ class Contractor extends CI_Controller {
                     $form_data['tab_006_employee_type'] = $this->input->post('employee_type');
                     $us_agy_update = $this->user_agency->update($form_data, $param3);
                     if ( $us_agy_update >= 0 ) {
-                        $this->session->set_flashdata('message', 'Data Updated.');
+                        $this->session->set_flashdata('message', 'Record Successfully Updated.');
                         $this->session->set_flashdata('active_tab', 'users');
                         redirect(site_url('contractor/' . $param1), 'refresh');
                         exit;
@@ -436,7 +436,7 @@ class Contractor extends CI_Controller {
         $data['title'] = "Contractor";
         $data['page'] = "contractor_single";
 
-        $data['current'] = "Contractor";
+        $data['current'] = "contractor";
         $this->load->view('home/template', $data);
     }
 

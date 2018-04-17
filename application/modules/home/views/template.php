@@ -48,6 +48,9 @@
     <link href="<?php echo asset('css/plugins/dualListbox/bootstrap-duallistbox.min.css');?>" rel="stylesheet">
     <link href="<?php echo asset('css/plugins/select2/select2.min.css');?>" rel="stylesheet">
 
+    <script>
+        var siteUrl = '<?php echo site_url();?>';
+    </script>
 
     <!-- Mainly scripts -->
     <script src="<?php echo asset('js/jquery-3.1.1.min.js');?>"></script>
@@ -110,7 +113,6 @@
 
 
     <script>
-
         <?php if(isset($_SESSION['message']) or isset($_SESSION['error'])){ ?>
         $(document).ready(function () {
             setTimeout(function () {
