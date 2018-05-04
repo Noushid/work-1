@@ -153,7 +153,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                                 <?php
                                                                 if (isset($states) and $states != false) {
                                                                     foreach ($states as $state) { ?>
-                                                                        <option value="<?php echo $state->state_id;?>" <?php echo set_select('state', $state->state_id);?>><?php echo $state->state_name_long;?></option>
+                                                                        <option value="<?php echo $state->state_id;?>" <?php echo ($agency->state_id == $state->state_id ? 'selected' : '')?>><?php echo $state->state_name_long;?></option>
                                                                     <?php }
 
                                                                 }
@@ -217,7 +217,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                                 <?php
                                                                 if (isset($timezone) and $timezone != false) {
                                                                     foreach ($timezone as $time) { ?>
-                                                                        <option value="<?php echo $time->tab_value;?>" <?php echo set_select('timezone', $time->tab_value);?>><?php echo $time->tab_description;?></option>
+                                                                        <option value="<?php echo $time->tab_value;?>" <?php echo ($time->tab_value == $time->tab_value ? 'selected' : '')?>><?php echo $time->tab_description;?></option>
                                                                     <?php }
 
                                                                 }
@@ -250,7 +250,7 @@ if (isset($modal_opened) and $modal_opened == true) {
                                                                 <?php
                                                                 if (isset($states) and $states != false) {
                                                                     foreach ($states as $state) { ?>
-                                                                        <option value="<?php echo $state->state_id;?>" <?php echo set_select('po_box_state_id', $state->state_id);?>><?php echo $state->state_name_long;?></option>
+                                                                        <option value="<?php echo $state->state_id;?>" <?php echo ($agency->po_box_state_id == $state->state_id ? 'selected' : '')?>><?php echo $state->state_name_long;?></option>
                                                                     <?php }
 
                                                                 }
